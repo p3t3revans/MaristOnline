@@ -1,0 +1,45 @@
+<section data-ng-controller="SubjectCtrl" data-ng-init="findOne()">
+	<div class="page-header">
+		<h1>Edit Subject</h1>
+	</div>
+	<div class="col-md-12">
+		<form name="articleForm" class="form-horizontal" data-ng-submit="update()" novalidate>
+			<fieldset>
+				<div class="form-group">
+					<label for="year"> Year : </label>
+					<select name="year" id="yearSelect" ng-options="option.year for option in yearData.availableOptions track by option.year"
+					ng-model="yearData.selectedOption" width="200px"></select>
+					<label for="Semester"> Semester : </label>
+					<select name="Semester" id="semesterSelect" ng-options="option.semester for option in semesterData.availableOptions track by option.semester"
+					ng-model="semesterData.selectedOption" width="200px"></select>
+					<label for="yearLevel"> Year Level : </label>
+					<select name="yearLevel" id="yearLevelSelect" ng-options="option.yearLevel for option in yearLevelData.availableOptions track by option.yearLevel"
+					ng-model="yearLevelData.selectedOption" width="200px"></select>
+					<br>
+					<br>
+					<label for="subjectTitle"> Title : </label>
+					<input class="form-control" type="text" name="subjectTitle" ng-model="subject.title" width="400px" placeholder="Enter subject title"
+					required autofocus>
+					<br>
+					<label for="subjectDescription"> Description : </label>
+					<input class="form-control" type="text" name="subjectDescription" ng-model="subject.description" width="400px" placeholder="Enter subject title"
+					required>
+					<br>
+					<label for="subjectTeacher"> Teacher : </label>
+					<input class="form-control" type="text" name="subjectTeacher" ng-model="subject.teacher" width="400px" placeholder="Enter Teacher Name"
+					required>
+					<br>
+					<div class="help-block text-danger" ng-if="addSubjectForm.subjectTitle.$dirty" ng-messages="addSubjectForm.subjectTitle.$error">
+						<div ng-message="required">Subject title is required.</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<input type="submit" value="Update" class="btn btn-default">
+				</div>
+				<div data-ng-show="error" class="text-danger">
+					<strong data-ng-bind="error"></strong>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</section>

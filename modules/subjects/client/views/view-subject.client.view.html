@@ -1,0 +1,23 @@
+<section data-ng-controller="SubjectCtrl" data-ng-init="findOne()">
+  <div class="page-header">
+    <h1 data-ng-bind="subject.title"></h1>
+  </div>
+  <div class="pull-right"> <!--data-ng-show="authentication.user._id == subject.user._id"-->
+    <a class="btn btn-primary" data-ui-sref="subjects.edit({subjectId: subject._id})">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn btn-primary" data-ng-click="remove();">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <small>
+    <em class="text-muted">
+      Title
+      <span data-ng-bind="subject.title"></span>
+      Description
+      <span data-ng-bind="subject.description"></span>
+      Teacher
+      <span data-ng-bind="subject.teacher"></span>
+    </em>
+  </small>
+</section>
