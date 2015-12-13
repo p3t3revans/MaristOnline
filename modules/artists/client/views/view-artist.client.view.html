@@ -1,0 +1,23 @@
+<section data-ng-controller="ArtistCtrl" data-ng-init="findOne()">
+  <div class="page-header">
+    <h1 data-ng-bind="artist.title"></h1>
+  </div>
+  <div class="pull-right"> <!--data-ng-show="authentication.user._id == artist.user._id"-->
+    <a class="btn btn-primary" data-ui-sref="artists.edit({artistId: artist._id})">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn btn-primary" data-ng-click="remove();">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <small>
+    <em class="text-muted">
+      Title
+      <span data-ng-bind="artist.title"></span>
+      Description
+      <span data-ng-bind="artist.description"></span>
+      Teacher
+      <span data-ng-bind="artist.teacher"></span>
+    </em>
+  </small>
+</section>
