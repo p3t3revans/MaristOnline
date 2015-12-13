@@ -87,6 +87,9 @@ angular.module('subjects')
     // Update existing Subject
     $scope.update = function () {
       var subject = $scope.subject;
+      subject.yearLevel = $scope.yearLevelData.selectedOption.yearLevel;
+      subject.semester = $scope.semesterData.selectedOption.semester;
+      subject.year = $scope.yearData.selectedOption.year;
 
       subject.$update(function () {
         $location.path('subjects/' + subject._id);
