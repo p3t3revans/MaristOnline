@@ -2,44 +2,29 @@
 	<div class="page-header">
 		<h1>Edit Artist</h1>
 	</div>
-	<div class="col-md-12">
-		<form name="articleForm" class="form-horizontal" data-ng-submit="update()" novalidate>
-			<fieldset>
-				<div class="form-group">
-					<label for="year"> Year : </label>
-					<select name="year" id="yearSelect" ng-options="option.year for option in yearData.availableOptions track by option.year"
-					ng-model="yearData.selectedOption" width="200px"></select>
-					<label for="Semester"> Semester : </label>
-					<select name="Semester" id="semesterSelect" ng-options="option.semester for option in semesterData.availableOptions track by option.semester"
-					ng-model="semesterData.selectedOption" width="200px"></select>
-					<label for="yearLevel"> Year Level : </label>
-					<select name="yearLevel" id="yearLevelSelect" ng-options="option.yearLevel for option in yearLevelData.availableOptions track by option.yearLevel"
-					ng-model="yearLevelData.selectedOption" width="200px"></select>
-					<br>
-					<br>
-					<label for="artistTitle"> Title : </label>
-					<input class="form-control" type="text" name="artistTitle" ng-model="artist.title" width="400px" placeholder="Enter artist title"
-					required autofocus>
-					<br>
-					<label for="artistDescription"> Description : </label>
-					<input class="form-control" type="text" name="artistDescription" ng-model="artist.description" width="400px" placeholder="Enter artist title"
-					required>
-					<br>
-					<label for="artistTeacher"> Teacher : </label>
-					<input class="form-control" type="text" name="artistTeacher" ng-model="artist.teacher" width="400px" placeholder="Enter Teacher Name"
-					required>
-					<br>
-					<div class="help-block text-danger" ng-if="addArtistForm.artistTitle.$dirty" ng-messages="addArtistForm.artistTitle.$error">
-						<div ng-message="required">Artist title is required.</div>
+	<div class="container">
+		<div class="panel panel-default">
+			<div class="panel-heading">Update Artist</div>
+			<div class="panel-body">
+				<form class="form" method="post" ng-submit="submitArtist()" name="updateArtistForm">
+					<div class="form-group" ng-class="{ 'has-success' : updateArtistForm.artistName.$valid && updateArtistForm.artistName.$dirty, 'has-error' : updateArtistFormForm.artistName.$invalid && updateArtistForm.artistName.$dirty }">
+						<label for="artistName"> Name : </label>
+						<input class="form-control" type="text" name="artistName" ng-model="artist.name" width="400px" placeholder="Enter Artist name"
+						required autofocus>
+						<br>
+						<label for="artistDescription"> Description : </label>
+						<input class="form-control" type="text" name="artistDescription" ng-model="artist.description" width="800px" placeholder="Description">
+						<br>
+						<label for="yearEnrolled"> Year Enrolled : </label>
+						<input class="form-control" type="text" name="yearEnrolled" ng-model="artist.yearEnrolled" width="200px" placeholder="YYYY"
+						required>
+						<div class="help-block text-danger" ng-if="updateArtistForm.artistName.$dirty" ng-messages="updateArtistForm.artistName.$error">
+							<div ng-message="required">Artist Name is required.</div>
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<input type="submit" value="Update" class="btn btn-default">
-				</div>
-				<div data-ng-show="error" class="text-danger">
-					<strong data-ng-bind="error"></strong>
-				</div>
-			</fieldset>
-		</form>
+					<button class="btn btn-primary" type="submit" ng-disabled="updateArtistForm.$invalid">Update</button>
+				</form>
+			</div>
+		</div>
 	</div>
 </section>

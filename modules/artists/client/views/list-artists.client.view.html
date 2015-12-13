@@ -4,19 +4,19 @@
 			<div class="panel-heading">List Artist</div>
 			<div class="panel-body">
 				<form class="form" method="post" ng-submit="submitArtist()" name="listArtistForm">
-					<label for="yearData"> Year Enrolled : </label>
-					<select name="yearData" id="yearSelect" ng-options="option.year for option in yearData.availableOptions track by option.year"
-					ng-model="yearData.selectedOption" width="200px" ng-change="filterByYear(yearData.selectedOption)" required></select>
-					<label> Search: </label>
+					<label for="year"> Year Enrolled : </label>
+					<select name="year" id="yearSelect" ng-options="option.year for option in year.availableOptions track by option.year" ng-model="year.selectedOption"
+					width="200px" ng-change="filterByYear(year.selectedOption)" required></select>
+					<label for="year"> Search: </label>
 					<input ng-model="query"> Sort by:
 					<select ng-model="orderProp">
 						<option value="title">Alphabetical</option>
-						<option value="teacher">Teacher</option>
+						<option value="yearEnrolled">year Enrolled</option>
 					</select>
 					<br>
-					<ul class="artists">
+					<ul class="subjects">
 						<li ng-repeat="artist in artists | filter:query | orderBy:orderProp" class="artist artist-listing">
-							<a href="#/artists/{{artist._id}}">{{artist.title}} {{artist.teacher}}</a>
+							<a href="#/artists/{{artist._id}}">{{artist.name}} {{artist.yearEnrolled}}</a>
 							<a class="btn" href="/artists/{{artist._id}}/edit">
 								<i class="glyphicon glyphicon-edit"></i>
 							</a>

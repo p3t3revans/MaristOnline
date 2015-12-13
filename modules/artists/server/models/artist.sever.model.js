@@ -14,4 +14,4 @@ var artistSchema = new Schema({
   active : { type :Boolean , default: true}
 });
 
-mongoose.model('Artists', artistSchema);
+mongoose.model('Artist', artistSchema);
