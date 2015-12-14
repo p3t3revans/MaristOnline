@@ -3,7 +3,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">Add Artist</div>
 			<div class="panel-body">
-				<form class="form" method="post" ng-submit="submitArtist()" name="addArtistForm">
+				<form class="form" method="post" ng-submit="create()" name="addArtistForm">
 					<div class="form-group" ng-class="{ 'has-success' : addArtistForm.artistName.$valid && addArtistForm.artistName.$dirty, 'has-error' : addArtistForm.artistName.$invalid && addArtistForm.artistName.$dirty }">
 						<label for="artistName"> Name : </label>
 						<input class="form-control" type="text" name="artistName" ng-model="artist.name" width="400px" placeholder="Enter Artist name"
@@ -13,8 +13,8 @@
 						<input class="form-control" type="text" name="artistDescription" ng-model="artist.description" width="800px" placeholder="Description">
 						<br>
 						<label for="yearEnrolled"> Year Enrolled : </label>
-						<input class="form-control" type="text" name="yearEnrolled" ng-model="artist.yearEnrolled" width="200px" placeholder="YYYY"
-						required>
+						<select name="year" id="yearSelect" ng-options="option.year for option in year.availableOptions track by option.year" ng-model="year.selectedOption"
+						width="200px" required></select>
 						<div class="help-block text-danger" ng-if="addArtistForm.artistName.$dirty" ng-messages="addArtistForm.artistName.$error">
 							<div ng-message="required">Artist Name is required.</div>
 						</div>

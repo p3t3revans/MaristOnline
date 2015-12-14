@@ -7,7 +7,7 @@
 					<label for="year"> Year Enrolled : </label>
 					<select name="year" id="yearSelect" ng-options="option.year for option in year.availableOptions track by option.year" ng-model="year.selectedOption"
 					width="200px" ng-change="filterByYear(year.selectedOption)" required></select>
-					<label for="year"> Search: </label>
+					<label > Search: </label>
 					<input ng-model="query"> Sort by:
 					<select ng-model="orderProp">
 						<option value="title">Alphabetical</option>

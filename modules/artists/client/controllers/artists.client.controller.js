@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('artists')
-  .controller('ArtistCtrl', ['$scope', '$timeout', '$stateParams', '$location', 'Artists', 'Authentication', function ($scope, $timeout, $stateParams, $location, Artists, Authentication) {
+  .controller('ArtistCtrl', ['$scope','$stateParams', '$location', 'Artists', 'Authentication', function ($scope, $stateParams, $location, Artists, Authentication) {
     $scope.authentication = Authentication;
     var today = new Date();
     //var dd = today.getDate();
     //var mm = today.getMonth() + 1; //January is 0!
     var yyyy = today.getFullYear();
     // need to add these as mongo items as well
-    $scope.yearData = {
+    $scope.year = {
       availableOptions: [
         { year: 2015 },
         { year: 2016 },
@@ -21,37 +21,13 @@ angular.module('artists')
       selectedOption: { year: yyyy } //This sets the default value of the select in the ui
     };
 
-    $scope.yearLevelData = {
-      availableOptions: [
-        { yearLevel: 7 },
-        { yearLevel: 8 },
-        { yearLevel: 9 },
-        { yearLevel: 10 },
-        { yearLevel: 11 },
-        { yearLevel: 12 }
-      ],
-      selectedOption: { yearLevel: 7 } //This sets the default value of the select in the ui
-    };
-
-    $scope.semesterData = {
-      availableOptions: [
-        { semester: 1 },
-        { semester: 2 }
-      ],
-      selectedOption: { semester: 1 } //This sets the default value of the select in the ui
-    };
-
-
 
     $scope.create = function () {
       // Create new Artist object
       var artist = new Artists({
-        title: $scope.artist.title,
+        name: $scope.artist.name,
         description: $scope.artist.description,
-        yearLevel: $scope.yearLevelData.selectedOption.yearLevel,
-        year: $scope.yearData.selectedOption.year,
-        semester: $scope.semesterData.selectedOption.semester,
-        teacher: $scope.artist.teacher
+        yearEnrolled: $scope.year.selectedOption.year
       });
 
       // Redirect after save
@@ -59,9 +35,9 @@ angular.module('artists')
         $location.path('artists/' + response._id);
 
         // Clear form fields
-        $scope.title = '';
+        $scope.name = '';
         $scope.description = '';
-        $scope.teacher = '';
+        $scope.yearEnrolled = '';
       }, function (errorResponse) {
         $scope.error = errorResponse.data.message;
       });
@@ -87,10 +63,7 @@ angular.module('artists')
     // Update existing Artist
     $scope.update = function () {
       var artist = $scope.artist;
-      artist.yearLevel = $scope.yearLevelData.selectedOption.yearLevel;
-      artist.semester = $scope.semesterData.selectedOption.semester;
-      artist.year = $scope.yearData.selectedOption.year;
-
+      artist.yearEnrolled = $scope.year.selectedOption.year;
       artist.$update(function () {
         $location.path('artists/' + artist._id);
       }, function (errorResponse) {
@@ -109,36 +82,18 @@ angular.module('artists')
         artistId: $stateParams.artistId
       });
       $scope.artist.$promise.then(function () {
-        if ($scope.artist.yearLevel) {
-          var l = $scope.yearLevelData.availableOptions.length;
-          for (var i = 0; i < l; i++) {
-            if ($scope.yearLevelData.availableOptions[i].yearLevel === $scope.artist.yearLevel) {
-              $scope.yearLevelData.selectedOption = $scope.yearLevelData.availableOptions[i];
+        if ($scope.artist.yearEnrolled) {
+          for (var j = 0; j < $scope.year.availableOptions.length; j++) {
+            if ($scope.year.availableOptions[j].year === $scope.artist.yearEnrolled) {
+              $scope.year.selectedOption = $scope.year.availableOptions[j];
               break;
             }
           }
+
         }
-         if ($scope.artist.year) {
-           for (var j = 0; j < $scope.yearData.availableOptions.length; j++) {
-             if ($scope.yearData.availableOptions[j].year === $scope.artist.year) {
-               $scope.yearData.selectedOption = $scope.yearData.availableOptions[j];
-               break;
-             }
-           }
-         }
-         if ($scope.artist.semester) {
-           for (var x = 0; x < $scope.semesterData.availableOptions.length; x++) {
-             if ($scope.semesterData.availableOptions[x].semester === $scope.artist.semester) {
-               $scope.semesterData.selectedOption = $scope.semesterData.availableOptions[x];
-               break;
-             }
-           }
-         }
-      });     
- 
+      });
+
     };
-
-
   }]);
 
   

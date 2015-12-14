@@ -5,67 +5,70 @@
  */
 var path = require('path'),
   mongoose = require('mongoose'),
-  Artist = mongoose.model('Artist'),
+  Picture = mongoose.model('Picture'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /**
- * Create a artist
+ * Create a picture
  */
 exports.create = function (req, res) {
-  var artist = new Artist(req.body);
-  //artist.user = req.user;
+  var picture = new Picture(req.body);
+  //picture.user = req.user;
 
-  artist.save(function (err) {
+  picture.save(function (err) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(artist);
+      res.json(picture);
     }
   });
 };
 
 /**
- * Show the current artist
+ * Show the current picture
  */
 exports.read = function (req, res) {
-  res.json(req.artist);
+  res.json(req.picture);
 };
 
-/**
- * Update a artist
+/** 
+ * Update a picture
  */
 exports.update = function (req, res) {
-  var artist = req.artist;
-  artist.name = req.body.name;
-  artist.description = req.body.description;
-  artist.yearEnrolled = req.body.yearEnrolled;
-  artist.active = true;
-  artist.save(function (err) {
+  var picture = req.picture;
+  picture.title = req.body.title;
+  picture.artistName = req.body.artistName;
+  picture.year = req.body.year;
+  picture.artist = req.body.artist;
+  picture.medium = req.body.medium;
+  picture.picture = req.body.picture;
+  picture.subject = req.body.subject;
+  picture.save(function (err) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(artist);
+      res.json(picture);
     }
   });
 };
 
 /**
- * Delete an artist
+ * Delete an picture
  */
 exports.delete = function (req, res) {
-  var artist = req.artist;
+  var picture = req.picture;
 
-  artist.remove(function (err) {
+  picture.remove(function (err) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(artist);
+      res.json(picture);
     }
   });
 };
@@ -74,37 +77,37 @@ exports.delete = function (req, res) {
  * List of Articles
  */
 exports.list = function (req, res) {
-  Artist.find().sort('-year').exec(function (err, artists) {
+  Picture.find().sort('-year').exec(function (err, pictures) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(artists);
+      res.json(pictures);
     }
   });
 };
 
 /**
- * Artist middleware
+ * Picture middleware
  */
-exports.artistByID = function (req, res, next, id) {
+exports.pictureByID = function (req, res, next, id) {
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).send({
-      message: 'Artist is invalid'
+      message: 'Picture is invalid'
     });
   }
 
-  Artist.findById(id).exec(function (err, artist) {
+  Picture.findById(id).exec(function (err, picture) {
     if (err) {
       return next(err);
-    } else if (!artist) {
+    } else if (!picture) {
       return res.status(404).send({
-        message: 'No artist with that identifier has been found'
+        message: 'No picture with that identifier has been found'
       });
     }
-    req.artist = artist;
+    req.picture = picture;
     next();
   });
 };

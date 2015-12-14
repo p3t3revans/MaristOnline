@@ -1,0 +1,17 @@
+<section data-ng-controller="PictureCtrl" data-ng-init="findOne()">
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="media">
+        <div class="pull-left">
+          <img class="media-object img-rounded" ng-src="{{picture.picture}}">
+          <a class="btn" href="/pictures/{{picture._id}}/edit">
+            <i class="glyphicon glyphicon-edit"></i>
+          </a>
+          <p>Title: {{picture.title}}, Artist: {{picture.artistName}}, Medium: {{picture.medium}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>

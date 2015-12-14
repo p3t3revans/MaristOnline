@@ -1,0 +1,34 @@
+<section data-ng-controller="PictureCtrl" data-ng-init="find()">
+  <div class="container">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        {{headingTitle}}
+        <div class="pull-right">
+          <input class="search" type="text" ng-model="query.name" placeholder="Search...">
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="row show-list">
+          <div class="col-xs-4 col-md-3" ng-repeat="picture in pictures | filter:query | orderBy:orderProp">
+            <a href="/pictures/{{picture._id}}">
+              <img class="img-rounded" ng-src="{{picture.picture}}" width="100%" />
+            </a>
+            <span>
+              <a class="btn" href="/pictures/{{picture._id}}/edit">
+                <i class="glyphicon glyphicon-edit"></i>
+              </a>
+              <a class="btn" data-ng-click="remove(picture);">
+              <i class="glyphicon glyphicon-trash"></i>
+              </a>
+            </span>
+            <div class="text-center">
+              <a href="/pictures/{{picture._id}}">{{show.name}}</a>
+              <!--  <p class="text-muted">Episodes: {{show.episodes.length}}</p>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h1 data-ng-hide="!pictures || pictures.length">No images yet. <br> Why don't you <a href="/picture">Create One</a>?</h1>
+</section>

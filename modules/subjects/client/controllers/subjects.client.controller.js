@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('subjects')
-  .controller('SubjectCtrl', ['$scope', '$timeout', '$stateParams', '$location', 'Subjects', 'Authentication', function ($scope, $timeout, $stateParams, $location, Subjects, Authentication) {
+  .controller('SubjectCtrl', ['$scope','$stateParams', '$location', 'Subjects', 'Authentication', function ($scope, $stateParams, $location, Subjects, Authentication) {
     $scope.authentication = Authentication;
     var today = new Date();
     //var dd = today.getDate();
