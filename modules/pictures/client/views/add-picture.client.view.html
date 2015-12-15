@@ -22,11 +22,10 @@
           <select name="pictureArtistSelect" id="artistSelect" ng-options="option.name for option in dataArtist track by option._id"
           ng-model="dataArtist.selectedOption" width="200px" required>
           </select>
-          <br><br>
-          <label for="pictureMedium"> Medium : </label>
-          <select name="pictureMedium" id="mySelect" ng-options="option.name for option in data.availableOptions track by option.name"
-          ng-model="data.selectedOption" width="200px"></select>
           <br>
+          <label for="pictureMedium"> Medium : </label>
+          <select name="pictureMedium" id="mySelect" ng-options="option.medium for option in data.availableOptions track by option.medium"
+          ng-model="data.selectedOption" width="200px"></select>
           <br>
           <input type="file" onchange="angular.element(this).scope().addPicture(this)" >
           <!--<div id="base"></div>-->

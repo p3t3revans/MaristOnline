@@ -1,0 +1,83 @@
+#viewDiv 
+{
+height:300px;
+width:600px;
+text-align: center;
+border: black;
+border-width: medium;
+}
+#viewDiv img
+{
+max-width:100%; 
+max-height:100%;
+margin:0 auto;
+display:block;
+position: relative;
+}
+
+#myDiv 
+{
+height:300px;
+width:inherit;
+text-align: left;
+border: black;
+border-width: medium;
+}
+#myDiv img
+{
+max-width:100%; 
+max-height:100%;
+margin:0 auto;
+display:block;
+position: relative;
+}
+
+#smallDiv 
+{
+height:100px;
+width: inherit;
+text-align: left;
+border: black;
+border-width: medium;
+}
+#smallDiv img
+{
+max-width:100%; 
+max-height:100%;
+margin:0 auto;
+display:block;
+position: relative;
+float: left;
+}
+#smallDiv p
+{
+display: block;
+float: left;
+margin-left: 10px;
+text-align: left;
+}
+
+.thumb {
+    width: 24px;
+    height: 24px;
+    float: none;
+    position: relative;
+    top: 7px;
+}
+
+form .progress {
+    line-height: 15px;
+}
+
+
+.progress {
+    display: inline-block;
+    width: 100px;
+    border: 3px groove #CCC;
+}
+
+.progress div {
+    font-size: smaller;
+    background: orange;
+    width: 0;
+}

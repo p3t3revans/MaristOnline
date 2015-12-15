@@ -7,3 +7,7 @@
 /// <reference path="serve-favicon/serve-favicon.d.ts" />
 /// <reference path="mocha/mocha.d.ts" />
 /// <reference path="gulp/gulp.d.ts" />
+/// <reference path="jquery/jquery.d.ts" />
+/// <reference path="angularjs/angular.d.ts" />
+/// <reference path="mime/mime.d.ts" />
+/// <reference path="serve-static/serve-static.d.ts" />

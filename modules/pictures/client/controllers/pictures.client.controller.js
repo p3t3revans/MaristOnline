@@ -29,11 +29,11 @@ angular.module('pictures')
 
     $scope.data = {
       availableOptions: [
-        { name: 'Work on Paper' },
-        { name: 'Sulpture' },
-        { name: 'Work on Canvas' },
-        { name: 'Photograph' },
-        { name: 'Clay' }
+        { medium: 'Work on Paper' },
+        { medium: 'Sulpture' },
+        { medium: 'Work on Canvas' },
+        { medium: 'Photograph' },
+        { medium: 'Clay' }
       ],
       selectedOption: { name: 'Work on Paper' } //This sets the default value of the select in the ui
     };
@@ -43,7 +43,7 @@ angular.module('pictures')
         $scope.dataSubject = result;
       });
       $scope.artists = Artists.query();
-      $scope.artists.$promise.then(function(result){
+      $scope.artists.$promise.then(function (result) {
         $scope.dataArtist = result;
       });
     };
@@ -51,18 +51,21 @@ angular.module('pictures')
       if (element.files && element.files[0]) {
         var FR = new FileReader();
         FR.onload = function (e) {
-          // $('#img').attr("src", e.target.result);// what is this might not need to do the folloeing step
-          // $('#base').text(e.target.result);
-          //$scope.picture.picture = e.target.result.toString('base64');
+        // $('#img').attr("src", e.target.result);// what is this might not need to do the folloeing step
+        // $('#base').text(e.target.result);
+        //$scope.picture.picture = e.target.result.toString('base64');
+        $scope.$apply(function($scope){
           $scope.picture.picture = e.target.result;
-          var i = 1;
-          i++;
-          //fileNameS = element.files[0].name;
-        };
+        });
+        //$scope.picture.picture = e.target.result;
+        //    alert('picture loaded');
+        //fileNameS = element.files[0].name;
+        };   
         FR.readAsDataURL(element.files[0]);
+
       }
     };//closure for addPicture
-
+  
 
     $scope.create = function () {
       // Create new Picture object
@@ -70,6 +73,7 @@ angular.module('pictures')
         title: $scope.picture.title,
         description: $scope.picture.description,
         artist: $scope.dataArtist.selectedOption._id,
+        artistName: $scope.dataArtist.selectedOption.name,
         year: $scope.yearData.selectedOption.year,
         medium: $scope.data.selectedOption.medium,
         picture: $scope.picture.picture,
@@ -110,6 +114,7 @@ angular.module('pictures')
     $scope.update = function () {
       var picture = $scope.picture;
       picture.artist = $scope.dataArtist.selectedOption._id;
+      picture.artistName = $scope.dataArtist.selectedOption.name;
       picture.year = $scope.yearData.selectedOption.year;
       picture.medium = $scope.data.selectedOption.medium;
       picture.subject = $scope.dataSubject.selectedOption._id;
@@ -131,36 +136,41 @@ angular.module('pictures')
         pictureId: $stateParams.pictureId
       });
       $scope.picture.$promise.then(function () {
-        if ($scope.picture.yearLevel) {
-          var l = $scope.yearLevelData.availableOptions.length;
-          for (var i = 0; i < l; i++) {
-            if ($scope.yearLevelData.availableOptions[i].yearLevel === $scope.picture.yearLevel) {
-              $scope.yearLevelData.selectedOption = $scope.yearLevelData.availableOptions[i];
+        if ($scope.picture.medium) {
+          for (var x = 0; x < $scope.data.availableOptions.length; x++) {
+            if ($scope.data.availableOptions[x].medium === $scope.picture.medium) {
+              $scope.data.selectedOption = $scope.data.availableOptions[x];
               break;
             }
           }
         }
-        if ($scope.picture.year) {
-          for (var j = 0; j < $scope.yearData.availableOptions.length; j++) {
-            if ($scope.yearData.availableOptions[j].year === $scope.picture.year) {
-              $scope.yearData.selectedOption = $scope.yearData.availableOptions[j];
-              break;
+        $scope.subjects = Subjects.query();
+        $scope.subjects.$promise.then(function (result) {
+          $scope.dataSubject = result;
+          if ($scope.picture.subject) {
+            var l = $scope.dataSubject.length;
+            for (var i = 0; i < l; i++) {
+              if ($scope.dataSubject[i]._id === $scope.picture.subject) {
+                $scope.dataSubject.selectedOption = $scope.dataSubject[i];
+                break;
+              }
             }
           }
-        }
-        if ($scope.picture.semester) {
-          for (var x = 0; x < $scope.semesterData.availableOptions.length; x++) {
-            if ($scope.semesterData.availableOptions[x].semester === $scope.picture.semester) {
-              $scope.semesterData.selectedOption = $scope.semesterData.availableOptions[x];
-              break;
+        });
+        $scope.artists = Artists.query();
+        $scope.artists.$promise.then(function (result) {
+          $scope.dataArtist = result;
+          if ($scope.picture.artist) {
+            for (var j = 0; j < $scope.dataArtist.length; j++) {
+              if ($scope.dataArtist[j]._id === $scope.picture.artist) {
+                $scope.dataArtist.selectedOption = $scope.dataArtist[j];
+                break;
+              }
             }
           }
-        }
+        });
       });
-
     };
-
-
   }]);
 
   

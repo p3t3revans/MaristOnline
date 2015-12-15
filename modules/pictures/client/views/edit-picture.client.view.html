@@ -10,19 +10,19 @@
 					<form name="workForm" class="form-horizontal col-md-6" role="form" data-ng-submit="update(workForm.$valid)" novalidate>
 						<div class="form-group" ng-class="{ 'has-error' : submitted && workForm.title.$invalid }">
 							<div class="col-md-10">
-								<label for="title"> Title : </label>
+								<label for="title">Title : </label>
 								<input name="title" type="text" class="form-control" data-ng-model="picture.title" id="title" placeholder="Title" required>
-								<label for="pictureArtistSelect"> Artist : </label>
+								<br>
+								<label for="pictureArtistSelect">Artist : </label>
 								<select name="pictureArtistSelect" id="artistSelect" ng-options="option.name for option in dataArtist track by option._id"
 								ng-model="dataArtist.selectedOption" width="200px" required>
 								</select>
 								<br>
-								<br>
-								<label for="pictureMedium"> Medium : </label>
-								<select name="pictureMedium" id="mySelect" ng-options="option.name for option in data.availableOptions track by option.name"
+								<label for="pictureMedium">Medium : </label>
+								<select name="pictureMedium" id="mySelect" ng-options="option.medium for option in data.availableOptions track by option.medium"
 								ng-model="data.selectedOption" width="200px"></select>
 								<br>
-								<label for="pictureSubject"> Subject : </label>
+								<label for="pictureSubject">Subject : </label>
 								<select name="pictureSubject" id="subjectSelect" ng-options="option.title for option in dataSubject track by option._id"
 								ng-model="dataSubject.selectedOption" width="200px" ng-change="filterBySubject(dataSubject.selectedOption)" required>
 								</select>
