@@ -3,6 +3,7 @@
 angular.module('pictures')
   .controller('PictureCtrl', ['Artists', 'Subjects', '$rootScope', '$scope', '$stateParams', '$location', 'Pictures', 'Authentication', function (Artists, Subjects, $rootScope, $scope, $stateParams, $location, Pictures, Authentication) {
     $scope.authentication = Authentication;
+    $scope.headingTitle = 'List Pictures';
     $scope.dataSubject = [];
     $scope.dataArtist = [];
     $scope.picture = new Pictures();

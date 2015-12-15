@@ -1,10 +1,10 @@
 <section data-ng-controller="PictureCtrl" data-ng-init="find()">
+
   <div class="container">
     <div class="panel panel-default">
-      <div class="panel-heading">
-        {{headingTitle}}
+      <div class="panel-heading">{{headingTitle}}
         <div class="pull-right">
-          <input class="search" type="text" ng-model="query.name" placeholder="Search...">
+          <input class="search" type="text" ng-model="query.title" placeholder="Search...">
         </div>
       </div>
       <div class="panel-body">
@@ -23,12 +23,11 @@
             </span>
             <div class="text-center">
               <a href="/pictures/{{picture._id}}">{{picture.title}}</a>
-              <!--  <p class="text-muted">Episodes: {{show.episodes.length}}</p>-->
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <h1 data-ng-hide="!pictures || pictures.length">No images yet. <br> Why don't you <a href="/picture">Create One</a>?</h1>
+  <h1 data-ng-hide="!pictures || pictures.length">No images yet. <br> Why don't you <a href="/pictures">Create One</a>?</h1>
 </section>
