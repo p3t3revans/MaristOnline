@@ -11,7 +11,17 @@ module.exports = function (app) {
   app.route('/api/subjects').all(subjectsPolicy.isAllowed)
     .get(subjects.list)
     .post(subjects.create);
-
+    
+  // subjects year collection routes
+  app.route('/api/year/:year/semester/:semester').all(subjectsPolicy.isAllowed)
+    .get(subjects.listyearsemester);
+  // subjects year collection routes
+  app.route('/api/year/:year/semester/').all(subjectsPolicy.isAllowed)
+    .get(subjects.listyear);
+    // subjects year collection routes
+  app.route('/api/year/semester/:semester').all(subjectsPolicy.isAllowed)
+    .get(subjects.listsemester);
+    
   // Single subject routes
   app.route('/api/subjects/:subjectId').all(subjectsPolicy.isAllowed)
     .get(subjects.read)

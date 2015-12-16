@@ -11,6 +11,7 @@ var path = require('path'),
 /**
  * Create a subject
  */
+
 exports.create = function (req, res) {
   var subject = new Subject(req.body);
   //subject.user = req.user;
@@ -86,7 +87,47 @@ exports.list = function (req, res) {
     }
   });
 };
-
+ 
+ 
+/**
+* List of Subjects for a year
+*/
+exports.listyearsemester = function (req, res) {
+  Subject.find({ year: req.params.year, semester: req.params.semester })
+    .exec(function (err, subjects) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      } else {
+        res.json(subjects);
+      }
+    });
+};
+exports.listsemester = function (req, res) {
+  Subject.find({ semester: req.params.semester })
+    .exec(function (err, subjects) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      } else {
+        res.json(subjects);
+      }
+    });
+};
+exports.listyear = function (req, res) {
+  Subject.find({ year: req.params.year })
+    .exec(function (err, subjects) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      } else {
+        res.json(subjects);
+      }
+    });
+};
 /**
  * Subject middleware
  */

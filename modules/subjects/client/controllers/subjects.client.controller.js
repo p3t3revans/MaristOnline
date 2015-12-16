@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('subjects')
-  .controller('SubjectCtrl', ['$scope','$stateParams', '$location', 'Subjects', 'Authentication', function ($scope, $stateParams, $location, Subjects, Authentication) {
+  .controller('SubjectCtrl', ['Years', '$scope', '$stateParams', '$location', 'Subjects', 'Authentication', function (Years, $scope, $stateParams, $location, Subjects, Authentication) {
     $scope.authentication = Authentication;
+    $scope.yearSelect = 'All';
+    $scope.semesterSelect = 'All';
     var today = new Date();
     //var dd = today.getDate();
     //var mm = today.getMonth() + 1; //January is 0!
@@ -17,8 +19,8 @@ angular.module('subjects')
         { year: 2019 },
         { year: 2020 },
         { year: 2021 }
-      ],
-      selectedOption: { year: yyyy } //This sets the default value of the select in the ui
+      ]//,
+      //selectedOption: { } //This sets the default value of the select in the ui
     };
 
     $scope.yearLevelData = {
@@ -37,8 +39,8 @@ angular.module('subjects')
       availableOptions: [
         { semester: 1 },
         { semester: 2 }
-      ],
-      selectedOption: { semester: 1 } //This sets the default value of the select in the ui
+      ]//,
+      //selectedOption: { } //This sets the default value of the select in the ui
     };
 
 
@@ -102,7 +104,11 @@ angular.module('subjects')
     $scope.find = function () {
       $scope.subjects = Subjects.query();
     };
-
+    $scope.findByYear = function () {
+      $scope.yearSelect = $scope.yearData.selectedOption.year;
+      $scope.semesterSelect = $scope.semesterData.selectedOption.semester;
+      $scope.subjects = Years.query({ year: $scope.yearData.selectedOption.year, semester: $scope.semesterData.selectedOption.semester });
+    }
     // Find existing Subject
     $scope.findOne = function () {
       $scope.subject = Subjects.get({
@@ -118,24 +124,24 @@ angular.module('subjects')
             }
           }
         }
-         if ($scope.subject.year) {
-           for (var j = 0; j < $scope.yearData.availableOptions.length; j++) {
-             if ($scope.yearData.availableOptions[j].year === $scope.subject.year) {
-               $scope.yearData.selectedOption = $scope.yearData.availableOptions[j];
-               break;
-             }
-           }
-         }
-         if ($scope.subject.semester) {
-           for (var x = 0; x < $scope.semesterData.availableOptions.length; x++) {
-             if ($scope.semesterData.availableOptions[x].semester === $scope.subject.semester) {
-               $scope.semesterData.selectedOption = $scope.semesterData.availableOptions[x];
-               break;
-             }
-           }
-         }
-      });     
- 
+        if ($scope.subject.year) {
+          for (var j = 0; j < $scope.yearData.availableOptions.length; j++) {
+            if ($scope.yearData.availableOptions[j].year === $scope.subject.year) {
+              $scope.yearData.selectedOption = $scope.yearData.availableOptions[j];
+              break;
+            }
+          }
+        }
+        if ($scope.subject.semester) {
+          for (var x = 0; x < $scope.semesterData.availableOptions.length; x++) {
+            if ($scope.semesterData.availableOptions[x].semester === $scope.subject.semester) {
+              $scope.semesterData.selectedOption = $scope.semesterData.availableOptions[x];
+              break;
+            }
+          }
+        }
+      });
+
     };
 
 

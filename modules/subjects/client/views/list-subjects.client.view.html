@@ -4,12 +4,15 @@
 	</div>
 	<div class="container">
 		<div class="panel panel-default">
-			<div class="panel-heading">List Subject</div>
+			<div class="panel-heading">List Subjects : Year = {{yearSelect}} & Semester = {{semesterSelect}}</div>
 			<div class="panel-body">
 				<form class="form" method="post" ng-submit="submitSubject()" name="listSubjectForm">
-					<label for="yearData"> Year Enrolled : </label>
+					<label for="yearData"> Year : </label>
 					<select name="yearData" id="yearSelect" ng-options="option.year for option in yearData.availableOptions track by option.year"
-					ng-model="yearData.selectedOption" width="200px" ng-change="filterByYear(yearData.selectedOption)" required></select>
+					ng-model="yearData.selectedOption" width="200px" ng-change="findByYear()" required></select>
+					<label for="Semester"> Semester : </label>
+					<select name="Semester" id="semesterSelect" ng-options="option.semester for option in semesterData.availableOptions track by option.semester"
+					ng-model="semesterData.selectedOption" width="200px" ng-change="findByYear()"></select>
 					<label> Search: </label>
 					<input ng-model="query"> Sort by:
 					<select ng-model="orderProp">

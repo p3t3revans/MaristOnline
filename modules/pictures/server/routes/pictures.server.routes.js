@@ -11,7 +11,7 @@ module.exports = function (app) {
   app.route('/api/pictures').all(picturesPolicy.isAllowed)
     .get(pictures.list)
     .post(pictures.create);
-
+    
   // Single picture routes
   app.route('/api/pictures/:pictureId').all(picturesPolicy.isAllowed)
     .get(pictures.read)
