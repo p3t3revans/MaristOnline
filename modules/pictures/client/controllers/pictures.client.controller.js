@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pictures')
-  .controller('PictureCtrl', ['Artists', 'Subjects', '$rootScope', '$scope', '$stateParams', '$location', 'Pictures', 'Authentication', function (Artists, Subjects, $rootScope, $scope, $stateParams, $location, Pictures, Authentication) {
+  .controller('PictureCtrl', ['Years', 'Artists', 'Subjects', '$rootScope', '$scope', '$stateParams', '$location', 'Pictures', 'Authentication', function (Years, Artists, Subjects, $rootScope, $scope, $stateParams, $location, Pictures, Authentication) {
     $scope.authentication = Authentication;
     $scope.headingTitle = 'List Pictures';
     $scope.dataSubject = [];
@@ -14,7 +14,9 @@ angular.module('pictures')
     var yyyy = today.getFullYear();
     // need to add these as mongo items as well
     // $scope.dataSubject;
-   
+    $scope.yearSelect = yyyy;
+    $scope.semesterSelect = 1;
+
     $scope.yearData = {
       availableOptions: [
         { year: 2015 },
@@ -38,8 +40,17 @@ angular.module('pictures')
       ],
       selectedOption: { name: 'Work on Paper' } //This sets the default value of the select in the ui
     };
+        $scope.semesterData = {
+      availableOptions: [
+        { semester: 1 },
+        { semester: 2 }
+      ],
+      selectedOption: { semester: 1 } //This sets the default value of the select in the ui
+    };
     $scope.load = function () {
-      $scope.subjects = Subjects.query();
+      $scope.yearSelect = $scope.yearData.selectedOption.year;
+      $scope.semesterSelect = $scope.semesterData.selectedOption.semester;
+      $scope.subjects = Years.query({ year: $scope.yearSelect, semester: $scope.semesterSelect });
       $scope.subjects.$promise.then(function (result) {
         $scope.dataSubject = result;
       });
@@ -52,16 +63,16 @@ angular.module('pictures')
       if (element.files && element.files[0]) {
         var FR = new FileReader();
         FR.onload = function (e) {
-        // $('#img').attr("src", e.target.result);// what is this might not need to do the folloeing step
-        // $('#base').text(e.target.result);
-        //$scope.picture.picture = e.target.result.toString('base64');
-        $scope.$apply(function($scope){
-          $scope.picture.picture = e.target.result;
-        });
-        //$scope.picture.picture = e.target.result;
-        //    alert('picture loaded');
-        //fileNameS = element.files[0].name;
-        };   
+          // $('#img').attr("src", e.target.result);// what is this might not need to do the folloeing step
+          // $('#base').text(e.target.result);
+          //$scope.picture.picture = e.target.result.toString('base64');
+          $scope.$apply(function ($scope) {
+            $scope.picture.picture = e.target.result;
+          });
+          //$scope.picture.picture = e.target.result;
+          //    alert('picture loaded');
+          //fileNameS = element.files[0].name;
+        };
         FR.readAsDataURL(element.files[0]);
 
       }
