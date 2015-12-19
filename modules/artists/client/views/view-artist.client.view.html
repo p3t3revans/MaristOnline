@@ -2,7 +2,8 @@
   <div class="page-header">
     <h1 data-ng-bind="artist.title"></h1>
   </div>
-  <div class="pull-right"> <!--data-ng-show="authentication.user._id == artist.user._id"-->
+  <div class="pull-right">
+    <!--data-ng-show="authentication.user._id == artist.user._id"-->
     <a class="btn btn-primary" data-ui-sref="artists.edit({artistId: artist._id})">
       <i class="glyphicon glyphicon-edit"></i>
     </a>
@@ -10,14 +11,12 @@
       <i class="glyphicon glyphicon-trash"></i>
     </a>
   </div>
-  <small>
-    <em class="text-muted">
-      Name : 
-      <span data-ng-bind="artist.name"></span><br>
-      Description : 
-      <span data-ng-bind="artist.description"></span><br>
-      Year Enrolled : 
-      <span data-ng-bind="artist.yearEnrolled"></span>
-    </em>
-  </small>
+  <br> Name :
+  <span data-ng-bind="artist.name"></span>
+  <br> Description :
+  <span data-ng-bind="artist.description"></span>
+  <br> Year Enrolled :
+  <span data-ng-bind="artist.yearEnrolled"></span> 
+  <br> House :
+  <span data-ng-bind="artist.house"></span>
 </section>

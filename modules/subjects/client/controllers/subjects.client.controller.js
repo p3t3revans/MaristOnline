@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('subjects')
-  .controller('SubjectCtrl', ['Years', '$scope', '$stateParams', '$location', 'Subjects', 'Authentication', function (Years, $scope, $stateParams, $location, Subjects, Authentication) {
+  .controller('SubjectCtrl', ['ArtistYearEnrolled', 'Years', '$scope', '$stateParams', '$location', 'Subjects', 'Authentication', function (ArtistYearEnrolled, Years, $scope, $stateParams, $location, Subjects, Authentication) {
     $scope.authentication = Authentication;
     $scope.yearSelect = 'All';
     $scope.semesterSelect = 'All';
@@ -108,14 +108,31 @@ angular.module('subjects')
       $scope.yearSelect = $scope.yearData.selectedOption.year;
       $scope.semesterSelect = $scope.semesterData.selectedOption.semester;
       $scope.subjects = Years.query({ year: $scope.yearData.selectedOption.year, semester: $scope.semesterData.selectedOption.semester });
-    }
+    };
+
+    $scope.findArtistForSubject = function () {
+      $scope.subject = Subjects.get({
+        subjectId: $stateParams.subjectId
+      });
+      $scope.subject.$promise.then(function () {
+        var yearEnrolled = $scope.subject.year + (7 - $scope.subject.yearLevel);
+        $scope.artists = ArtistYearEnrolled.query({ yearEnrolled: yearEnrolled });
+
+      });
+    };
     // Find existing Subject
+    $scope.changeArtists = function () {
+      var yearEnrolled = $scope.yearData.selectedOption.year + (7 - $scope.yearLevelData.selectedOption.yearLevel);
+      $scope.artists = ArtistYearEnrolled.query({ yearEnrolled: yearEnrolled });
+    }
     $scope.findOne = function () {
       $scope.subject = Subjects.get({
         subjectId: $stateParams.subjectId
       });
       $scope.subject.$promise.then(function () {
         if ($scope.subject.yearLevel) {
+          var yearEnrolled = $scope.subject.year + (7 - $scope.subject.yearLevel);
+          $scope.artists = ArtistYearEnrolled.query({ yearEnrolled: yearEnrolled });
           var l = $scope.yearLevelData.availableOptions.length;
           for (var i = 0; i < l; i++) {
             if ($scope.yearLevelData.availableOptions[i].yearLevel === $scope.subject.yearLevel) {

@@ -41,7 +41,8 @@ exports.update = function (req, res) {
   artist.name = req.body.name;
   artist.description = req.body.description;
   artist.yearEnrolled = req.body.yearEnrolled;
-  artist.active = true;
+  artist.house = req.body.house;
+  artist.active = req.body.active;
   artist.save(function (err) {
     if (err) {
       return res.status(400).send({
@@ -66,6 +67,20 @@ exports.delete = function (req, res) {
       });
     } else {
       res.json(artist);
+    }
+  });
+};
+/**
+ * List of Artists by year enrolled
+ */
+exports.listactiveyear = function (req, res) {
+  Artist.find({ yearEnrolled: req.params.yearEnrolled, active: true }).exec(function (err, artists) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      res.json(artists);
     }
   });
 };

@@ -18,6 +18,10 @@
 						<label for="yearEnrolled"> Year Enrolled : </label>
 						<select name="year" id="yearSelect" ng-options="option.year for option in year.availableOptions track by option.year" ng-model="year.selectedOption"
 						width="200px" required></select>
+						<br>
+						<label for="house"> House : </label>
+						<select name="house" id="houseSelect" ng-options="option.name for option in house.availableOptions track by option.name" ng-model="house.selectedOption"
+						width="200px" required></select>
 						<div class="help-block text-danger" ng-if="addArtistForm.artistName.$dirty" ng-messages="addArtistForm.artistName.$error">
 							<div ng-message="required">Artist Name is required.</div>
 						</div>

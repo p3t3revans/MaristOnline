@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('artists')
-  .controller('ArtistCtrl', ['$scope','$stateParams', '$location', 'Artists', 'Authentication', function ($scope, $stateParams, $location, Artists, Authentication) {
+  .controller('ArtistCtrl', [ '$scope','$stateParams', '$location', 'Artists', 'Authentication', function ($scope, $stateParams, $location, Artists, Authentication) {
     $scope.authentication = Authentication;
     var today = new Date();
     //var dd = today.getDate();
@@ -10,6 +10,10 @@ angular.module('artists')
     // need to add these as mongo items as well
     $scope.year = {
       availableOptions: [
+        { year: 2011 },
+        { year: 2012 },
+        { year: 2013 },
+        { year: 2014 },
         { year: 2015 },
         { year: 2016 },
         { year: 2017 },
@@ -20,14 +24,27 @@ angular.module('artists')
       ],
       selectedOption: { year: yyyy } //This sets the default value of the select in the ui
     };
-
+    
+    $scope.house = {
+      availableOptions: [
+        { name: 'Conway' },
+        { name: 'Crispin' },
+        { name: 'Darlinghurst' },
+        { name: 'Haydon' },
+        { name: 'Mark' },
+        { name: 'McMahon' },
+        { name: 'Othmar' },
+        { name: 'Patrick' }
+      ]
+    };
 
     $scope.create = function () {
       // Create new Artist object
       var artist = new Artists({
         name: $scope.artist.name,
         description: $scope.artist.description,
-        yearEnrolled: $scope.year.selectedOption.year
+        yearEnrolled: $scope.year.selectedOption.year,
+        house: $scope.house.selectedOption.name
       });
 
       // Redirect after save
@@ -64,6 +81,7 @@ angular.module('artists')
     $scope.update = function () {
       var artist = $scope.artist;
       artist.yearEnrolled = $scope.year.selectedOption.year;
+      artist.house = $scope.house.selectedOption.name;
       artist.$update(function () {
         $location.path('artists/' + artist._id);
       }, function (errorResponse) {

@@ -11,6 +11,9 @@ module.exports = function (app) {
   app.route('/api/artists').all(artistsPolicy.isAllowed)
     .get(artists.list)
     .post(artists.create);
+    
+  app.route('/api/artistsyearenrolled/:yearEnrolled').all(artistsPolicy.isAllowed)
+    .get(artists.listactiveyear);
 
   // Single artist routes
   app.route('/api/artists/:artistId').all(artistsPolicy.isAllowed)

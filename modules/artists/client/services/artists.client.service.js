@@ -12,3 +12,11 @@ angular.module('artists').factory('Artists', ['$resource',
     });
   }
 ]);
+
+angular.module('artists').factory('ArtistYearEnrolled', ['$resource',
+  function ($resource) {
+    return $resource('api/artistsyearenrolled/:yearEnrolled', {
+      yearEnrolled: '@yearEnrolled'
+    });
+  }
+]);
