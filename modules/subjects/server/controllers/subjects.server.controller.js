@@ -45,6 +45,7 @@ exports.update = function (req, res) {
   subject.yearLevel = req.body.yearLevel;
   subject.semester = req.body.semester;
   subject.teacher = req.body.teacher;
+  subject.artists = req.body.artists;
   subject.save(function (err) {
     if (err) {
       return res.status(400).send({

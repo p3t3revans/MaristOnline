@@ -89,6 +89,11 @@ angular.module('subjects')
     // Update existing Subject
     $scope.update = function () {
       var subject = $scope.subject;
+      for(var i=0;i<$scope.artists.length;i++){
+          if($scope.artists[i].selected){
+              subject.artists.push($scope.artists[i]._id);
+          }
+      }
       subject.yearLevel = $scope.yearLevelData.selectedOption.yearLevel;
       subject.semester = $scope.semesterData.selectedOption.semester;
       subject.year = $scope.yearData.selectedOption.year;
