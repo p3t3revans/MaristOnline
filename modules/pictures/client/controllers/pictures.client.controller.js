@@ -134,7 +134,8 @@ angular.module('pictures')
         $location.path('pictures/' + picture._id);
       }, function (errorResponse) {
         $scope.error = errorResponse.data.message;
-      });
+      }
+      );
     };
 
     // Find a list of Pictures
