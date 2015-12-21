@@ -5,6 +5,7 @@ angular.module('subjects')
         $scope.authentication = Authentication;
         $scope.yearSelect = 'All';
         $scope.semesterSelect = 'All';
+        $scope.arrayArtists = [];
         var today = new Date();
         //var dd = today.getDate();
         //var mm = today.getMonth() + 1; //January is 0!
@@ -19,8 +20,8 @@ angular.module('subjects')
                 { year: 2019 },
                 { year: 2020 },
                 { year: 2021 }
-            ]//,
-            //selectedOption: { } //This sets the default value of the select in the ui
+            ],
+            selectedOption: { year: yyyy } //This sets the default value of the select in the ui
         };
 
         $scope.yearLevelData = {
@@ -39,21 +40,30 @@ angular.module('subjects')
             availableOptions: [
                 { semester: 1 },
                 { semester: 2 }
-            ]//,
-            //selectedOption: { } //This sets the default value of the select in the ui
+            ],
+            selectedOption: { semester: 1 } //This sets the default value of the select in the ui
         };
 
 
 
         $scope.create = function () {
             // Create new Subject object
+            for (var i = 0; i < $scope.artists.length; i++) {
+                if ($scope.artists[i].selected) {
+                    var find = $scope.arrayArtists.indexOf($scope.artists[i]._id);
+                    if (find = -1) {
+                        $scope.arrayArtists.push($scope.artists[i]._id);
+                    }
+                }
+            };
             var subject = new Subjects({
                 title: $scope.subject.title,
                 description: $scope.subject.description,
                 yearLevel: $scope.yearLevelData.selectedOption.yearLevel,
                 year: $scope.yearData.selectedOption.year,
                 semester: $scope.semesterData.selectedOption.semester,
-                teacher: $scope.subject.teacher
+                teacher: $scope.subject.teacher,
+                artists: $scope.arrayArtists
             });
 
             // Redirect after save
