@@ -63,15 +63,9 @@ angular.module('pictures')
       if (element.files && element.files[0]) {
         var FR = new FileReader();
         FR.onload = function (e) {
-          // $('#img').attr("src", e.target.result);// what is this might not need to do the folloeing step
-          // $('#base').text(e.target.result);
-          //$scope.picture.picture = e.target.result.toString('base64');
-          $scope.$apply(function ($scope) {
+             $scope.$apply(function ($scope) {
             $scope.picture.picture = e.target.result;
           });
-          //$scope.picture.picture = e.target.result;
-          //    alert('picture loaded');
-          //fileNameS = element.files[0].name;
         };
         FR.readAsDataURL(element.files[0]);
 

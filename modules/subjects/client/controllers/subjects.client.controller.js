@@ -91,11 +91,16 @@ angular.module('subjects')
             var subject = $scope.subject;
             for (var i = 0; i < $scope.artists.length; i++) {
                 if ($scope.artists[i].selected) {
-                    subject.artists.push($scope.artists[i]._id);
+                    var find = subject.artists.indexOf($scope.artists[i]._id);
+                    if (find = -1) {
+                        subject.artists.push($scope.artists[i]._id);
+                    }
                 }
                 else {
                     var at = subject.artists.indexOf($scope.artists[i]._id);
-                    subject.artists.splice(1, at);
+                    if (at > -1) {
+                        subject.artists.splice(at, 1);
+                    }
                 }
             }
 
@@ -128,12 +133,20 @@ angular.module('subjects')
                 var yearEnrolled = $scope.subject.year + (7 - $scope.subject.yearLevel);
                 $scope.artists = ArtistYearEnrolled.query({ yearEnrolled: yearEnrolled });
 
+
             });
         };
         // Find existing Subject
         $scope.changeArtists = function () {
             var yearEnrolled = $scope.yearData.selectedOption.year + (7 - $scope.yearLevelData.selectedOption.yearLevel);
             $scope.artists = ArtistYearEnrolled.query({ yearEnrolled: yearEnrolled });
+            $scope.artists.$promise.then(function () {
+                for (var x = 0; x < $scope.artists.length; x++) {
+                    if ($scope.subject.artists.indexOf($scope.artists[x]._id) > -1) {
+                        $scope.artists[x].selected = true;
+                    }
+                }
+            })
         }
         $scope.findOne = function () {
             $scope.subject = Subjects.get({
@@ -143,6 +156,13 @@ angular.module('subjects')
                 if ($scope.subject.yearLevel) {
                     var yearEnrolled = $scope.subject.year + (7 - $scope.subject.yearLevel);
                     $scope.artists = ArtistYearEnrolled.query({ yearEnrolled: yearEnrolled });
+                    $scope.artists.$promise.then(function () {
+                        for (var y = 0; y < $scope.artists.length; y++) {
+                            if ($scope.subject.artists.indexOf($scope.artists[y]._id) > -1) {
+                                $scope.artists[y].selected = true;
+                            }
+                        }
+                    })
                     var l = $scope.yearLevelData.availableOptions.length;
                     for (var i = 0; i < l; i++) {
                         if ($scope.yearLevelData.availableOptions[i].yearLevel === $scope.subject.yearLevel) {
