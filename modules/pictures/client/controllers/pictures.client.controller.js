@@ -135,6 +135,9 @@ angular.module('pictures')
     // Find a list of Pictures
     $scope.find = function () {
       $scope.pictures = Pictures.query();
+      $scope.pictures.$promise.then(function(){
+          
+      })
     };
 
     // Find existing Picture

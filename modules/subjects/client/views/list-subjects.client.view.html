@@ -22,7 +22,7 @@
 					<br>
 					<ul class="list-group">
 						<li class="list-group-item" ng-repeat="subject in subjects | filter:query | orderBy:orderProp" class="subject subject-listing">
-							<a href="#/subjects/{{subject._id}}">{{subject.title}} {{subject.teacher}}</a>
+							<a href="/subjects/{{subject._id}}">{{subject.title}} {{subject.teacher}}</a>
 							<a class="btn" href="/subjects/{{subject._id}}/edit">
 								<i class="glyphicon glyphicon-edit"></i>
 							</a>

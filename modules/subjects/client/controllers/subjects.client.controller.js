@@ -102,13 +102,13 @@ angular.module('subjects')
             for (var i = 0; i < $scope.artists.length; i++) {
                 if ($scope.artists[i].selected) {
                     var find = subject.artists.indexOf($scope.artists[i]._id);
-                    if (find = -1) {
+                    if (find == -1) {
                         subject.artists.push($scope.artists[i]._id);
                     }
                 }
                 else {
                     var at = subject.artists.indexOf($scope.artists[i]._id);
-                    if (at > -1) {
+                    if (at != -1) {
                         subject.artists.splice(at, 1);
                     }
                 }
@@ -157,7 +157,8 @@ angular.module('subjects')
                     }
                 }
             })
-        }
+        };
+        
         $scope.findOne = function () {
             $scope.subject = Subjects.get({
                 subjectId: $stateParams.subjectId
@@ -201,6 +202,27 @@ angular.module('subjects')
 
         };
 
+        $scope.findOneView = function () {
+            $scope.subject = Subjects.get({
+                subjectId: $stateParams.subjectId
+            });
+            $scope.subject.$promise.then(function () {
+                if ($scope.subject.yearLevel) {
+                    var yearEnrolled = $scope.subject.year + (7 - $scope.subject.yearLevel);
+                    $scope.artists = ArtistYearEnrolled.query({ yearEnrolled: yearEnrolled });
+                    $scope.artists.$promise.then(function () {
+                        for (var y = 0; y < $scope.artists.length; y++) {
+                            if ($scope.subject.artists.indexOf($scope.artists[y]._id) == -1) {
+                                $scope.artists.splice(y,1);
+                            }
+                        }
+                    })
+
+                }
+ 
+            });
+
+        };
 
     }]);
 

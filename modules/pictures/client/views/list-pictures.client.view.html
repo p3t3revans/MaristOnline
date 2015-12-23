@@ -11,7 +11,7 @@
         <div class="row show-list">
           <div class="col-xs-4 col-md-3" ng-repeat="picture in pictures | filter:query | orderBy:orderProp">
             <a href="/pictures/{{picture._id}}">
-              <img class="img-rounded" ng-src="{{picture.picture}}" width="100%" />
+              <img class="img-rounded" ng-src="{{picture.picture}}" width="50%" height="50%"/>
             </a>
             <span>
               <a class="btn" href="/pictures/{{picture._id}}/edit">
@@ -21,7 +21,7 @@
               <i class="glyphicon glyphicon-trash"></i>
               </a>
             </span>
-            <div class="text-center">
+            <div class="text-left">
               <a href="/pictures/{{picture._id}}">{{picture.title}}</a>
             </div>
           </div>
@@ -29,5 +29,5 @@
       </div>
     </div>
   </div>
-  <h1 data-ng-hide="!pictures || pictures.length">No images yet. <br> Why don't you <a href="/pictures">Create One</a>?</h1>
+  <h1 data-ng-hide="!pictures || pictures.length"><img  src="modules/core/img/loaders/loader.gif"/> </h1>-->
 </section>
