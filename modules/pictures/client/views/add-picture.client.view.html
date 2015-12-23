@@ -13,7 +13,7 @@
             ng-model="semesterData.selectedOption" width="200px" ng-change="load()"></select>
             <label for="pictureSubject"> Subject : </label>
             <select name="pictureSubject" id="subjectSelect" ng-options="option.title for option in dataSubject track by option._id"
-            ng-model="dataSubject.selectedOption" width="200px" required>
+            ng-model="dataSubject.selectedOption" width="200px" ng-change="changeArtists()" required>
             </select>
             <br>
             <br>
