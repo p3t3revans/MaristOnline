@@ -6,6 +6,7 @@ angular.module('subjects')
         $scope.yearSelect = 'All';
         $scope.semesterSelect = 'All';
         $scope.arrayArtists = [];
+        $scope.artists = [];
         var today = new Date();
         //var dd = today.getDate();
         //var mm = today.getMonth() + 1; //January is 0!
@@ -51,7 +52,7 @@ angular.module('subjects')
             for (var i = 0; i < $scope.artists.length; i++) {
                 if ($scope.artists[i].selected) {
                     var find = $scope.arrayArtists.indexOf($scope.artists[i]._id);
-                    if (find = -1) {
+                    if (find === -1) {
                         $scope.arrayArtists.push($scope.artists[i]._id);
                     }
                 }
@@ -102,13 +103,13 @@ angular.module('subjects')
             for (var i = 0; i < $scope.artists.length; i++) {
                 if ($scope.artists[i].selected) {
                     var find = subject.artists.indexOf($scope.artists[i]._id);
-                    if (find == -1) {
+                    if (find === -1) {
                         subject.artists.push($scope.artists[i]._id);
                     }
                 }
                 else {
                     var at = subject.artists.indexOf($scope.artists[i]._id);
-                    if (at != -1) {
+                    if (at !== -1) {
                         subject.artists.splice(at, 1);
                     }
                 }
@@ -156,7 +157,7 @@ angular.module('subjects')
                         $scope.artists[x].selected = true;
                     }
                 }
-            })
+            });
         };
         
         $scope.findOne = function () {
@@ -173,7 +174,7 @@ angular.module('subjects')
                                 $scope.artists[y].selected = true;
                             }
                         }
-                    })
+                    });
                     var l = $scope.yearLevelData.availableOptions.length;
                     for (var i = 0; i < l; i++) {
                         if ($scope.yearLevelData.availableOptions[i].yearLevel === $scope.subject.yearLevel) {
@@ -209,14 +210,14 @@ angular.module('subjects')
             $scope.subject.$promise.then(function () {
                 if ($scope.subject.yearLevel) {
                     var yearEnrolled = $scope.subject.year + (7 - $scope.subject.yearLevel);
-                    $scope.artists = ArtistYearEnrolled.query({ yearEnrolled: yearEnrolled });
-                    $scope.artists.$promise.then(function () {
-                        for (var y = 0; y < $scope.artists.length; y++) {
-                            if ($scope.subject.artists.indexOf($scope.artists[y]._id) == -1) {
-                                $scope.artists.splice(y,1);
+                    var temp = ArtistYearEnrolled.query({ yearEnrolled: yearEnrolled });
+                    temp.$promise.then(function () {
+                        for (var y = 0; y < temp.length; y++) {
+                            if ($scope.subject.artists.indexOf(temp[y]._id) !== -1) {
+                                $scope.artists.push(temp[y]);
                             }
                         }
-                    })
+                    });
 
                 }
  

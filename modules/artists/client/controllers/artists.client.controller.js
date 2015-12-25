@@ -110,9 +110,9 @@ angular.module('artists')
 
                 }
                 if ($scope.artist.house) {
-                    for (var j = 0; j < $scope.house.availableOptions.length; j++) {
-                        if ($scope.house.availableOptions[j].name === $scope.artist.house) {
-                            $scope.house.selectedOption = $scope.house.availableOptions[j];
+                    for (var k = 0; k < $scope.house.availableOptions.length; k++) {
+                        if ($scope.house.availableOptions[k].name === $scope.artist.house) {
+                            $scope.house.selectedOption = $scope.house.availableOptions[k];
                             break;
                         }
                     }
