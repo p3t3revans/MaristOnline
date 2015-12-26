@@ -19,7 +19,8 @@ angular.module('artists').run(['Menus',
     // Add the dropdown create item
     Menus.addSubMenuItem('topbar', 'artists', {
       title: 'Create Artists',
-      state: 'artists.create'
+      state: 'artists.create',
+      roles: ['admin','teach']
     });
   }
 ]);

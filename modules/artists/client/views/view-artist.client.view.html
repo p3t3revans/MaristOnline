@@ -4,10 +4,10 @@
   </div>
   <div class="pull-right">
     <!--data-ng-show="authentication.user._id == artist.user._id"-->
-    <a class="btn btn-primary" data-ui-sref="artists.edit({artistId: artist._id})">
+    <a ng-hide="!showUser"  class="btn btn-primary" data-ui-sref="artists.edit({artistId: artist._id})" data-ng-show="showUser">
       <i class="glyphicon glyphicon-edit"></i>
     </a>
-    <a class="btn btn-primary" data-ng-click="remove();">
+    <a ng-hide="!showUser" class="btn btn-primary" data-ng-click="remove()"  data-ng-show="showUser">
       <i class="glyphicon glyphicon-trash"></i>
     </a>
   </div>

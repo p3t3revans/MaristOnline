@@ -3,6 +3,8 @@
 angular.module('pictures')
     .controller('PictureCtrl', ['ArtistYearEnrolled', 'Years', 'Artists', 'Subjects', '$rootScope', '$scope', '$stateParams', '$location', 'Pictures', 'Authentication', function (ArtistYearEnrolled, Years, Artists, Subjects, $rootScope, $scope, $stateParams, $location, Pictures, Authentication) {
         $scope.authentication = Authentication;
+        $scope.showUser = false;
+        if ($scope.authentication.user.roles.indexOf('admin') !== -1 || $scope.authentication.user.roles.indexOf('teach') !== -1) $scope.showUser = true;
         $scope.headingTitle = 'List Pictures';
         $scope.dataSubject = [];
         $scope.dataArtist = [];
@@ -182,12 +184,12 @@ angular.module('pictures')
                                     $scope.dataArtist.push($scope.artists[x]);
                                 }
                             }
-                        for (var i = 0; i < $scope.dataArtist.length; i++) {
-                            if ($scope.dataArtist[i]._id === $scope.picture.artist) {
-                                $scope.dataArtist.selectedOption = $scope.dataArtist[i];
-                                break;
+                            for (var i = 0; i < $scope.dataArtist.length; i++) {
+                                if ($scope.dataArtist[i]._id === $scope.picture.artist) {
+                                    $scope.dataArtist.selectedOption = $scope.dataArtist[i];
+                                    break;
+                                }
                             }
-                        }
                         })
                     }
 

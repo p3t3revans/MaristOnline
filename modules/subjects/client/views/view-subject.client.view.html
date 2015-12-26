@@ -4,10 +4,10 @@
     </div>
     <div class="pull-right">
         <!--data-ng-show="authentication.user._id == subject.user._id"-->
-        <a class="btn btn-primary" data-ui-sref="subjects.edit({subjectId: subject._id})">
+        <a ng-hide="!showUser"  class="btn btn-primary" data-ui-sref="subjects.edit({subjectId: subject._id})">
             <i class="glyphicon glyphicon-edit"></i>
         </a>
-        <a class="btn btn-primary" data-ng-click="remove();">
+        <a ng-hide="!showUser"  class="btn btn-primary" data-ng-click="remove();">
             <i class="glyphicon glyphicon-trash"></i>
         </a>
     </div>
@@ -23,8 +23,8 @@
     </div>
     <ul class="list-group">
         <li class="list-group-item" ng-repeat="artist in artists">
-            <a href="#/artists/{{artist._id}}">{{artist.name}} </a>
-            <a class="btn" href="/artists/{{artist._id}}/edit">
+            <a href="/artists/{{artist._id}}">{{artist.name}} </a>
+            <a ng-hide="!showUser" class="btn" href="/artists/{{artist._id}}/edit">
                 <i class="glyphicon glyphicon-edit"></i>
             </a>
         </li>

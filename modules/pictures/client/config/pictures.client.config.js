@@ -19,7 +19,8 @@ angular.module('pictures').run(['Menus',
     // Add the dropdown create item
     Menus.addSubMenuItem('topbar', 'pictures', {
       title: 'Create Pictures',
-      state: 'pictures.create'
+      state: 'pictures.create',
+      roles: ['admin','teach']
     });
   }
 ]);

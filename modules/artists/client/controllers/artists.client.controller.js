@@ -3,6 +3,8 @@
 angular.module('artists')
     .controller('ArtistCtrl', ['$scope', '$stateParams', '$location', 'Artists', 'Authentication', function ($scope, $stateParams, $location, Artists, Authentication) {
         $scope.authentication = Authentication;
+        $scope.showUser = false;
+        if ($scope.authentication.user.roles.indexOf('admin' ) !== -1 || $scope.authentication.user.roles.indexOf('teach' ) !== -1) $scope.showUser = true;
         var today = new Date();
         //var dd = today.getDate();
         //var mm = today.getMonth() + 1; //January is 0!

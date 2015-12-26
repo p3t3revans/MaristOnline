@@ -3,6 +3,8 @@
 angular.module('subjects')
     .controller('SubjectCtrl', ['ArtistYearEnrolled', 'Years', '$scope', '$stateParams', '$location', 'Subjects', 'Authentication', function (ArtistYearEnrolled, Years, $scope, $stateParams, $location, Subjects, Authentication) {
         $scope.authentication = Authentication;
+        $scope.showUser = false;
+        if ($scope.authentication.user.roles.indexOf('admin' ) !== -1 || $scope.authentication.user.roles.indexOf('teach' ) !== -1) $scope.showUser = true;
         $scope.yearSelect = 'All';
         $scope.semesterSelect = 'All';
         $scope.arrayArtists = [];

@@ -19,7 +19,8 @@ angular.module('subjects').run(['Menus',
     // Add the dropdown create item
     Menus.addSubMenuItem('topbar', 'subjects', {
       title: 'Create Subjects',
-      state: 'subjects.create'
+      state: 'subjects.create',
+      roles: ['admin','teach']
     });
   }
 ]);

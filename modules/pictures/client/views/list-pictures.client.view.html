@@ -14,10 +14,10 @@
               <img class="img-rounded" ng-src="{{picture.picture}}" width="50%" height="50%"/>
             </a>
             <span>
-              <a class="btn" href="/pictures/{{picture._id}}/edit">
+              <a ng-hide="!showUser" class="btn" href="/pictures/{{picture._id}}/edit">
                 <i class="glyphicon glyphicon-edit"></i>
               </a>
-              <a class="btn" data-ng-click="remove(picture);">
+              <a ng-hide="!showUser" class="btn" data-ng-click="remove(picture);">
               <i class="glyphicon glyphicon-trash"></i>
               </a>
             </span>

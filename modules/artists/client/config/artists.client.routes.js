@@ -10,7 +10,7 @@ angular.module('artists').config(['$stateProvider',
         url: '/artists',
         template: '<ui-view/>',
         data: {
-          roles: ['user', 'admin']
+          roles: ['teach', 'admin','user']
         }
       })
       .state('artists.list', {
