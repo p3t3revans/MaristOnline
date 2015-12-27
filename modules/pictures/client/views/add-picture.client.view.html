@@ -27,7 +27,7 @@
             </select>
             <br>
             <label for="pictureMedium"> Medium : </label>
-            <select name="pictureMedium" id="mySelect" ng-options="option.medium for option in data.availableOptions track by option.medium"
+            <select name="pictureMedium" id="mySelect" ng-options="option.title for option in data track by option.title"
             ng-model="data.selectedOption" width="200px"></select>
             <br>
             <input type="file" onchange="angular.element(this).scope().addPicture(this)">

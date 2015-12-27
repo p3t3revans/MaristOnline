@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pictures')
-    .controller('PictureCtrl', ['ArtistYearEnrolled', 'Years', 'Artists', 'Subjects', '$rootScope', '$scope', '$stateParams', '$location', 'Pictures', 'Authentication', function (ArtistYearEnrolled, Years, Artists, Subjects, $rootScope, $scope, $stateParams, $location, Pictures, Authentication) {
+    .controller('PictureCtrl', ['ArtistYearEnrolled', 'Years', 'Artists', 'Subjects', '$rootScope', '$scope', '$stateParams', '$location', 'Pictures', 'Authentication', 'Mediums', function (ArtistYearEnrolled, Years, Artists, Subjects, $rootScope, $scope, $stateParams, $location, Pictures, Authentication, Mediums) {
         $scope.authentication = Authentication;
         $scope.showUser = false;
         if ($scope.authentication.user.roles.indexOf('admin') !== -1 || $scope.authentication.user.roles.indexOf('teach') !== -1) $scope.showUser = true;
@@ -32,16 +32,13 @@ angular.module('pictures')
             selectedOption: { year: yyyy } //This sets the default value of the select in the ui
         };
 
-        $scope.data = {
-            availableOptions: [
-                { medium: 'Work on Paper' },
-                { medium: 'Sulpture' },
-                { medium: 'Work on Canvas' },
-                { medium: 'Photograph' },
-                { medium: 'Clay' }
-            ],
-            selectedOption: { name: 'Work on Paper' } //This sets the default value of the select in the ui
-        };
+        $scope.medium = [];
+        $scope.data = [];
+        $scope.medium = Mediums.query();
+        $scope.medium.$promise.then(function (result) {
+            $scope.data = result;
+            $scope.data.selectedOption = $scope.data[0];
+        })
         $scope.semesterData = {
             availableOptions: [
                 { semester: 1 },
@@ -56,6 +53,7 @@ angular.module('pictures')
             $scope.subjects.$promise.then(function (result) {
                 $scope.dataSubject = result;
             });
+
         };
 
         $scope.changeArtists = function () {
@@ -92,7 +90,7 @@ angular.module('pictures')
                 artist: $scope.dataArtist.selectedOption._id,
                 artistName: $scope.dataArtist.selectedOption.name,
                 year: $scope.yearData.selectedOption.year,
-                medium: $scope.data.selectedOption.medium,
+                medium: $scope.data.selectedOption.title,
                 picture: $scope.picture.picture,
                 subject: $scope.dataSubject.selectedOption._id
             });
@@ -133,7 +131,7 @@ angular.module('pictures')
             picture.artist = $scope.dataArtist.selectedOption._id;
             picture.artistName = $scope.dataArtist.selectedOption.name;
             picture.year = $scope.yearData.selectedOption.year;
-            picture.medium = $scope.data.selectedOption.medium;
+            picture.medium = $scope.data.selectedOption.title;
             picture.subject = $scope.dataSubject.selectedOption._id;
             picture.$update(function () {
                 $location.path('pictures/' + picture._id);
@@ -158,9 +156,9 @@ angular.module('pictures')
             });
             $scope.picture.$promise.then(function () {
                 if ($scope.picture.medium) {
-                    for (var x = 0; x < $scope.data.availableOptions.length; x++) {
-                        if ($scope.data.availableOptions[x].medium === $scope.picture.medium) {
-                            $scope.data.selectedOption = $scope.data.availableOptions[x];
+                    for (var x = 0; x < $scope.data.length; x++) {
+                        if ($scope.data[x].title === $scope.picture.medium) {
+                            $scope.data.selectedOption = $scope.data[x];
                             break;
                         }
                     }
