@@ -16,7 +16,7 @@
 						<input class="form-control" type="text" name="artistDescription" ng-model="artist.description" width="800px" placeholder="Description">
 						<br>
 						<label for="yearEnrolled"> Year Enrolled : </label>
-						<select name="year" id="yearSelect" ng-options="option.year for option in year.availableOptions track by option.year" ng-model="year.selectedOption"
+						<select name="yearEnrolled" id="yearEnrolled" ng-options="option.year for option in yearData track by option.year" ng-model="yearData.selectedOption"
 						width="200px" required></select>
 						<br>
 						<label for="house"> House : </label>

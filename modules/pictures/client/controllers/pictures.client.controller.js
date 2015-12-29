@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pictures')
-    .controller('PictureCtrl', ['ArtistYearEnrolled', 'Years', 'Artists', 'Subjects', '$rootScope', '$scope', '$stateParams', '$location', 'Pictures', 'Authentication', 'Mediums', function (ArtistYearEnrolled, Years, Artists, Subjects, $rootScope, $scope, $stateParams, $location, Pictures, Authentication, Mediums) {
+    .controller('PictureCtrl', ['Years', 'ArtistYearEnrolled', 'SubYears', 'Artists', 'Subjects', '$rootScope', '$scope', '$stateParams', '$location', 'Pictures', 'Authentication', 'Mediums', function (Years, ArtistYearEnrolled, SubYears, Artists, Subjects, $rootScope, $scope, $stateParams, $location, Pictures, Authentication, Mediums) {
         $scope.authentication = Authentication;
         $scope.showUser = false;
         if ($scope.authentication.user.roles.indexOf('admin') !== -1 || $scope.authentication.user.roles.indexOf('teach') !== -1) $scope.showUser = true;
@@ -16,21 +16,26 @@ angular.module('pictures')
         var yyyy = today.getFullYear();
         // need to add these as mongo items as well
         // $scope.dataSubject;
-        $scope.yearSelect = yyyy;
         $scope.semesterSelect = 1;
+        $scope.yearSelect = yyyy;
+        var setYearOption = function (select) {
+            if (select) {
+                for (var x = 0; x < $scope.yearData.length; x++) {
+                    if ($scope.yearData[x].year === select) {
+                        $scope.yearData.selectedOption = $scope.yearData[x];
+                        break;
+                    }
+                }
+            }
+        }
+        $scope.yearData = [];
+        $scope.yearData = Years.query();
+        $scope.yearData.$promise.then(function (result) {
+            $scope.yearData = result;
+            setYearOption(yyyy);
+        });
 
-        $scope.yearData = {
-            availableOptions: [
-                { year: 2015 },
-                { year: 2016 },
-                { year: 2017 },
-                { year: 2018 },
-                { year: 2019 },
-                { year: 2020 },
-                { year: 2021 }
-            ],
-            selectedOption: { year: yyyy } //This sets the default value of the select in the ui
-        };
+
 
         $scope.medium = [];
         $scope.data = [];
@@ -47,9 +52,11 @@ angular.module('pictures')
             selectedOption: { semester: 1 } //This sets the default value of the select in the ui
         };
         $scope.load = function () {
-            $scope.yearSelect = $scope.yearData.selectedOption.year;
+            $scope.dataArtist = [];
+            $scope.dataSubject = [];
             $scope.semesterSelect = $scope.semesterData.selectedOption.semester;
-            $scope.subjects = Years.query({ year: $scope.yearSelect, semester: $scope.semesterSelect });
+            $scope.yearSelect = $scope.yearData.selectedOption.year;
+            $scope.subjects = SubYears.query({ year: $scope.yearSelect, semester: $scope.semesterSelect });
             $scope.subjects.$promise.then(function (result) {
                 $scope.dataSubject = result;
             });
@@ -57,6 +64,7 @@ angular.module('pictures')
         };
 
         $scope.changeArtists = function () {
+            $scope.dataArtist = [];
             var yearEnrolled = $scope.yearData.selectedOption.year + (7 - $scope.dataSubject.selectedOption.yearLevel);
             $scope.artists = ArtistYearEnrolled.query({ yearEnrolled: yearEnrolled });
             $scope.artists.$promise.then(function () {
@@ -163,6 +171,7 @@ angular.module('pictures')
                         }
                     }
                 }
+                setYearOption($scope.picture.year);
                 $scope.subjects = Subjects.query();
                 $scope.subjects.$promise.then(function (result) {
                     $scope.dataSubject = result;

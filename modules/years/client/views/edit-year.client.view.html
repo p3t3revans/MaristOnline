@@ -1,0 +1,23 @@
+<section data-ng-controller="YearsController" data-ng-init="findOne()">
+  <div class="page-header">
+    <h1>Edit Year</h1>
+  </div>
+  <div class="col-md-12">
+    <form name="yearForm" class="form-horizontal" data-ng-submit="update()" novalidate>
+      <fieldset>
+        <div class="form-group">
+          <label class="control-label" for="title">Year</label>
+          <div class="controls">
+            <input name="year" type="text" data-ng-model="year.year" id="year" class="form-control" placeholder="Year" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="submit" value="Update" class="btn btn-default">
+        </div>
+        <div data-ng-show="error" class="text-danger">
+          <strong data-ng-bind="error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>

@@ -8,7 +8,7 @@
 			<div class="panel-body">
 				<form class="form" method="post" ng-submit="submitSubject()" name="listSubjectForm">
 					<label for="yearData"> Year : </label>
-					<select name="yearData" id="yearSelect" ng-options="option.year for option in yearData.availableOptions track by option.year"
+					<select name="yearData" id="yearSelect" ng-options="option.year for option in yearData track by option.year"
 					ng-model="yearData.selectedOption" width="200px" ng-change="findByYear()" required></select>
 					<label for="Semester"> Semester : </label>
 					<select name="Semester" id="semesterSelect" ng-options="option.semester for option in semesterData.availableOptions track by option.semester"

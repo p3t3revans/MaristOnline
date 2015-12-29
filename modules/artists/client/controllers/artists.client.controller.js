@@ -1,31 +1,32 @@
 'use strict';
 
 angular.module('artists')
-    .controller('ArtistCtrl', ['$scope', '$stateParams', '$location', 'Artists', 'Authentication', function ($scope, $stateParams, $location, Artists, Authentication) {
+    .controller('ArtistCtrl', ['Years', '$scope', '$stateParams', '$location', 'Artists', 'Authentication', function (Years, $scope, $stateParams, $location, Artists, Authentication) {
         $scope.authentication = Authentication;
         $scope.showUser = false;
-        if ($scope.authentication.user.roles.indexOf('admin' ) !== -1 || $scope.authentication.user.roles.indexOf('teach' ) !== -1) $scope.showUser = true;
+        if ($scope.authentication.user.roles.indexOf('admin') !== -1 || $scope.authentication.user.roles.indexOf('teach') !== -1) $scope.showUser = true;
         var today = new Date();
         //var dd = today.getDate();
         //var mm = today.getMonth() + 1; //January is 0!
         var yyyy = today.getFullYear();
         // need to add these as mongo items as well
-        $scope.year = {
-            availableOptions: [
-                { year: 2011 },
-                { year: 2012 },
-                { year: 2013 },
-                { year: 2014 },
-                { year: 2015 },
-                { year: 2016 },
-                { year: 2017 },
-                { year: 2018 },
-                { year: 2019 },
-                { year: 2020 },
-                { year: 2021 }
-            ],
-            selectedOption: { year: yyyy } //This sets the default value of the select in the ui
+        $scope.yearSelect = yyyy;
+        var setYearOption = function (select) {
+            if (select) {
+                for (var x = 0; x < $scope.yearData.length; x++) {
+                    if ($scope.yearData[x].year === select) {
+                        $scope.yearData.selectedOption = $scope.yearData[x];
+                        break;
+                    }
+                }
+            }
         };
+        $scope.yearData = [];
+        $scope.yearData = Years.query();
+        $scope.yearData.$promise.then(function (result) {
+            $scope.yearData = result;
+            setYearOption(yyyy);
+        });
 
         $scope.house = {
             availableOptions: [
@@ -45,7 +46,7 @@ angular.module('artists')
             var artist = new Artists({
                 name: $scope.artist.name,
                 description: $scope.artist.description,
-                yearEnrolled: $scope.year.selectedOption.year,
+                yearEnrolled: $scope.yearData.selectedOption.year,
                 house: $scope.house.selectedOption.name
             });
 
@@ -82,7 +83,7 @@ angular.module('artists')
         // Update existing Artist
         $scope.update = function () {
             var artist = $scope.artist;
-            artist.yearEnrolled = $scope.year.selectedOption.year;
+            artist.yearEnrolled = $scope.yearData.selectedOption.year;
             artist.house = $scope.house.selectedOption.name;
             artist.$update(function () {
                 $location.path('artists/' + artist._id);
@@ -103,12 +104,7 @@ angular.module('artists')
             });
             $scope.artist.$promise.then(function () {
                 if ($scope.artist.yearEnrolled) {
-                    for (var j = 0; j < $scope.year.availableOptions.length; j++) {
-                        if ($scope.year.availableOptions[j].year === $scope.artist.yearEnrolled) {
-                            $scope.year.selectedOption = $scope.year.availableOptions[j];
-                            break;
-                        }
-                    }
+                    setYearOption($scope.artist.yearEnrolled);
 
                 }
                 if ($scope.artist.house) {

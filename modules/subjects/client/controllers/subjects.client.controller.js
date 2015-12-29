@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('subjects')
-    .controller('SubjectCtrl', ['ArtistYearEnrolled', 'Years', '$scope', '$stateParams', '$location', 'Subjects', 'Authentication', function (ArtistYearEnrolled, Years, $scope, $stateParams, $location, Subjects, Authentication) {
+    .controller('SubjectCtrl', ['Years', 'Teachers', 'ArtistYearEnrolled', 'SubYears', '$scope', '$stateParams', '$location', 'Subjects', 'Authentication', function (Years, Teachers, ArtistYearEnrolled, SubYears, $scope, $stateParams, $location, Subjects, Authentication) {
         $scope.authentication = Authentication;
         $scope.showUser = false;
-        if ($scope.authentication.user.roles.indexOf('admin' ) !== -1 || $scope.authentication.user.roles.indexOf('teach' ) !== -1) $scope.showUser = true;
+        if ($scope.authentication.user.roles.indexOf('admin') !== -1 || $scope.authentication.user.roles.indexOf('teach') !== -1) $scope.showUser = true;
         $scope.yearSelect = 'All';
         $scope.semesterSelect = 'All';
         $scope.arrayArtists = [];
@@ -14,18 +14,22 @@ angular.module('subjects')
         //var mm = today.getMonth() + 1; //January is 0!
         var yyyy = today.getFullYear();
         // need to add these as mongo items as well
-        $scope.yearData = {
-            availableOptions: [
-                { year: 2015 },
-                { year: 2016 },
-                { year: 2017 },
-                { year: 2018 },
-                { year: 2019 },
-                { year: 2020 },
-                { year: 2021 }
-            ],
-            selectedOption: { year: yyyy } //This sets the default value of the select in the ui
+       
+        var setYearOption = function (select) {
+            if (select) {
+                for (var x = 0; x < $scope.yearData.length; x++) {
+                    if ($scope.yearData[x].year === select) {
+                        $scope.yearData.selectedOption = $scope.yearData[x];
+                        break;
+                    }
+                }
+            }
         };
+        $scope.yearData = Years.query();
+        $scope.yearData.$promise.then(function (result) {
+            $scope.yearData = result;
+            setYearOption(yyyy);
+        })
 
         $scope.yearLevelData = {
             availableOptions: [
@@ -47,6 +51,13 @@ angular.module('subjects')
             selectedOption: { semester: 1 } //This sets the default value of the select in the ui
         };
 
+        $scope.teacher = [];
+        $scope.teacherData = [];
+        $scope.teacher = Teachers.query();
+        $scope.teacher.$promise.then(function (result) {
+            $scope.teacherData = result;
+            $scope.teacherData.selectedOption = $scope.teacherData[0];
+        })
 
 
         $scope.create = function () {
@@ -65,7 +76,7 @@ angular.module('subjects')
                 yearLevel: $scope.yearLevelData.selectedOption.yearLevel,
                 year: $scope.yearData.selectedOption.year,
                 semester: $scope.semesterData.selectedOption.semester,
-                teacher: $scope.subject.teacher,
+                teacher: $scope.teacherData.selectedOption.title,
                 artists: $scope.arrayArtists
             });
 
@@ -116,7 +127,7 @@ angular.module('subjects')
                     }
                 }
             }
-
+            subject.teacher = $scope.teacherData.selectedOption.title;
             subject.yearLevel = $scope.yearLevelData.selectedOption.yearLevel;
             subject.semester = $scope.semesterData.selectedOption.semester;
             subject.year = $scope.yearData.selectedOption.year;
@@ -135,7 +146,7 @@ angular.module('subjects')
         $scope.findByYear = function () {
             $scope.yearSelect = $scope.yearData.selectedOption.year;
             $scope.semesterSelect = $scope.semesterData.selectedOption.semester;
-            $scope.subjects = Years.query({ year: $scope.yearData.selectedOption.year, semester: $scope.semesterData.selectedOption.semester });
+            $scope.subjects = SubYears.query({ year: $scope.yearData.selectedOption.year, semester: $scope.semesterData.selectedOption.semester });
         };
 
         $scope.findArtistForSubject = function () {
@@ -161,7 +172,7 @@ angular.module('subjects')
                 }
             });
         };
-        
+
         $scope.findOne = function () {
             $scope.subject = Subjects.get({
                 subjectId: $stateParams.subjectId
@@ -186,21 +197,17 @@ angular.module('subjects')
                     }
                 }
                 if ($scope.subject.year) {
-                    for (var j = 0; j < $scope.yearData.availableOptions.length; j++) {
-                        if ($scope.yearData.availableOptions[j].year === $scope.subject.year) {
-                            $scope.yearData.selectedOption = $scope.yearData.availableOptions[j];
+                    setYearOption($scope.subject.year);
+                }
+                if ($scope.subject.teacher) {
+                    for (var y = 0; y < $scope.teacherData.length; y++) {
+                        if ($scope.teacherData[y].title === $scope.subject.teacher) {
+                            $scope.teacherData.selectedOption = $scope.teacherData[y];
                             break;
                         }
                     }
                 }
-                if ($scope.subject.semester) {
-                    for (var x = 0; x < $scope.semesterData.availableOptions.length; x++) {
-                        if ($scope.semesterData.availableOptions[x].semester === $scope.subject.semester) {
-                            $scope.semesterData.selectedOption = $scope.semesterData.availableOptions[x];
-                            break;
-                        }
-                    }
-                }
+
             });
 
         };
@@ -222,7 +229,7 @@ angular.module('subjects')
                     });
 
                 }
- 
+
             });
 
         };

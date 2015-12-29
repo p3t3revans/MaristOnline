@@ -6,7 +6,7 @@
         <form class="form" method="post" ng-submit="create()" name="pictureForm">
           <div class="form-group" ng-class="{ 'has-success' : pictureForm.pictureTitle.$valid && pictureForm.pictureTitle.$dirty, 'has-error' : addpictureFormForm.pictureTitle.$invalid && pictureForm.pictureTitle.$dirty }">
             <label for="year"> Year : </label>
-            <select name="year" id="yearSelect" ng-options="option.year for option in yearData.availableOptions track by option.year"
+            <select name="year" id="yearSelect" ng-options="option.year for option in yearData track by option.year"
             ng-model="yearData.selectedOption" width="200px" ng-change="load()" required></select>
             <label for="Semester"> Semester : </label>
             <select name="Semester" id="semesterSelect" ng-options="option.semester for option in semesterData.availableOptions track by option.semester"

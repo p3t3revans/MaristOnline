@@ -1,0 +1,23 @@
+<section data-ng-controller="YearsController">
+  <div class="page-header">
+    <h1>Add Year</h1>
+  </div>
+  <div class="col-md-12">
+    <form name="yearForm" class="form-horizontal" data-ng-submit="create()" novalidate>
+      <fieldset>
+        <div class="form-group">
+          <label class="control-label" for="year">Year</label>
+          <div class="controls">
+            <input name="year" type="text" data-ng-model="year" id="year" class="form-control" placeholder="Year">
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="submit" class="btn btn-default">
+        </div>
+        <div data-ng-show="error" class="text-danger">
+          <strong data-ng-bind="error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>

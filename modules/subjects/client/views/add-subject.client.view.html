@@ -1,4 +1,4 @@
-<section data-ng-controller="SubjectCtrl" data-ng-init="changeArtists()"> 
+<section data-ng-controller="SubjectCtrl" data-ng-init="changeArtists()">
     <div class="page-header">
         <h1>Add Subject</h1>
     </div>
@@ -9,7 +9,7 @@
                 <form class="form" method="post" ng-submit="create()" name="addSubjectForm">
                     <div class="form-group" ng-class="{ 'has-success' : addSubjectForm.subjectTitle.$valid && addSubjectForm.subjectTitle.$dirty, 'has-error' : addSubjectFormForm.subjectTitle.$invalid && addSubjectForm.subjectTitle.$dirty }">
                         <label for="year"> Year : </label>
-                        <select name="year" id="yearSelect" ng-options="option.year for option in yearData.availableOptions track by option.year"
+                        <select name="year" id="yearSelect" ng-options="option.year for option in yearData track by option.year"
                         ng-model="yearData.selectedOption" ng-change="changeArtists()" width="200px"></select>
                         <label for="Semester"> Semester : </label>
                         <select name="Semester" id="semesterSelect" ng-options="option.semester for option in semesterData.availableOptions track by option.semester"
@@ -28,8 +28,8 @@
                         required>
                         <br>
                         <label for="subjectTeacher"> Teacher : </label>
-                        <input class="form-control" type="text" name="subjectTeacher" ng-model="subject.teacher" width="400px" placeholder="Enter Teacher Name"
-                        required>
+                        <select name="subjectTeacher" id="subjectTeacherSelect" ng-options="option.title for option in teacherData track by option.title"
+                        ng-model="teacherData.selectedOption"  width="200px" require></select>
                         <br>
                         <div class="help-block text-danger" ng-if="addSubjectForm.subjectTitle.$dirty" ng-messages="addSubjectForm.subjectTitle.$error">
                             <div ng-message="required">Subject title is required.</div>
