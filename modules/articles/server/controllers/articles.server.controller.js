@@ -58,7 +58,6 @@ exports.update = function (req, res) {
  */
 exports.delete = function (req, res) {
   var article = req.article;
-
   article.remove(function (err) {
     if (err) {
       return res.status(400).send({
@@ -95,7 +94,7 @@ exports.articleByID = function (req, res, next, id) {
       message: 'Article is invalid'
     });
   }
-
+  
   Article.findById(id).populate('user', 'displayName').exec(function (err, article) {
     if (err) {
       return next(err);

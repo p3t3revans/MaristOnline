@@ -1,7 +1,20 @@
 'use strict';
 
 angular.module('pictures')
-    .controller('PictureCtrl', ['Years', 'ArtistYearEnrolled', 'SubYears', 'Artists', 'Subjects', '$rootScope', '$scope', '$stateParams', '$location', 'Pictures', 'Authentication', 'Mediums', function (Years, ArtistYearEnrolled, SubYears, Artists, Subjects, $rootScope, $scope, $stateParams, $location, Pictures, Authentication, Mediums) {
+    .controller('PictureCtrl', ['PicturesPage', 'Years', 'ArtistYearEnrolled', 'SubYears', 'Artists', 'Subjects', '$rootScope', '$scope', '$stateParams', '$location', 'Pictures', 'Authentication', 'Mediums', function (PicturesPage, Years, ArtistYearEnrolled, SubYears, Artists, Subjects, $rootScope, $scope, $stateParams, $location, Pictures, Authentication, Mediums) {
+        //Pagination
+        $scope.totalItems = 12;
+        $scope.currentPage = 1;
+
+        $scope.setPage = function (pageNo) {
+            $scope.currentPage = pageNo;
+        };
+
+        $scope.pageChanged = function () {
+           // $scope.setPage(2);
+            $scope.getPictures();
+        };
+
         $scope.authentication = Authentication;
         $scope.showUser = false;
         if ($scope.authentication.user.roles.indexOf('admin') !== -1 || $scope.authentication.user.roles.indexOf('teach') !== -1) $scope.showUser = true;
@@ -156,7 +169,12 @@ angular.module('pictures')
 
             })
         };
-
+        $scope.getPictures = function () {
+            $scope.pictures = PicturesPage.query({ page: $scope.currentPage });
+            $scope.pictures.$promise.then(function (response) {
+                   $scope.pictures = response;               
+            });
+        };
         // Find existing Picture
         $scope.findOne = function () {
             $scope.picture = Pictures.get({

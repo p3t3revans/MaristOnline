@@ -1,4 +1,4 @@
-<section data-ng-controller="PictureCtrl" data-ng-init="find()">
+<section data-ng-controller="PictureCtrl" data-ng-init="getPictures()">
 
   <div class="container">
     <div class="panel panel-default">
@@ -28,6 +28,7 @@
         </div>
       </div>
     </div>
+    <pagination total-items="totalItems" items-per-page="4" ng-model="currentPage" ng-change="pageChanged()"></pagination>
   </div>
   <h1 data-ng-hide="!pictures || pictures.length"><img  src="modules/core/img/loaders/loader.gif"/> </h1>-->
 </section>

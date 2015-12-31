@@ -29,6 +29,9 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/pictures/:pictureId',
       permissions: ['get']
+    }, {
+      resources: '/api/picturespage/:page',
+      permissions: ['get']
     }]
   }, {
     roles: ['guest'],
