@@ -11,7 +11,7 @@ angular.module('pictures')
         };
 
         $scope.pageChanged = function () {
-           // $scope.setPage(2);
+            // $scope.setPage(2);
             $scope.getPictures();
         };
 
@@ -170,9 +170,10 @@ angular.module('pictures')
             })
         };
         $scope.getPictures = function () {
-            $scope.pictures = PicturesPage.query({ page: $scope.currentPage });
+            $scope.pictures = PicturesPage.get({ page: $scope.currentPage });
             $scope.pictures.$promise.then(function (response) {
-                   $scope.pictures = response;               
+                $scope.pictures = response.pictures;
+                if (response.count !== -1) $scope.totalItems = response.count;
             });
         };
         // Find existing Picture

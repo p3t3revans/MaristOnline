@@ -20,6 +20,12 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/pictures/:pictureId',
       permissions: '*'
+    }, {
+      resources: '/api/picturespage/:page',
+      permissions: '*'
+    }, {
+      resources: '/api/picturescount/',
+      permissions: '*'
     }]
   }, {
     roles: ['user'],
@@ -31,6 +37,9 @@ exports.invokeRolesPolicies = function () {
       permissions: ['get']
     }, {
       resources: '/api/picturespage/:page',
+      permissions: ['get']
+    }, {
+      resources: '/api/picturescount/',
       permissions: ['get']
     }]
   }, {

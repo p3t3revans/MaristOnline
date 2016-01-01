@@ -8,6 +8,7 @@ var path = require('path'),
     Picture = mongoose.model('Picture'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
+
 /**
  * Create a picture
  */
@@ -77,7 +78,7 @@ exports.delete = function (req, res) {
  * List of Articles
  */
 exports.list = function (req, res) {
-   
+
     Picture.find().sort('-year').exec(function (err, pictures) {
         if (err) {
             return res.status(400).send({
@@ -118,10 +119,23 @@ exports.pictureByID = function (req, res, next, id) {
  **/
 exports.picturesList = function (req, res) {
     var page = 1;
-    if (req.params.page) {
+    var pictureCount = 0;
+    if (req.params.page > 1) {
         page = req.params.page;
+        pictureCount = -1;
     }
-    var per_page = 4;
+    else {
+        Picture.distinct("_id", function (err, result) {
+
+            if (err) {
+                next(err);
+            } else {
+                pictureCount = result.length;
+            }
+        });
+    }
+    var per_page = 1;
+
 
     Picture.find().sort('-year').skip((page - 1) * per_page).limit(per_page).exec(function (err, pictures) {
         if (err) {
@@ -129,8 +143,35 @@ exports.picturesList = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(pictures);
+            res.json({ pictures: pictures, count: pictureCount });
         }
     });
 
+};
+/*
+* Paginate List count
+ **/
+exports.picturesCount = function (req, res) {
+    // Picture.aggregate([
+    //        {
+    //           $group: {
+    //               _id: '$_id', 
+    //               count: {$sum: 1}
+    //           }
+    //       }
+    //    ], function (err, result) {
+    //       if (err) {
+    //           next(err);
+    //      } else {
+    //          res.json(result);
+    //      }
+    //  });
+    Picture.distinct("_id", function (err, result) {
+
+        if (err) {
+            next(err);
+        } else {
+            res.json({ result: result, count: result.length });
+        }
+    });
 };
