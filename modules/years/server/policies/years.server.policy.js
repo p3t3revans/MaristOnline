@@ -21,6 +21,25 @@ exports.invokeRolesPolicies = function () {
       resources: '/api/years/:yearId',
       permissions: '*'
     }]
+  }, {
+    roles: ['user'],
+    allows: [{
+      resources: '/api/years',
+      permissions: ['get']
+    }, 
+    {
+      resources: '/api/years/:yearId',
+      permissions: ['get']
+    }]
+  }, {
+    roles: ['guest'],
+    allows: [{
+      resources: '/api/years',
+      permissions: ['get']
+    }, {
+      resources: '/api/years/:yearId',
+      permissions: ['get']
+    }]
   }]);
 };
 

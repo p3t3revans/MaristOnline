@@ -5,7 +5,7 @@ angular.module('pictures')
         //Pagination
         $scope.totalItems = 12;
         $scope.currentPage = 1;
-
+        $scope.maxSize = 5;
         $scope.setPage = function (pageNo) {
             $scope.currentPage = pageNo;
         };

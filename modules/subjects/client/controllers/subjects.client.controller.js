@@ -17,6 +17,7 @@ angular.module('subjects')
        
         var setYearOption = function (select) {
             if (select) {
+                yyyy = select;
                 for (var x = 0; x < $scope.yearData.length; x++) {
                     if ($scope.yearData[x].year === select) {
                         $scope.yearData.selectedOption = $scope.yearData[x];

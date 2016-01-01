@@ -30,5 +30,5 @@
        
     </div>
     <h1 data-ng-hide="!pictures || pictures.length"><img  src="modules/core/img/loaders/loader.gif"/> </h1>
-     <pagination total-items="totalItems" items-per-page="1" ng-model="currentPage" ng-change="pageChanged()"></pagination>
+     <pagination max-size="maxSize" total-items="totalItems" items-per-page="1" ng-model="currentPage" ng-change="pageChanged()" boundary-links="true" rotate="false" ></pagination>
 </section>
