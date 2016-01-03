@@ -3,6 +3,7 @@
 angular.module('pictures')
     .controller('PictureCtrl', ['PicturesPage', 'Years', 'ArtistYearEnrolled', 'SubYears', 'Artists', 'Subjects', '$rootScope', '$scope', '$stateParams', '$location', 'Pictures', 'Authentication', 'Mediums', function (PicturesPage, Years, ArtistYearEnrolled, SubYears, Artists, Subjects, $rootScope, $scope, $stateParams, $location, Pictures, Authentication, Mediums) {
         //Pagination
+        $scope.loading = false;
         $scope.totalItems = 12;
         $scope.currentPage = 1;
         $scope.maxSize = 5;
@@ -33,6 +34,7 @@ angular.module('pictures')
         $scope.yearSelect = yyyy;
         var setYearOption = function (select) {
             if (select) {
+                yyyy = select;
                 for (var x = 0; x < $scope.yearData.length; x++) {
                     if ($scope.yearData[x].year === select) {
                         $scope.yearData.selectedOption = $scope.yearData[x];
@@ -174,6 +176,7 @@ angular.module('pictures')
             $scope.pictures.$promise.then(function (response) {
                 $scope.pictures = response.pictures;
                 if (response.count !== -1) $scope.totalItems = response.count;
+                $scope.loading = false;
             });
         };
         // Find existing Picture

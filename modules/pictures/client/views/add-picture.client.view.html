@@ -1,49 +1,53 @@
 <section data-ng-controller="PictureCtrl" data-ng-init="load()">
-  <div class="container">
-    <div class="panel panel-default">
-      <div class="panel-heading">Add Picture</div>
-      <div class="panel-body">
-        <form class="form" method="post" ng-submit="create()" name="pictureForm">
-          <div class="form-group" ng-class="{ 'has-success' : pictureForm.pictureTitle.$valid && pictureForm.pictureTitle.$dirty, 'has-error' : addpictureFormForm.pictureTitle.$invalid && pictureForm.pictureTitle.$dirty }">
-            <label for="year"> Year : </label>
-            <select name="year" id="yearSelect" ng-options="option.year for option in yearData track by option.year"
-            ng-model="yearData.selectedOption" width="200px" ng-change="load()" required></select>
-            <label for="Semester"> Semester : </label>
-            <select name="Semester" id="semesterSelect" ng-options="option.semester for option in semesterData.availableOptions track by option.semester"
-            ng-model="semesterData.selectedOption" width="200px" ng-change="load()"></select>
-            <label for="pictureSubject"> Subject : </label>
-            <select name="pictureSubject" id="subjectSelect" ng-options="option.title for option in dataSubject track by option._id"
-            ng-model="dataSubject.selectedOption" width="200px" ng-change="changeArtists()" required>
-            </select>
-            <br>
-            <br>
-            <label for="pictureTitle"> Title : </label>
-            <input class="form-control" type="text" name="pictureTitle" ng-model="picture.title" width="400px" placeholder="Enter picture title"
-            required autofocus>
-            <br>
-            <label for="pictureArtistSelect"> Artist : </label>
-            <select name="pictureArtistSelect" id="artistSelect" ng-options="option.name for option in dataArtist track by option._id"
-            ng-model="dataArtist.selectedOption" width="200px" required>
-            </select>
-            <br>
-            <label for="pictureMedium"> Medium : </label>
-            <select name="pictureMedium" id="mySelect" ng-options="option.title for option in data track by option.title"
-            ng-model="data.selectedOption" width="200px"></select>
-            <br>
-            <input type="file" onchange="angular.element(this).scope().addPicture(this)">
-            <!--<div id="base"></div>-->
-            <div id="myDiv">
-              <img id="img" class="thumbnail img-responsive" data-ng-src="{{picture.picture}}" /> <!--class="media-object img-rounded" -->
-
-            </div>
-            <!--   <div id="base"></div>-->
-            <div class="help-block text-danger" ng-if="pictureForm.pictureTitle.$dirty" ng-messages="pictureForm.pictureTitle.$error">
-              <div ng-message="required">Picture title is required.</div>
-            </div>
-          </div>
-          <button class="btn btn-primary" type="submit" ng-disabled="pictureForm.$invalid">Add</button>
-        </form>
-      </div>
+   <div class="page-header">
+        <h1>Add Picture</h1>
     </div>
-  </div>
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">Add Picture</div>
+            <div class="panel-body">
+                <form class="form" method="post" ng-submit="create()" name="pictureForm">
+                    <div class="form-group" ng-class="{ 'has-success' : pictureForm.pictureTitle.$valid && pictureForm.pictureTitle.$dirty, 'has-error' : addpictureFormForm.pictureTitle.$invalid && pictureForm.pictureTitle.$dirty }">
+                        <label for="year"> Year : </label>
+                        <select name="year" id="yearSelect" ng-options="option.year for option in yearData track by option.year" ng-model="yearData.selectedOption"
+                        width="200px" ng-change="load()" required></select>
+                        <label for="Semester"> Semester : </label>
+                        <select name="Semester" id="semesterSelect" ng-options="option.semester for option in semesterData.availableOptions track by option.semester"
+                        ng-model="semesterData.selectedOption" width="200px" ng-change="load()"></select>
+                        <label for="pictureSubject"> Subject : </label>
+                        <select name="pictureSubject" id="subjectSelect" ng-options="option.title for option in dataSubject track by option._id"
+                        ng-model="dataSubject.selectedOption" width="200px" ng-change="changeArtists()" required>
+                        </select>
+                        <br>
+                        <br>
+                        <label for="pictureTitle"> Title : </label>
+                        <input class="form-control" type="text" name="pictureTitle" ng-model="picture.title" width="400px" placeholder="Enter picture title"
+                        required autofocus>
+                        <br>
+                        <label for="pictureArtistSelect"> Artist : </label>
+                        <select name="pictureArtistSelect" id="artistSelect" ng-options="option.name for option in dataArtist track by option._id"
+                        ng-model="dataArtist.selectedOption" width="200px" required>
+                        </select>
+                        <br>
+                        <label for="pictureMedium"> Medium : </label>
+                        <select name="pictureMedium" id="mySelect" ng-options="option.title for option in data track by option.title" ng-model="data.selectedOption"
+                        width="200px"></select>
+                        <br>
+                        <input type="file" onchange="angular.element(this).scope().addPicture(this)">
+                        <!--<div id="base"></div>-->
+                        <div id="myDiv">
+                            <img id="img" class="thumbnail img-responsive" data-ng-src="{{picture.picture}}" />
+                            <!--class="media-object img-rounded" -->
+
+                        </div>
+                        <!--   <div id="base"></div>-->
+                        <div class="help-block text-danger" ng-if="pictureForm.pictureTitle.$dirty" ng-messages="pictureForm.pictureTitle.$error">
+                            <div ng-message="required">Picture title is required.</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit" ng-disabled="pictureForm.$invalid">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </section>

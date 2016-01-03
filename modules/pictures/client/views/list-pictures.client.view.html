@@ -1,15 +1,13 @@
 <section data-ng-controller="PictureCtrl" data-ng-init="getPictures()">
-
+    <div class="page-header">
+        <h1>{{headingTitle}}</h1>
+    </div>
     <div class="container">
         <div class="panel panel-default">
-            <div class="panel-heading">{{headingTitle}}
-                <div class="pull-right">
-                    <input class="search" type="text" ng-model="query.title" placeholder="Search...">
-                </div>
-            </div>
+            <div class="panel-heading">{{headingTitle}}</div>
             <span>
             <div>
-                <div ng-repeat="picture in pictures | filter:query | orderBy:orderProp">
+                <div ng-repeat="picture in pictures">
                     <a href="/pictures/{{picture._id}}">
                         <img class="img-rounded" ng-src="{{picture.picture}}" width="50%" height="50%" />
                     </a>                   
@@ -18,8 +16,7 @@
               </a>
               <a ng-hide="!showUser" class="btn" data-ng-click="remove(picture);">
               <i class="glyphicon glyphicon-trash"></i>
-              </a>
-            
+              </a>            
                     <div class="text-left">
                         <a href="/pictures/{{picture._id}}">{{picture.title}}</a>
                     </div>
@@ -27,8 +24,8 @@
             </div>
             </span>
         </div>
-       
+
     </div>
-    <h1 data-ng-hide="!pictures || pictures.length"><img  src="modules/core/img/loaders/loader.gif"/> </h1>
-     <pagination max-size="maxSize" total-items="totalItems" items-per-page="1" ng-model="currentPage" ng-change="pageChanged()" boundary-links="true" rotate="false" ></pagination>
+    <pagination max-size="maxSize" total-items="totalItems" items-per-page="1" ng-model="currentPage" ng-change="pageChanged()"
+    boundary-links="true" rotate="false"></pagination>
 </section>

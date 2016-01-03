@@ -21,6 +21,24 @@ exports.invokeRolesPolicies = function () {
       resources: '/api/mediums/:mediumId',
       permissions: '*'
     }]
+  },{
+    roles: ['user'],
+    allows: [{
+      resources: '/api/mediums',
+      permissions: ['get']
+    }, {
+      resources: '/api/mediums/:mediumId',
+      permissions: ['get']
+    }]
+  },{
+    roles: ['guest'],
+    allows: [{
+      resources: '/api/mediums',
+      permissions: ['get']
+    }, {
+      resources: '/api/mediums/:mediumId',
+      permissions: ['get']
+    }]
   }]);
 };
 
