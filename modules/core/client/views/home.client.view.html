@@ -1,36 +1,15 @@
-<section data-ng-controller="HomeController">
-    <div class="jumbotron text-center">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
-                <img alt="Marist Online Gallery" class="img-responsive text-center" src="modules/core/img/brand/banner-marist-art-gallery.gif"
-                />
-            </div>
-        </div>
+<section data-ng-controller="HomeController" data-ng-init="getPictures()">
+    <div class="text-center">
+        <div >
+                 <img alt="Marist Online Gallery" class="img-responsive text-center" src="modules/core/img/brand/banner-marist-art-gallery.gif"
+               height="20%" />
+         </div>
         <br>
-        <div class="row">
-            <p class="lead">
-                This is the art from our students.
-            </p>
-        </div>
-        <div class="row">
-        </div>
     </div>
     <div>
-        <h2>Please enjoy</h2>
-        <ul>
-            <li>
-                <img alt="Marist Online Gallery" class="img-responsive text-center" src="modules/core/img/image1.gif" />
-            </li>
-            <li>
-                <img alt="Marist Online Gallery" class="img-responsive text-center" src="modules/core/img/image2.gif" />
-            </li>
-            <li>
-                <img alt="Marist Online Gallery" class="img-responsive text-center" src="modules/core/img/image3.gif" />
-            </li>
-            <li>
-                <img alt="Marist Online Gallery" class="img-responsive text-center" src="modules/core/img/image4.gif" />
-            </li>
-        </ul>
+        <div ng-repeat="picture in pictures" class="text-center">
+            <img class="text-center" ng-src="{{picture.picture}}" width="50%" height="50%" />
+        </div>
     </div>
-
+    </div>
 </section>

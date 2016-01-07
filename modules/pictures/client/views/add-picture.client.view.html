@@ -1,5 +1,5 @@
 <section data-ng-controller="PictureCtrl" data-ng-init="load()">
-   <div class="page-header">
+    <div class="page-header">
         <h1>Add Picture</h1>
     </div>
     <div class="container">
@@ -32,6 +32,9 @@
                         <label for="pictureMedium"> Medium : </label>
                         <select name="pictureMedium" id="mySelect" ng-options="option.title for option in data track by option.title" ng-model="data.selectedOption"
                         width="200px"></select>
+                        <br>
+                        <label for="checkboxFront"> Use for Front Page : </label>
+                        <input name "checkboxFront" type="checkbox" ng-model="picture.frontPage"></input>
                         <br>
                         <input type="file" onchange="angular.element(this).scope().addPicture(this)">
                         <!--<div id="base"></div>-->

@@ -115,7 +115,8 @@ angular.module('pictures')
                 year: $scope.yearData.selectedOption.year,
                 medium: $scope.data.selectedOption.title,
                 picture: $scope.picture.picture,
-                subject: $scope.dataSubject.selectedOption._id
+                subject: $scope.dataSubject.selectedOption._id,
+                frontPage : $scope.picture.frontPage
             });
 
             // Redirect after save
@@ -156,6 +157,7 @@ angular.module('pictures')
             picture.year = $scope.yearData.selectedOption.year;
             picture.medium = $scope.data.selectedOption.title;
             picture.subject = $scope.dataSubject.selectedOption._id;
+            picture.frontPage = $scope.picture.frontPage;
             picture.$update(function () {
                 $location.path('pictures/' + picture._id);
             }, function (errorResponse) {

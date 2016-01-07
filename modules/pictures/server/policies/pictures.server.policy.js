@@ -26,6 +26,9 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/picturescount/',
       permissions: '*'
+    }, {
+      resources: '/api/picturesfrontpage/:page',
+      permissions: '*'
     }]
   }, {
     roles: ['user'],
@@ -41,6 +44,9 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/picturescount/',
       permissions: ['get']
+    }, {
+      resources: '/api/picturesfrontpage/:page',
+      permissions: ['get']
     }]
   }, {
     roles: ['guest'],
@@ -52,6 +58,9 @@ exports.invokeRolesPolicies = function () {
       permissions: ['get']
     }, {
       resources: '/api/picturescount/',
+      permissions: ['get']
+    }, {
+      resources: '/api/picturesfrontpage/:page',
       permissions: ['get']
     }]
   }]);

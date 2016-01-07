@@ -46,6 +46,7 @@ exports.update = function (req, res) {
     picture.medium = req.body.medium;
     picture.picture = req.body.picture;
     picture.subject = req.body.subject;
+    picture.frontPage = req.body.frontPage;
     picture.save(function (err) {
         if (err) {
             return res.status(400).send({
@@ -174,4 +175,40 @@ exports.picturesCount = function (req, res) {
             res.json({ result: result, count: result.length });
         }
     });
+};
+
+/*
+* Paginate List front page
+ **/
+exports.picturesFrontPageList = function (req, res) {
+    var page = 1;
+    var pictureCount = 0;
+    if (req.params.page > 1) {
+        page = req.params.page;
+        pictureCount = -1;
+    }
+    else {
+        Picture.find().where({ 'frontPage': true }).count(function (err, count) {
+            if (err) {
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                });
+            } else {
+                pictureCount = count;
+            }
+        })
+    }
+    var per_page = 1;
+
+
+    Picture.find().where({ frontPage: true }).sort('-year').skip((page - 1) * per_page).limit(per_page).exec(function (err, pictures) {
+        if (err) {
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+            res.json({ pictures: pictures, count: pictureCount });
+        }
+    });
+
 };

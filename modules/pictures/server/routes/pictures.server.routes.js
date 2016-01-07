@@ -16,6 +16,10 @@ module.exports = function (app) {
     app.route('/api/picturespage/:page').all(picturesPolicy.isAllowed)
         .get(pictures.picturesList);
  
+     // pictures front page routes
+    app.route('/api/picturesfrontpage/:page').all(picturesPolicy.isAllowed)
+        .get(pictures.picturesFrontPageList);
+        
      // pictures count routes
     app.route('/api/picturescount/').all(picturesPolicy.isAllowed)
         .get(pictures.picturesCount);

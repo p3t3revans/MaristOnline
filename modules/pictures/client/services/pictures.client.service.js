@@ -22,3 +22,13 @@ angular.module('pictures').factory('PicturesPage', ['$resource',
     );
   }
 ]);
+
+//Articles service used for communicating with the articles REST endpoints
+angular.module('pictures').factory('PicturesFrontPage', ['$resource',
+  function ($resource) {
+    return $resource('api/picturesfrontpage/:page', {
+      page: '@page'
+    }
+    );
+  }
+]);

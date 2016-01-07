@@ -14,7 +14,8 @@ var pictureModel = new Schema({
     artist: { type: mongoose.Schema.Types.ObjectId, ref: 'Artist' },
     medium: { type: String, default: 'Work on Paper' },
     picture: { type: String },
-    subject: { type: mongoose.Schema.Types.ObjectId, ref: 'Subject' }
+    subject: { type: mongoose.Schema.Types.ObjectId, ref: 'Subject' },
+    frontPage : { type: Boolean, default : false}
 });
 
 
