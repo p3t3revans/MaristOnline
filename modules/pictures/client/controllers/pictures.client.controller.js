@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pictures')
-    .controller('PictureCtrl', ['PicturesPage', 'Years', 'ArtistYearEnrolled', 'SubYears', 'Artists', 'Subjects', '$rootScope', '$scope', '$stateParams', '$location', 'Pictures', 'Authentication', 'Mediums', function (PicturesPage, Years, ArtistYearEnrolled, SubYears, Artists, Subjects, $rootScope, $scope, $stateParams, $location, Pictures, Authentication, Mediums) {
+    .controller('PictureCtrl', ['PicturesByArtist', 'PicturesPage', 'Years', 'ArtistYearEnrolled', 'SubYears', 'Artists', 'Subjects', '$rootScope', '$scope', '$stateParams', '$location', 'Pictures', 'Authentication', 'Mediums', function (PicturesByArtist, PicturesPage, Years, ArtistYearEnrolled, SubYears, Artists, Subjects, $rootScope, $scope, $stateParams, $location, Pictures, Authentication, Mediums) {
         //Pagination
         $scope.loading = false;
         $scope.totalItems = 12;
@@ -22,6 +22,7 @@ angular.module('pictures')
         $scope.headingTitle = 'List Pictures';
         $scope.dataSubject = [];
         $scope.dataArtist = [];
+        $scope.listArtist = [];
         $scope.picture = new Pictures();
         $scope.picture.picture = '';
         var today = new Date();
@@ -116,7 +117,7 @@ angular.module('pictures')
                 medium: $scope.data.selectedOption.title,
                 picture: $scope.picture.picture,
                 subject: $scope.dataSubject.selectedOption._id,
-                frontPage : $scope.picture.frontPage
+                frontPage: $scope.picture.frontPage
             });
 
             // Redirect after save
@@ -175,6 +176,22 @@ angular.module('pictures')
         };
         $scope.getPictures = function () {
             $scope.pictures = PicturesPage.get({ page: $scope.currentPage });
+            $scope.pictures.$promise.then(function (response) {
+                $scope.pictures = response.pictures;
+                $scope.dataArtist = [];
+                if (response.count !== -1) $scope.totalItems = response.count;
+                $scope.loading = false;
+                $scope.listArtists = Artists.query();
+                $scope.listArtists.$promise.then(function () {
+                    for (var x = 0; x < $scope.listArtists.length; x++) {
+                        $scope.dataArtist.push($scope.listArtists[x]);
+                    }
+
+                })
+            });
+        };
+        $scope.getPicturesByArtist = function () {
+            $scope.pictures = PicturesByArtist.get({ artistId: $scope.dataArtist.selectedOption._id }, { page: $scope.currentPage });
             $scope.pictures.$promise.then(function (response) {
                 $scope.pictures = response.pictures;
                 if (response.count !== -1) $scope.totalItems = response.count;

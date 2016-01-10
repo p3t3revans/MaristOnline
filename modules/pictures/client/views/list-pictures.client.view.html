@@ -4,7 +4,11 @@
     </div>
     <div class="container">
         <div class="panel panel-default">
-            <div class="panel-heading">{{headingTitle}}</div>
+            <div class="panel-heading">{{headingTitle}}  
+                <label for="dataArtist"> Artist : </label>
+                <select name="dataArtist" id="dataArtist" ng-options="option.name for option in dataArtist track by option.name" ng-model="dataArtist.selectedOption"
+                width="200px" ng-change="getPicturesByArtist()" required></select>
+            </div>
             <span>
             <div>
                 <div ng-repeat="picture in pictures">

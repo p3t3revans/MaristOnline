@@ -19,6 +19,12 @@ module.exports = function (app) {
      // pictures front page routes
     app.route('/api/picturesfrontpage/:page').all(picturesPolicy.isAllowed)
         .get(pictures.picturesFrontPageList);
+
+
+     // pictures front page routes
+    app.route('/api/picturesbyartist/:artistId').all(picturesPolicy.isAllowed)
+        .get(pictures.picturesByArtistList);
+         
         
      // pictures count routes
     app.route('/api/picturescount/').all(picturesPolicy.isAllowed)

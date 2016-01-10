@@ -212,3 +212,39 @@ exports.picturesFrontPageList = function (req, res) {
     });
 
 };
+
+/*
+* Paginate List pictures by artist
+ **/
+exports.picturesByArtistList = function (req, res) {
+    var page = 1;
+    var pictureCount = 0;
+    if (req.params.page > 1) {
+        page = req.params.page;
+        pictureCount = -1;
+    }
+    else {
+        Picture.find().where({ 'artist': req.params.artistId }).count(function (err, count) {
+            if (err) {
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                });
+            } else {
+                pictureCount = count;
+            }
+        })
+    }
+    var per_page = 1;
+
+
+    Picture.find().where({ 'artist': req.params.artistId }).sort('-year').skip((page - 1) * per_page).limit(per_page).exec(function (err, pictures) {
+        if (err) {
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+            res.json({ pictures: pictures, count: pictureCount });
+        }
+    });
+
+};

@@ -29,6 +29,9 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/picturesfrontpage/:page',
       permissions: '*'
+    }, {
+      resources: '/api/picturesbyartist/:artistId',
+      permissions: '*'
     }]
   }, {
     roles: ['user'],
@@ -47,6 +50,9 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/picturesfrontpage/:page',
       permissions: ['get']
+    }, {
+      resources: '/api/picturesbyartist/:artistId',
+      permissions: ['get']
     }]
   }, {
     roles: ['guest'],
@@ -61,6 +67,9 @@ exports.invokeRolesPolicies = function () {
       permissions: ['get']
     }, {
       resources: '/api/picturesfrontpage/:page',
+      permissions: ['get']
+    }, {
+      resources: '/api/picturesbyartist/:artistId',
       permissions: ['get']
     }]
   }]);
