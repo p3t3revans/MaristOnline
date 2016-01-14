@@ -30,7 +30,10 @@ exports.invokeRolesPolicies = function () {
       resources: '/api/picturesfrontpage/:page',
       permissions: '*'
     }, {
-      resources: '/api/picturesbyartist/:artistId',
+      resources: '/api/picturesbyartist/:artistId/page/:page',
+      permissions: '*'
+    }, {
+      resources: '/api/picturesbyyear/:year/page/:page',
       permissions: '*'
     }]
   }, {
@@ -51,7 +54,10 @@ exports.invokeRolesPolicies = function () {
       resources: '/api/picturesfrontpage/:page',
       permissions: ['get']
     }, {
-      resources: '/api/picturesbyartist/:artistId',
+      resources: '/api/picturesbyartist/:artistId/page/:page',
+      permissions: ['get']
+    }, {
+      resources: '/api/picturesbyyear/:year/page/:page',
       permissions: ['get']
     }]
   }, {
@@ -69,7 +75,10 @@ exports.invokeRolesPolicies = function () {
       resources: '/api/picturesfrontpage/:page',
       permissions: ['get']
     }, {
-      resources: '/api/picturesbyartist/:artistId',
+      resources: '/api/picturesbyartist/:artistId/page/:page',
+      permissions: ['get']
+    }, {
+      resources: '/api/picturesbyyear/:year/page/:page',
       permissions: ['get']
     }]
   }]);

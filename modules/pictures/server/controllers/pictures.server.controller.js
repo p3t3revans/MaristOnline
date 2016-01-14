@@ -120,22 +120,24 @@ exports.pictureByID = function (req, res, next, id) {
  **/
 exports.picturesList = function (req, res) {
     var page = 1;
+    var per_page = 5;
     var pictureCount = 0;
     if (req.params.page > 1) {
         page = req.params.page;
         pictureCount = -1;
     }
     else {
-        Picture.distinct("_id", function (err, result) {
-
+        Picture.find().count(function (err, count) {
             if (err) {
-                next(err);
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                });
             } else {
-                pictureCount = result.length;
+                pictureCount = Math.ceil(count / per_page);
             }
-        });
+        })
     }
-    var per_page = 1;
+
 
 
     Picture.find().sort('-year').skip((page - 1) * per_page).limit(per_page).exec(function (err, pictures) {
@@ -182,6 +184,7 @@ exports.picturesCount = function (req, res) {
  **/
 exports.picturesFrontPageList = function (req, res) {
     var page = 1;
+    var per_page = 1;
     var pictureCount = 0;
     if (req.params.page > 1) {
         page = req.params.page;
@@ -194,11 +197,11 @@ exports.picturesFrontPageList = function (req, res) {
                     message: errorHandler.getErrorMessage(err)
                 });
             } else {
-                pictureCount = count;
+                pictureCount = Math.ceil(count / per_page);
             }
         })
     }
-    var per_page = 1;
+
 
 
     Picture.find().where({ frontPage: true }).sort('-year').skip((page - 1) * per_page).limit(per_page).exec(function (err, pictures) {
@@ -218,6 +221,7 @@ exports.picturesFrontPageList = function (req, res) {
  **/
 exports.picturesByArtistList = function (req, res) {
     var page = 1;
+    var per_page = 5;
     var pictureCount = 0;
     if (req.params.page > 1) {
         page = req.params.page;
@@ -230,14 +234,50 @@ exports.picturesByArtistList = function (req, res) {
                     message: errorHandler.getErrorMessage(err)
                 });
             } else {
-                pictureCount = count;
+                pictureCount = Math.ceil(count / per_page);
             }
         })
     }
-    var per_page = 1;
+
 
 
     Picture.find().where({ 'artist': req.params.artistId }).sort('-year').skip((page - 1) * per_page).limit(per_page).exec(function (err, pictures) {
+        if (err) {
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+            res.json({ pictures: pictures, count: pictureCount });
+        }
+    });
+
+};
+/*
+* Paginate List pictures by artist
+ **/
+exports.picturesByYearList = function (req, res) {
+    var page = 1;
+    var per_page = 5;
+    var pictureCount = 0;
+    if (req.params.page > 1) {
+        page = req.params.page;
+        pictureCount = -1;
+    }
+    else {
+        Picture.find().where({ 'year': req.params.year }).count(function (err, count) {
+            if (err) {
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                });
+            } else {
+                pictureCount = Math.ceil(count / per_page);
+            }
+        })
+    }
+
+
+
+    Picture.find().where({ 'year': req.params.year }).sort('-year').skip((page - 1) * per_page).limit(per_page).exec(function (err, pictures) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)

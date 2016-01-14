@@ -16,17 +16,20 @@ module.exports = function (app) {
     app.route('/api/picturespage/:page').all(picturesPolicy.isAllowed)
         .get(pictures.picturesList);
  
-     // pictures front page routes
+    // pictures front page routes
     app.route('/api/picturesfrontpage/:page').all(picturesPolicy.isAllowed)
         .get(pictures.picturesFrontPageList);
 
 
-     // pictures front page routes
-    app.route('/api/picturesbyartist/:artistId').all(picturesPolicy.isAllowed)
+    // pictures front page routes
+    app.route('/api/picturesbyartist/:artistId/page/:page').all(picturesPolicy.isAllowed)
         .get(pictures.picturesByArtistList);
          
-        
-     // pictures count routes
+    // pictures front page routes
+    app.route('/api/picturesbyyear/:year/page/:page').all(picturesPolicy.isAllowed)
+        .get(pictures.picturesByYearList);
+                
+    // pictures count routes
     app.route('/api/picturescount/').all(picturesPolicy.isAllowed)
         .get(pictures.picturesCount);
            

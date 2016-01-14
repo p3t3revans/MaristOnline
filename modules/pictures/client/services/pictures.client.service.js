@@ -36,8 +36,18 @@ angular.module('pictures').factory('PicturesFrontPage', ['$resource',
 //Pictures by Artist REST endpoints
 angular.module('pictures').factory('PicturesByArtist', ['$resource',
     function ($resource) {
-        return $resource('api/picturesbyartist/:artistId', {
+        return $resource('api/picturesbyartist/:artistId/page/:page', {
             artist: '@artistId', page: '@page'
+        }
+            );
+    }
+]);
+
+//Pictures by Year REST endpoints
+angular.module('pictures').factory('PicturesByYear', ['$resource',
+    function ($resource) {
+        return $resource('api/picturesbyyear/:year/page/:page', {
+            artist: '@year', page: '@page'
         }
             );
     }
