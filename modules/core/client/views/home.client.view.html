@@ -1,14 +1,11 @@
 <section data-ng-controller="HomeController" data-ng-init="getPictures()">
     <div class="text-center">
-        <div >
-                 <img alt="Marist Online Gallery" class="img-responsive text-center" src="modules/core/img/brand/banner-marist-art-gallery.gif"
-               height="20%" />
-         </div>
-        <br>
+                 <img alt="Marist Online Gallery" class="img-rounded" src="modules/core/img/brand/banner-marist-art-gallery.gif"
+             width="70%" height="70%"    />
     </div>
     <div>
         <div ng-repeat="picture in pictures" class="text-center">
-            <img class="text-center" ng-src="{{picture.picture}}" width="50%" height="50%" />
+            <img class="text-center img-rounded" ng-src="{{picture.picture}}" width="50%" height="50%" />
         </div>
     </div>
     </div>

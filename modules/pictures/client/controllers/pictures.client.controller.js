@@ -244,9 +244,10 @@ angular.module('pictures')
                             }
                         }
                     }
-                    setYearOption($scope.picture.year);
                     $scope.subjects = Subjects.query();
                     $scope.subjects.$promise.then(function (result) {
+                        setYearOption($scope.picture.year);
+
                         $scope.dataSubject = result;
                         if ($scope.picture.subject) {
                             var l = $scope.dataSubject.length;
