@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('artists')
-    .controller('ArtistCtrl', ['Years', '$scope', '$stateParams', '$location', 'Artists', 'Authentication', function (Years, $scope, $stateParams, $location, Artists, Authentication) {
+    .controller('ArtistCtrl', ['ArtistYearEnrolled', 'Years', '$scope', '$stateParams', '$location', 'Artists', 'Authentication', function (ArtistYearEnrolled, Years, $scope, $stateParams, $location, Artists, Authentication) {
         $scope.authentication = Authentication;
         $scope.showUser = false;
         if ($scope.authentication.user.roles.indexOf('admin') !== -1 || $scope.authentication.user.roles.indexOf('teach') !== -1) $scope.showUser = true;
@@ -41,6 +41,10 @@ angular.module('artists')
                 { name: 'Patrick' }
             ]
         };
+        
+        $scope.filterByYear = function (){
+            $scope.artists = ArtistYearEnrolled.query({ yearEnrolled: $scope.yearData.selectedOption.year});
+        }
 
         $scope.create = function () {
             // Create new Artist object
