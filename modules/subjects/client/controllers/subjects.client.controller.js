@@ -4,6 +4,11 @@ angular.module('subjects')
     .controller('SubjectCtrl', ['Years', 'Teachers', 'ArtistYearEnrolled', 'SubYears', '$scope', '$stateParams', '$location', 'Subjects', 'Authentication', function (Years, Teachers, ArtistYearEnrolled, SubYears, $scope, $stateParams, $location, Subjects, Authentication) {
         $scope.authentication = Authentication;
         $scope.showUser = false;
+        $scope.teacher = Teachers.query();
+        $scope.teacher.$promise.then(function (result) {
+            $scope.teacherData = result;
+            $scope.teacherData.selectedOption = $scope.teacherData[0];
+        })
         if ($scope.authentication.user.roles.indexOf('admin') !== -1 || $scope.authentication.user.roles.indexOf('teach') !== -1) $scope.showUser = true;
         $scope.yearSelect = 'All';
         $scope.semesterSelect = 'All';
@@ -52,13 +57,7 @@ angular.module('subjects')
             selectedOption: { semester: 1 } //This sets the default value of the select in the ui
         };
 
-        $scope.teacher = [];
-        $scope.teacherData = [];
-        $scope.teacher = Teachers.query();
-        $scope.teacher.$promise.then(function (result) {
-            $scope.teacherData = result;
-            $scope.teacherData.selectedOption = $scope.teacherData[0];
-        })
+
 
 
         $scope.create = function () {
@@ -201,9 +200,9 @@ angular.module('subjects')
                     setYearOption($scope.subject.year);
                 }
                 if ($scope.subject.teacher) {
-                    for (var y = 0; y < $scope.teacherData.length; y++) {
-                        if ($scope.teacherData[y].title === $scope.subject.teacher) {
-                            $scope.teacherData.selectedOption = $scope.teacherData[y];
+                    for (var j = 0; j < $scope.teacherData.length; j++) {
+                        if ($scope.teacherData[j].title === $scope.subject.teacher) {
+                            $scope.teacherData.selectedOption = $scope.teacherData[j];
                             break;
                         }
                     }
