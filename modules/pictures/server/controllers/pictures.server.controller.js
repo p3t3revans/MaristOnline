@@ -184,7 +184,7 @@ exports.picturesCount = function (req, res) {
  **/
 exports.picturesFrontPageList = function (req, res) {
     var page = 1;
-    var per_page = 1;
+    var per_page = 10;
     var pictureCount = 0;
     if (req.params.page > 1) {
         page = req.params.page;
