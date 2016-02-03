@@ -14,16 +14,52 @@
         <img alt="Marist Online Gallery" class="img-rounded" src="modules/core/img/brand/banner-marist-art-gallery.gif" width="70%"
         height="30%" />
     </div>
-    <div style="height: 305px">
-        <carousel interval="myInterval">
-            <slide ng-repeat="slide in slides" active="slide.active">
-                <img ng-src="{{slide.image}}" style="margin:auto;" width="40%" height="40%">
-                <div class="carousel-caption">
-                    <!-- <h4>Slide {{$index}}</h4> -->
-                    <p>{{slide.text}}</p>
-                </div>
-            </slide>
-        </carousel>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6 slider-wrapper" style="border: 2px solid black">
+                <carousel data-ride="carousel" interval="myInterval">
+                    <slide ng-repeat="slide in slides" active="slide.active">
+                        <img ng-src="{{slide.image}}" class="thumbnail slider-img">
+                        <div class="carousel-caption">
+                            <!-- <h4>Slide {{$index}}</h4> -->
+                            <p>{{slide.text}}</p>
+                        </div>
+                    </slide>
+                </carousel>
+            </div>
+            <div class="col-sm-6" style="border: 2px solid black">
+                <h2>the heading</h2>
+                <h4>smaller detail</h4>
+                <p>
+                    the text is in the paragraph the text is in the paragraphthe text is in the paragraphthe text is in the paragraphthe text
+                    is in the paragraphthe text is in the paragraphthe text is in the paragraphthe text is in the paragraphthe
+                    text is in the paragraphthe text is in the paragraph
+                </p>
+                <!--                <carousel interval="myInterval" no-wrap="noWrapSlides">
+                    <slide ng-repeat="slide in slides" active="slide.active" index="slide.id">
+                        <img ng-src="{{slide.image}}" style="margin:auto;" class="thumbnail" height="30px" width="auto">
+                        <div class="carousel-caption">
+                            <h4>Slide {{slide.id}}</h4>
+                            <p>{{slide.text}}</p>
+                        </div>
+                    </slide>
+                </carousel>
+                <slider class="slider center" data-slick='{"slidesToShow": 4, "slidesToScroll": 4}'>
+                    <div>
+                        <h3>1</h3></div>
+                    <div>
+                        <h3>2</h3></div>
+                    <div>
+                        <h3>3</h3></div>
+                    <div>
+                        <h3>4</h3></div>
+                    <div>
+                        <h3>5</h3></div>
+                    <div>
+                        <h3>6</h3></div>
+                </slider>-->
+            </div>
+        </div>
     </div>
     <!--  <div class="row">
     <div class="col-md-6">

@@ -1,16 +1,20 @@
 angular.module('core').controller('MyCarouselController', ['$interval', 'PicturesFrontPage', '$scope', 'Authentication',
     function ($interval, PicturesFrontPage, $scope, Authentication) {
+        //$('.slider').slick();
         $scope.authentication = Authentication;
         $scope.currentPage = 1;
         var slideNumber = 0;
         var maxSlides = 4;
+        var slideId = 1;
+
         $scope.myInterval = 5000;
         var slides = $scope.slides = [];
         $scope.addSlide = function () {
             // var newWidth = 600 + slides.length;
             slides.push({
                 image: $scope.picture1,
-                text: $scope.text
+                text: $scope.text,
+                id: slideId
             });
         };
         // var isOdd = function (num) { return num % 2; };
@@ -29,6 +33,7 @@ angular.module('core').controller('MyCarouselController', ['$interval', 'Picture
                 for (var i = 0; i < response.pictures.length; i++) {
                     $scope.picture1 = $scope.pictures[i].picture;
                     $scope.text = $scope.pictures[i].title;
+                    slideId = i + 1;
                     $scope.addSlide();
                 }
  
