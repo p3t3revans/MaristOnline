@@ -24,7 +24,8 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
                 title: this.title,
                 content: this.content,
                 picture: this.picture,
-                displayFrontPage: this.displayFrontPage
+                displayFrontPage: this.displayFrontPage,
+                leadArticle: this.leadArticle
             });
 
             // Redirect after save
@@ -36,6 +37,7 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
                 $scope.content = '';
                 $scope.picture = '';
                 $scope.displayFrontPage = false;
+                $scope.leadArticle = false;
             }, function (errorResponse) {
                 $scope.error = errorResponse.data.message;
             });
@@ -82,3 +84,4 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
         };
     }
 ]);
+

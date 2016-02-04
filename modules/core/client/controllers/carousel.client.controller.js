@@ -1,12 +1,21 @@
-angular.module('core').controller('MyCarouselController', ['$interval', 'PicturesFrontPage', '$scope', 'Authentication',
-    function ($interval, PicturesFrontPage, $scope, Authentication) {
+angular.module('core').controller('MyCarouselController', ['ArticlesLead', 'ArticlesFrontPage', '$interval', 'PicturesFrontPage', '$scope', 'Authentication',
+    function (ArticlesLead, ArticlesFrontPage, $interval, PicturesFrontPage, $scope, Authentication) {
         //$('.slider').slick();
         $scope.authentication = Authentication;
         $scope.currentPage = 1;
         var slideNumber = 0;
         var maxSlides = 4;
         var slideId = 1;
-
+        $scope.articles = ArticlesLead.get();
+        $scope.articles.$promise.then(function (response) {
+            $scope.title = response.articles[0].title;
+            $scope.content = response.articles[0].content;
+            $scope.picture = response.articles[0].picture;
+        });
+        $scope.newsArticles = ArticlesFrontPage.get();
+        $scope.newsArticles.$promise.then(function (response) {
+           $scope.newsArticles = response.articles;
+        });
         $scope.myInterval = 5000;
         var slides = $scope.slides = [];
         $scope.addSlide = function () {

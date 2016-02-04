@@ -19,9 +19,10 @@
     </em>
   </small>
     <p class="lead" data-ng-bind="article.content"></p>
-
+   <div>
     <label for="checkboxFront"> Use for Front Page : </label>
     <input name "checkboxFront" type="checkbox" ng-model="article.displayFrontPage"></input>
+   </div>
     <label class="control-label" for="picture">Image</label>
     <div id="myDiv">
         <img id="img" class="thumbnail img-responsive" data-ng-src="{{article.picture}}" />

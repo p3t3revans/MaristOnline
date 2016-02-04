@@ -1,20 +1,38 @@
 <section data-ng-controller="ArticlesController" data-ng-init="find()">
-  <div class="page-header">
-    <h1>Articles</h1>
-  </div>
-  <div class="list-group">
-    <a data-ng-repeat="article in articles" data-ui-sref="articles.view({articleId: article._id})" class="list-group-item">
-      <small class="list-group-item-text">
-        Posted on
-        <span data-ng-bind="article.created | date:'mediumDate'"></span>
-        by
-        <span data-ng-bind="article.user.displayName"></span>
-      </small>
-      <h4 class="list-group-item-heading" data-ng-bind="article.title"></h4>
-      <p class="list-group-item-text" data-ng-bind="article.content"></p>
-    </a>
-  </div>
-  <div class="alert alert-warning text-center" data-ng-if="articles.$resolved && !articles.length">
-    No articles yet, why don't you <a data-ui-sref="articles.create">create one</a>?
-  </div>
+    <div class="page-header">
+        <h1>Articles</h1>
+    </div>
+    <!--    <span>
+                <ul  class="list-group">
+              <li class="list-group-item"  ng-repeat="picture in pictures" >
+                <a href="/pictures/{{picture._id}}"><img class="img-rounded" ng-src="{{picture.picture}}" width="5%" height="auto" /></a>                   
+                <a ng-hide="!showUser" class="btn" href="/pictures/{{picture._id}}/edit"><i class="glyphicon glyphicon-edit"></i></a>
+                <a ng-hide="!showUser" class="btn" data-ng-click="remove(picture);"><i class="glyphicon glyphicon-trash"></i></a>            
+                <a href="/pictures/{{picture._id}}">{{picture.title}}</a>
+              </li>
+            </ul>
+            </span>-->
+    <div class="list-group">
+        <a data-ng-repeat="article in articles" data-ui-sref="articles.view({articleId: article._id})" class="list-group-item">
+            <div class="row">
+            <div class="col-sm-4">
+                                <img id="img" class="thumb-rounded" ng-src="{{article.picture}}" height="auto" width="100%" />
+            </div>
+            <div class="col-sm-2">
+                <p>
+                    <small class="list-group-item-text">Posted on <span data-ng-bind="article.created | date:'mediumDate'"></span> by <span data-ng-bind="article.user.displayName"></span></small>
+                </p>
+                </div>
+                <div class="col-sm-6">
+                <p>
+                    <h4 class="list-group-item-heading" data-ng-bind="article.title"></h4>
+                </p>
+                <p class="list-group-item-text" data-ng-bind="article.content"> </p>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="alert alert-warning text-center" data-ng-if="articles.$resolved && !articles.length">
+        No articles yet, why don't you <a data-ui-sref="articles.create">create one</a>?
+    </div>
 </section>

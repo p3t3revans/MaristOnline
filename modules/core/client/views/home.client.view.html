@@ -17,25 +17,43 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6 slider-wrapper" style="border: 2px solid black">
-                <carousel data-ride="carousel" interval="myInterval">
-                    <slide ng-repeat="slide in slides" active="slide.active">
-                        <img ng-src="{{slide.image}}" class="thumbnail slider-img">
-                        <div class="carousel-caption">
-                            <!-- <h4>Slide {{$index}}</h4> -->
-                            <p>{{slide.text}}</p>
+                <div class="row">
+                    <carousel data-ride="carousel" interval="myInterval">
+                        <slide ng-repeat="slide in slides" active="slide.active">
+                            <img ng-src="{{slide.image}}" class="thumbnail slider-img">
+                            <div class="carousel-caption">
+                                <!-- <h4>Slide {{$index}}</h4> -->
+                                <p>{{slide.text}}</p>
+                            </div>
+                        </slide>
+                    </carousel>
+                </div>
+                <div class="row">
+                    <a data-ng-repeat="article in newsArticles" data-ui-sref="articles.view({articleId: article._id})" class="list-group-item">
+                        <div class="row">                          
+                                <img id="img" class="thumb-rounded" ng-src="{{article.picture}}" height="auto" width="100%" />                                                                           
+                                <p>
+                                    <h4 class="list-group-item-heading" data-ng-bind="article.title"></h4>
+                                </p>
+                                <p class="list-group-item-text" data-ng-bind="article.content"> </p>
                         </div>
-                    </slide>
-                </carousel>
+                    </a>
+                </div>
             </div>
             <div class="col-sm-6" style="border: 2px solid black">
-                <h2>the heading</h2>
-                <h4>smaller detail</h4>
-                <p>
-                    the text is in the paragraph the text is in the paragraphthe text is in the paragraphthe text is in the paragraphthe text
-                    is in the paragraphthe text is in the paragraphthe text is in the paragraphthe text is in the paragraphthe
-                    text is in the paragraphthe text is in the paragraph
-                </p>
-                <!--                <carousel interval="myInterval" no-wrap="noWrapSlides">
+                <div class="row">
+                    <img id="img" class="thumb-rounded" ng-src="{{picture}}" height="auto" width="100%" />
+                </div>
+                <div class="row">
+                    <p>
+                        <h4 class="list-group-item-heading" data-ng-bind="title"></h4>
+                    </p>
+                    <p class="list-group-item-text" data-ng-bind="content"> </p>
+                </div>
+            </div>
+        </div>
+
+        <!--                <carousel interval="myInterval" no-wrap="noWrapSlides">
                     <slide ng-repeat="slide in slides" active="slide.active" index="slide.id">
                         <img ng-src="{{slide.image}}" style="margin:auto;" class="thumbnail" height="30px" width="auto">
                         <div class="carousel-caption">
@@ -58,10 +76,10 @@
                     <div>
                         <h3>6</h3></div>
                 </slider>-->
-            </div>
-        </div>
     </div>
-    <!--  <div class="row">
+</div>
+</div>
+<!--  <div class="row">
     <div class="col-md-6">
       <button type="button" class="btn btn-info" ng-click="addSlide()">Add Slide</button>
     </div>

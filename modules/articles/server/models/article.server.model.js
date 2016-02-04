@@ -32,6 +32,9 @@ var ArticleSchema = new Schema({
   displayFrontPage:{
       type:Boolean,
       default:false
+  }, leadArticle:{
+      type:Boolean,
+      default:false
   },
   user: {
     type: Schema.ObjectId,
