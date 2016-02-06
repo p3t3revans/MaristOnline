@@ -16,11 +16,11 @@
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-6 slider-wrapper" style="border: 2px solid black">
-                <div class="row">
+            <div class="col-xs-6 slider-wrapper" style="border: 2px solid black">
+                <div class="row" >
                     <carousel data-ride="carousel" interval="myInterval">
-                        <slide ng-repeat="slide in slides" active="slide.active">
-                            <img ng-src="{{slide.image}}" class="thumbnail slider-img">
+                        <slide ng-repeat="slide in slides" active="slide.active" >
+                            <img ng-src="{{slide.image}}" class="thumbnail" height="250px" width="auto" >
                             <div class="carousel-caption">
                                 <!-- <h4>Slide {{$index}}</h4> -->
                                 <p>{{slide.text}}</p>
@@ -30,25 +30,38 @@
                 </div>
                 <div class="row">
                     <a data-ng-repeat="article in newsArticles" data-ui-sref="articles.view({articleId: article._id})" class="list-group-item">
-                        <div class="row">                          
-                                <img id="img" class="thumb-rounded" ng-src="{{article.picture}}" height="auto" width="100%" />                                                                           
-                                <p>
-                                    <h4 class="list-group-item-heading" data-ng-bind="article.title"></h4>
-                                </p>
-                                <p class="list-group-item-text" data-ng-bind="article.content"> </p>
+                        <div class="row">
+                            <img id="img" class="thumbnail" ng-src="{{article.picture}}" height="auto" width="100%" />
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <p>
+                                        <h4 class="list-group-item-heading" data-ng-bind="article.title"></h4>
+                                    </p>
+                                </div>
+                                <div class="panel-body">
+                                    <p class="list-group-item-text" data-ng-bind="article.content"> </p>
+                                </div>
+                            </div>
                         </div>
                     </a>
+
                 </div>
             </div>
-            <div class="col-sm-6" style="border: 2px solid black">
+            <div class="col-xs-6" style="border: 2px solid black">
                 <div class="row">
-                    <img id="img" class="thumb-rounded" ng-src="{{picture}}" height="auto" width="100%" />
+                    <img id="img" class="thumbnail" ng-src="{{picture}}" height="auto" width="100%" />
                 </div>
                 <div class="row">
-                    <p>
-                        <h4 class="list-group-item-heading" data-ng-bind="title"></h4>
-                    </p>
-                    <p class="list-group-item-text" data-ng-bind="content"> </p>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <p>
+                                <h4 class="list-group-item-heading" data-ng-bind="title"></h4>
+                            </p>
+                        </div>
+                        <div class="panel-body">
+                            <p class="list-group-item-text" data-ng-bind="content"> </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

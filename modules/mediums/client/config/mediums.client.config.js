@@ -4,22 +4,22 @@
 angular.module('mediums').run(['Menus',
   function (Menus) {
     // Add the mediums dropdown item
-    Menus.addMenuItem('topbar', {
+/*    Menus.addMenuItem('topbar', {
       title: 'Mediums',
       state: 'mediums',
       type: 'dropdown',
       roles: ['admin','teach']
-    });
+    });*/
 
     // Add the dropdown list item
-    Menus.addSubMenuItem('topbar', 'mediums', {
+    Menus.addSubMenuItem('topbar', 'articles', {
       title: 'List Mediums',
       state: 'mediums.list',
       roles: ['admin','teach']
     });
 
     // Add the dropdown create item
-    Menus.addSubMenuItem('topbar', 'mediums', {
+    Menus.addSubMenuItem('topbar', 'articles', {
       title: 'Create Mediums',
       state: 'mediums.create',
       roles: ['admin','teach']

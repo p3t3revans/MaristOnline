@@ -4,22 +4,22 @@
 angular.module('teachers').run(['Menus',
   function (Menus) {
     // Add the teachers dropdown item
-    Menus.addMenuItem('topbar', {
+/*    Menus.addMenuItem('topbar', {
       title: 'Teachers',
       state: 'teachers',
       type: 'dropdown',
       roles: ['admin','teach']
-    });
+    });*/
 
     // Add the dropdown list item
-    Menus.addSubMenuItem('topbar', 'teachers', {
+    Menus.addSubMenuItem('topbar', 'articles', {
       title: 'List Teachers',
       state: 'teachers.list',
       roles: ['admin','teach']
     });
 
     // Add the dropdown create item
-    Menus.addSubMenuItem('topbar', 'teachers', {
+    Menus.addSubMenuItem('topbar', 'articles', {
       title: 'Create Teacher',
       state: 'teachers.create',
       roles: ['admin','teach']

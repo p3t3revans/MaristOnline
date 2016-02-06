@@ -22,6 +22,11 @@
                     <input name "checkboxFront" type="checkbox" ng-model="article.displayFrontPage"></input>
                 </div>
                 <div class="form-group">
+                    <label for="leadArticle"> Lead Article : </label>
+                    <input name "leadArticle" type="checkbox" ng-model="leadArticle"></input>
+                </div>
+
+                <div class="form-group">
                     <input type="file" onchange="angular.element(this).scope().addPicture(this)">
                     <label class="control-label" for="picture">Image</label>
                     <div id="myDiv">

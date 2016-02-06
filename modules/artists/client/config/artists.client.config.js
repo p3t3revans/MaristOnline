@@ -4,7 +4,7 @@
 angular.module('artists').run(['Menus',
   function (Menus) {
     // Add the artists dropdown item
-    Menus.addMenuItem('topbar', {
+   Menus.addMenuItem('topbar', {
       title: 'Artists',
       state: 'artists',
       type: 'dropdown'
