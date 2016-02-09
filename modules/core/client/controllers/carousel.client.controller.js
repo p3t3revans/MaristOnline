@@ -1,5 +1,5 @@
-angular.module('core').controller('MyCarouselController', ['ArticlesLead', 'ArticlesFrontPage', '$interval', 'PicturesFrontPage', '$scope', 'Authentication',
-    function (ArticlesLead, ArticlesFrontPage, $interval, PicturesFrontPage, $scope, Authentication) {
+angular.module('core').controller('MyCarouselController', ['spinnerService', 'ArticlesLead', 'ArticlesFrontPage', '$interval', 'PicturesFrontPage', '$scope', 'Authentication',
+    function (spinnerService, ArticlesLead, ArticlesFrontPage, $interval, PicturesFrontPage, $scope, Authentication) {
         //$('.slider').slick();
         $scope.authentication = Authentication;
         $scope.currentPage = 1;
@@ -11,6 +11,7 @@ angular.module('core').controller('MyCarouselController', ['ArticlesLead', 'Arti
             $scope.title = response.articles[0].title;
             $scope.content = response.articles[0].content;
             $scope.picture = response.articles[0].picture;
+            $scope.articles = response.articles;
         });
         $scope.newsArticles = ArticlesFrontPage.get();
         $scope.newsArticles.$promise.then(function (response) {
@@ -28,6 +29,7 @@ angular.module('core').controller('MyCarouselController', ['ArticlesLead', 'Arti
         };
         // var isOdd = function (num) { return num % 2; };
         var rotate = function () {
+            $scope.loading = true;
             $scope.pictures = PicturesFrontPage.get({ page: $scope.currentPage });
             $scope.pictures.$promise.then(function (response) {
                 slides.length = 0;
@@ -45,7 +47,7 @@ angular.module('core').controller('MyCarouselController', ['ArticlesLead', 'Arti
                     slideId = i + 1;
                     $scope.addSlide();
                 }
- 
+                $scope.loading = false;
                 /*  if (isOdd($scope.currentPage)) {
                       $scope.picture1 = $scope.pictures[0].picture;
                   }
@@ -61,6 +63,6 @@ angular.module('core').controller('MyCarouselController', ['ArticlesLead', 'Arti
     
                 rotate((i + 1));
             }*/
-        $interval(rotate, 600000);
+      //  $interval(rotate, 600000);
     }
 ]);

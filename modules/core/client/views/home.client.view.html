@@ -16,8 +16,9 @@
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-6 slider-wrapper" style="border: 2px solid black">
+            <div class="col-xs-6 slider-wrapper" style="border: 2px solid light-grey">
                 <div class="row">
+                    <spinner name="frontSpinner" img-src="modules/core/img/loaders/loader.gif" show="loading"><h3>   Loading...</h3></spinner>
                     <carousel data-ride="carousel" interval="myInterval">
                         <slide ng-repeat="slide in slides" active="slide.active">
                             <img ng-src="{{slide.image}}" class="thumbnail" height="250px" width="auto">
@@ -48,26 +49,29 @@
 
                 </div>
             </div>
-            <div class="col-xs-6" style="border: 2px solid black">
+            <div class="col-xs-6" style="border: 2px solid light-grey">
                 <div class="row">
-                </div>
-                <div class="row">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <p>
-                                <h4 class="list-group-item-heading" data-ng-bind="title"></h4>
-                            </p>
-                        </div>
-                        <div class="panel-body">
-                            <img id="img" class="thumbnail" ng-src="{{picture}}" height="auto" width="100%" />
-                            <p class="list-group-item-text" data-ng-bind="content"> </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    <a data-ng-repeat="leadarticle in articles" data-ui-sref="articles.view({articleId: leadarticle._id})" class="list-group-item">
 
-        <!--                <carousel interval="myInterval" no-wrap="noWrapSlides">
+                        <div class="row">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <p>
+                                        <h4 class="list-group-item-heading" data-ng-bind="leadarticle.title"></h4>
+                                    </p>
+                                </div>
+                                <div class="panel-body">
+                                    <img id="img" class="thumbnail" ng-src="{{leadarticle.picture}}" height="auto" width="100%" />
+                                    <p class="list-group-item-text" data-ng-bind="leadarticle.content"> </p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+
+            <!--                <carousel interval="myInterval" no-wrap="noWrapSlides">
                     <slide ng-repeat="slide in slides" active="slide.active" index="slide.id">
                         <img ng-src="{{slide.image}}" style="margin:auto;" class="thumbnail" height="30px" width="auto">
                         <div class="carousel-caption">
@@ -90,8 +94,8 @@
                     <div>
                         <h3>6</h3></div>
                 </slider>-->
+        </div>
     </div>
-</div>
 </div>
 <!--  <div class="row">
     <div class="col-md-6">
