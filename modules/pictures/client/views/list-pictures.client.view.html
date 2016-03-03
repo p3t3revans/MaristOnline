@@ -13,6 +13,7 @@
                 width="200px" ng-change="artistChanged()" required></select>
             </div>
             <span>
+             <spinner name="frontSpinner" img-src="modules/core/img/loaders/loader.gif" show="loading"><h3>   Loading...</h3></spinner>
             <ul  class="list-group">
               <li class="list-group-item"  ng-repeat="picture in pictures" >
                 <a href="/pictures/{{picture._id}}"><img class="img-rounded" ng-src="{{picture.picture}}" width="5%" height="auto" /></a>                   

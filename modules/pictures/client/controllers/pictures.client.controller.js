@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pictures')
-    .controller('PictureCtrl', ['PicturesByYear', 'PicturesByArtist', 'PicturesPage', 'Years', 'ArtistYearEnrolled', 'SubYears', 'Artists', 'Subjects', '$rootScope', '$scope', '$stateParams', '$location', 'Pictures', 'Authentication', 'Mediums',
-        function (PicturesByYear, PicturesByArtist, PicturesPage, Years, ArtistYearEnrolled, SubYears, Artists, Subjects, $rootScope, $scope, $stateParams, $location, Pictures, Authentication, Mediums) {
+    .controller('PictureCtrl', ['spinnerService','PicturesByYear', 'PicturesByArtist', 'PicturesPage', 'Years', 'ArtistYearEnrolled', 'SubYears', 'Artists', 'Subjects', '$rootScope', '$scope', '$stateParams', '$location', 'Pictures', 'Authentication', 'Mediums',
+        function (spinnerService, PicturesByYear, PicturesByArtist, PicturesPage, Years, ArtistYearEnrolled, SubYears, Artists, Subjects, $rootScope, $scope, $stateParams, $location, Pictures, Authentication, Mediums) {
             //Pagination
             $scope.loading = false;
             $scope.totalItems = 12;
@@ -183,14 +183,17 @@ angular.module('pictures')
 
             // Find a list of Pictures
             $scope.find = function () {
+                $scope.loading = true;
                 $scope.pictures = Pictures.query();
                 $scope.pictures.$promise.then(function () {
-
+                 $scope.loading = false;
                 })
             };
             $scope.getPictures = function () {
+                $scope.loading = true;
                 $scope.pictures = PicturesPage.get({ page: $scope.currentPage });
                 $scope.pictures.$promise.then(function (response) {
+                    $scope.loading = false;
                     $scope.pictures = response.pictures;
                     $scope.dataArtist = [];
                     if (response.count !== -1) $scope.totalItems = response.count;
@@ -209,12 +212,13 @@ angular.module('pictures')
                 getPicturesByArtist();
             }
             var getPicturesByArtist = function () {
+                $scope.loading = true;
                 $scope.listedBy = 'getPicturesByArtist';
                 $scope.pictures = PicturesByArtist.get({ artistId: $scope.dataArtist.selectedOption._id, page: $scope.currentPage });
                 $scope.pictures.$promise.then(function (response) {
+                    $scope.loading = false;
                     $scope.pictures = response.pictures;
                     if (response.count !== -1) $scope.totalItems = response.count;
-                    $scope.loading = false;
                 });
             };
             $scope.yearListChanged = function () {
@@ -222,6 +226,7 @@ angular.module('pictures')
                 getPicturesByYear();
             }
             var getPicturesByYear = function () {
+                $scope.loading = true;
                 $scope.listedBy = 'getPicturesByYear';
                 $scope.pictures = PicturesByYear.get({ year: $scope.yearListData.selectedOption.year, page: $scope.currentPage });
                 $scope.pictures.$promise.then(function (response) {
