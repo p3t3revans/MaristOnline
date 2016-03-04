@@ -5,7 +5,9 @@ module.exports = {
     lib: {
       css: [
         'public/lib/bootstrap/dist/css/bootstrap.css',
-        'public/lib/bootstrap/dist/css/bootstrap-theme.css'
+        'public/lib/bootstrap/dist/css/bootstrap-theme.css',
+        'public/lib/slick-carousel/slick/slick.css',
+        'public/lib/slick-carousel/slick/slick-theme.css'
       ],
       js: [
         'public/lib/angular/angular.js',
@@ -15,7 +17,10 @@ module.exports = {
         'public/lib/angular-ui-utils/ui-utils.js',
         'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
         'public/lib/angular-file-upload/angular-file-upload.js',
-        'public/lib/angular-spinners/dist/angular-spinners.js'
+        'public/lib/angular-spinners/dist/angular-spinners.js',
+        'public/lib/jquery/dist/jquery.js',
+        'public/lib/slick-carousel/slick/slick.js',
+        'public/lib/angular-slick/dist/slick.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },

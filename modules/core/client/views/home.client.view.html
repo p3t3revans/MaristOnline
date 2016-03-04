@@ -16,18 +16,25 @@
     </div>
     <div class="container-fluid">
         <div class="row">
+
             <div class="col-xs-6 slider-wrapper" style="border: 2px solid light-grey">
                 <div class="row">
-                    <spinner name="frontSpinner" img-src="modules/core/img/loaders/loader.gif" show="loading"><h3>   Loading...</h3></spinner>
-                    <carousel data-ride="carousel" interval="myInterval">
+                    <spinner name="frontSpinner" img-src="modules/core/img/loaders/loader.gif" show="loading">
+                        <h3>   Loading...</h3></spinner>
+                    <slick>
+                        <div class="my-slide" ng-repeat="slide in slides">
+                            <a><img ng-src="{{slide.image}}"  /></a>
+                        </div>
+                    </slick>
+                <!--    <carousel data-ride="carousel" interval="myInterval">
                         <slide ng-repeat="slide in slides" active="slide.active">
                             <img ng-src="{{slide.image}}" class="thumbnail" height="250px" width="auto">
-                            <div class="carousel-caption">
+                            <div class="carousel-caption"> -->
                                 <!-- <h4>Slide {{$index}}</h4> -->
-                                <p>{{slide.text}}</p>
+                  <!--              <p>{{slide.text}}</p>
                             </div>
                         </slide>
-                    </carousel>
+                    </carousel>  -->
                 </div>
                 <div class="row">
                     <a data-ng-repeat="article in newsArticles" data-ui-sref="articles.view({articleId: article._id})" class="list-group-item">

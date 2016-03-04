@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pictures')
-    .controller('PictureCtrl', ['spinnerService','PicturesByYear', 'PicturesByArtist', 'PicturesPage', 'Years', 'ArtistYearEnrolled', 'SubYears', 'Artists', 'Subjects', '$rootScope', '$scope', '$stateParams', '$location', 'Pictures', 'Authentication', 'Mediums',
+    .controller('PictureCtrl', ['spinnerService', 'PicturesByYear', 'PicturesByArtist', 'PicturesPage', 'Years', 'ArtistYearEnrolled', 'SubYears', 'Artists', 'Subjects', '$rootScope', '$scope', '$stateParams', '$location', 'Pictures', 'Authentication', 'Mediums',
         function (spinnerService, PicturesByYear, PicturesByArtist, PicturesPage, Years, ArtistYearEnrolled, SubYears, Artists, Subjects, $rootScope, $scope, $stateParams, $location, Pictures, Authentication, Mediums) {
             //Pagination
             $scope.loading = false;
@@ -186,7 +186,7 @@ angular.module('pictures')
                 $scope.loading = true;
                 $scope.pictures = Pictures.query();
                 $scope.pictures.$promise.then(function () {
-                 $scope.loading = false;
+                    $scope.loading = false;
                 })
             };
             $scope.getPictures = function () {
@@ -283,6 +283,13 @@ angular.module('pictures')
                 });
             };
         }]);
-
+        
+angular.module('pictures')
+    .directive('userInfoCard', function () {
+        return {
+           template: "Name: {{authentication.user.displayName}}",
+           restrict: "E"
+        }
+    })
   
   
