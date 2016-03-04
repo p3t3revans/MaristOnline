@@ -21,20 +21,16 @@
                 <div class="row">
                     <spinner name="frontSpinner" img-src="modules/core/img/loaders/loader.gif" show="loading">
                         <h3>   Loading...</h3></spinner>
-                    <slick>
-                        <div class="my-slide" ng-repeat="slide in slides">
-                            <a><img ng-src="{{slide.image}}"  /></a>
-                        </div>
-                    </slick>
-                <!--    <carousel data-ride="carousel" interval="myInterval">
+
+                    <carousel data-ride="carousel" interval="myInterval">
                         <slide ng-repeat="slide in slides" active="slide.active">
                             <img ng-src="{{slide.image}}" class="thumbnail" height="250px" width="auto">
-                            <div class="carousel-caption"> -->
+                            <div class="carousel-caption">
                                 <!-- <h4>Slide {{$index}}</h4> -->
-                  <!--              <p>{{slide.text}}</p>
+                                <p>{{slide.text}}</p>
                             </div>
                         </slide>
-                    </carousel>  -->
+                    </carousel>
                 </div>
                 <div class="row">
                     <a data-ng-repeat="article in newsArticles" data-ui-sref="articles.view({articleId: article._id})" class="list-group-item">
@@ -77,40 +73,7 @@
                 </div>
 
             </div>
-
-            <!--                <carousel interval="myInterval" no-wrap="noWrapSlides">
-                    <slide ng-repeat="slide in slides" active="slide.active" index="slide.id">
-                        <img ng-src="{{slide.image}}" style="margin:auto;" class="thumbnail" height="30px" width="auto">
-                        <div class="carousel-caption">
-                            <h4>Slide {{slide.id}}</h4>
-                            <p>{{slide.text}}</p>
-                        </div>
-                    </slide>
-                </carousel>
-                <slider class="slider center" data-slick='{"slidesToShow": 4, "slidesToScroll": 4}'>
-                    <div>
-                        <h3>1</h3></div>
-                    <div>
-                        <h3>2</h3></div>
-                    <div>
-                        <h3>3</h3></div>
-                    <div>
-                        <h3>4</h3></div>
-                    <div>
-                        <h3>5</h3></div>
-                    <div>
-                        <h3>6</h3></div>
-                </slider>-->
         </div>
     </div>
 </div>
-<!--  <div class="row">
-    <div class="col-md-6">
-      <button type="button" class="btn btn-info" ng-click="addSlide()">Add Slide</button>
-    </div>
-    <div class="col-md-6">
-      Interval, in milliseconds: <input type="number" class="form-control" ng-model="myInterval">
-      <br />Enter a negative number to stop the interval.
-    </div>
-  </div> -->
 </div>
