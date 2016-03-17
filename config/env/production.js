@@ -4,10 +4,11 @@ module.exports = {
   secure: true,
   port: process.env.PORT || 8443,
   db: {
-    uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/marist',
+    //uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://p3t3revans@live.com:I@mp3ter@ds015859.mlab.com:15859/picture',
+    uri: 'ds015859.mlab.com:15859/picture',
     options: {
-      user: '',
-      pass: ''
+      user: 'p3t3revans@live.com',
+      pass: 'I@mp3ter'
     },
     // Enable mongoose debug mode
     debug: process.env.MONGODB_DEBUG || false
