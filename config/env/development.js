@@ -4,11 +4,11 @@ var defaultEnvConfig = require('./default');
 
 module.exports = {
   db: {
-    //uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/picture',
-    uri: 'ds015859.mlab.com:15859/picture',
+    uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/picture',
+  //  uri: 'ds015859.mlab.com:15859/picture',
     options: {
-      user: 'p3t3revans@live.com',
-      pass: 'I@mp3ter'
+      user: '',
+      pass: ''
     },
     // Enable mongoose debug mode
     debug: process.env.MONGODB_DEBUG || false
