@@ -5,23 +5,26 @@
   "path": "typings",
   "bundle": "typings/tsd.d.ts",
   "installed": {
-    "jquery/jquery.d.ts": {
-      "commit": "8ea42cd8bb11863ed6f242d67c502288ebc45a7b"
-    },
-    "angularjs/angular.d.ts": {
-      "commit": "8ea42cd8bb11863ed6f242d67c502288ebc45a7b"
-    },
-    "node/node.d.ts": {
-      "commit": "8ea42cd8bb11863ed6f242d67c502288ebc45a7b"
-    },
-    "mime/mime.d.ts": {
-      "commit": "8ea42cd8bb11863ed6f242d67c502288ebc45a7b"
-    },
     "serve-static/serve-static.d.ts": {
-      "commit": "8ea42cd8bb11863ed6f242d67c502288ebc45a7b"
+      "commit": "247e8d48404d11f3aff85dea5029413229e0fc36"
     },
     "express/express.d.ts": {
-      "commit": "8ea42cd8bb11863ed6f242d67c502288ebc45a7b"
+      "commit": "247e8d48404d11f3aff85dea5029413229e0fc36"
+    },
+    "mime/mime.d.ts": {
+      "commit": "247e8d48404d11f3aff85dea5029413229e0fc36"
+    },
+    "node/node.d.ts": {
+      "commit": "247e8d48404d11f3aff85dea5029413229e0fc36"
+    },
+    "express-serve-static-core/express-serve-static-core.d.ts": {
+      "commit": "247e8d48404d11f3aff85dea5029413229e0fc36"
+    },
+    "angularjs/angular.d.ts": {
+      "commit": "247e8d48404d11f3aff85dea5029413229e0fc36"
+    },
+    "jquery/jquery.d.ts": {
+      "commit": "247e8d48404d11f3aff85dea5029413229e0fc36"
     }
   }
 }

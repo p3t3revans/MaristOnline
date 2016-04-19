@@ -1,0 +1,13 @@
+--- 
+declared-services:
+  mean-mongo:
+    label: mongodb
+    plan: 100
+applications:
+- name: mcc-onlineart
+  host: mcc-onlineart
+  memory: 128M
+  services:
+    - mean-mongo
+  env:
+    NODE_ENV: cloud-foundry
