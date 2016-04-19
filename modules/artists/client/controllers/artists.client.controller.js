@@ -1,15 +1,37 @@
-'use strict';
-
-angular.module('artists')
-    .controller('ArtistCtrl', ['ArtistYearEnrolled', 'Years', '$scope', '$stateParams', '$location', 'Artists', 'Authentication', function (ArtistYearEnrolled, Years, $scope, $stateParams, $location, Artists, Authentication) {
-        $scope.authentication = Authentication;
-        $scope.showUser = false;
-        if ($scope.authentication.user.roles.indexOf('admin') !== -1 || $scope.authentication.user.roles.indexOf('teach') !== -1) $scope.showUser = true;
+(function () {
+    'use strict';
+    angular
+        .module('artists')
+        .controller('ArtistsController', ArtistsController);
+    ArtistsController.$inject = ['PicturesByArtist', 'YearsService', '$scope', '$state', 'artistResolve', '$window', 'Authentication'];
+    function ArtistsController(PicturesByArtist, YearsService, $scope, $state, artist, $window, Authentication) {
+        var vm = this;
+        //save
+        vm.artist = artist;
+        vm.authentication = Authentication;
+        vm.showUser = false;
+        if (vm.authentication.user != '') {
+            if (vm.authentication.user.roles.indexOf('admin') == 1 || vm.authentication.user.roles.indexOf('teach') == 1)
+                vm.showUser = true;
+        }
+        vm.wait = false;
+        $scope.totalItems = 12;
+        $scope.currentPage = 1;
+        $scope.maxSize = 5;
+        $scope.per_page = 10;
+        $scope.setPage = function (pageNo) {
+            $scope.currentPage = pageNo;
+        };
+        $scope.pageChanged = function () {
+            getPicturesByArtist();
+        };
+        vm.error = null;
+        vm.form = {};
+        vm.remove = remove;
+        vm.save = save;
+        // year selection data
         var today = new Date();
-        //var dd = today.getDate();
-        //var mm = today.getMonth() + 1; //January is 0!
         var yyyy = today.getFullYear();
-        // need to add these as mongo items as well
         $scope.yearSelect = yyyy;
         var setYearOption = function (select) {
             if (select) {
@@ -22,13 +44,24 @@ angular.module('artists')
                 }
             }
         };
+        var setHouseOption = function (house) {
+            for (var k = 0; k < $scope.house.availableOptions.length; k++) {
+                if ($scope.house.availableOptions[k].name === house) {
+                    $scope.house.selectedOption = $scope.house.availableOptions[k];
+                    break;
+                }
+            }
+        };
         $scope.yearData = [];
-        $scope.yearData = Years.query();
+        $scope.yearData = YearsService.query();
         $scope.yearData.$promise.then(function (result) {
             $scope.yearData = result;
+            if (vm.artist.yearEnrolled) {
+                yyyy = vm.artist.yearEnrolled;
+            }
             setYearOption(yyyy);
         });
-
+        // house data for dropdown
         $scope.house = {
             availableOptions: [
                 { name: 'Conway' },
@@ -41,90 +74,54 @@ angular.module('artists')
                 { name: 'Patrick' }
             ]
         };
-        
-        $scope.filterByYear = function (){
-            $scope.artists = ArtistYearEnrolled.query({ yearEnrolled: $scope.yearData.selectedOption.year});
+        if (vm.artist.house) {
+            setHouseOption(vm.artist.house);
         }
-
-        $scope.create = function () {
-            // Create new Artist object
-            var artist = new Artists({
-                name: $scope.artist.name,
-                description: $scope.artist.description,
-                yearEnrolled: $scope.yearData.selectedOption.year,
-                house: $scope.house.selectedOption.name
-            });
-
-            // Redirect after save
-            artist.$save(function (response) {
-                $location.path('artists/' + response._id);
-
-                // Clear form fields
-                $scope.name = '';
-                $scope.description = '';
-                $scope.yearEnrolled = '';
-            }, function (errorResponse) {
-                $scope.error = errorResponse.data.message;
-            });
-        };
-
         // Remove existing Artist
-        $scope.remove = function (artist) {
-            if (artist) {
-                artist.$remove();
-
-                for (var i in $scope.artists) {
-                    if ($scope.artists[i] === artist) {
-                        $scope.artists.splice(i, 1);
-                    }
-                }
-            } else {
-                $scope.artist.$remove(function () {
-                    $location.path('artists');
+        function remove() {
+            if ($window.confirm('Are you sure you want to delete?')) {
+                vm.artist.$remove($state.go('artists.list'));
+            }
+        }
+        // Save Artist
+        function save(isValid) {
+            vm.artist.yearEnrolled = $scope.yearData.selectedOption.year;
+            vm.artist.house = $scope.house.selectedOption.name;
+            if (!isValid) {
+                $scope.$broadcast('show-errors-check-validity', 'vm.form.artistForm');
+                return false;
+            }
+            // TODO: move create/update logic to service
+            if (vm.artist._id) {
+                vm.artist.$update(successCallback, errorCallback);
+            }
+            else {
+                vm.artist.$save(successCallback, errorCallback);
+            }
+            function successCallback(res) {
+                $state.go('artists.view', {
+                    artistId: res._id
                 });
             }
+            function errorCallback(res) {
+                vm.error = res.data.message;
+            }
+        }
+        //$scope.getPictures();
+        $scope.artistChanged = function () {
+            $scope.currentPage = 1;
+            $scope.totalItems = 0;
+            getPicturesByArtist();
         };
-
-        // Update existing Artist
-        $scope.update = function () {
-            var artist = $scope.artist;
-            artist.yearEnrolled = $scope.yearData.selectedOption.year;
-            artist.house = $scope.house.selectedOption.name;
-            artist.$update(function () {
-                $location.path('artists/' + artist._id);
-            }, function (errorResponse) {
-                $scope.error = errorResponse.data.message;
+        var getPicturesByArtist = function () {
+            vm.wait = true;
+            vm.pictures = PicturesByArtist.get({ artistId: vm.artist._id, page: $scope.currentPage, count: $scope.totalItems });
+            vm.pictures.$promise.then(function (response) {
+                vm.wait = false;
+                vm.pictures = response.pictures;
+                if (response.count !== -1)
+                    $scope.totalItems = response.count;
             });
         };
-
-        // Find a list of Artists
-        $scope.find = function () {
-            $scope.artists = Artists.query();
-        };
-
-        // Find existing Artist
-        $scope.findOne = function () {
-            $scope.artist = Artists.get({
-                artistId: $stateParams.artistId
-            });
-            $scope.artist.$promise.then(function () {
-                if ($scope.artist.yearEnrolled) {
-                    setYearOption($scope.artist.yearEnrolled);
-
-                }
-                if ($scope.artist.house) {
-                    for (var k = 0; k < $scope.house.availableOptions.length; k++) {
-                        if ($scope.house.availableOptions[k].name === $scope.artist.house) {
-                            $scope.house.selectedOption = $scope.house.availableOptions[k];
-                            break;
-                        }
-                    }
-                }
-            });
-
-
-        };
-    }]);
-
-  
-  
+    }
+}());

@@ -1,32 +1,45 @@
-<section data-ng-controller="PictureCtrl" data-ng-init="getPictures()">
+<section>
     <div class="page-header">
-        <h1>{{headingTitle}}</h1>
+        <h1>Pictures</h1>
     </div>
-    <div class="container">
-        <div class="panel panel-default">
-            <div class="panel-heading">{{headingTitle}} by
-                <label for="year"> Year : </label>
-                <select name="year" id="yearSelect" ng-options="option.year for option in yearListData track by option.year" ng-model="yearListData.selectedOption"
-                width="200px" ng-change="yearListChanged()" required></select>
-                <label for="dataArtist"> Artist : </label>
-                <select name="dataArtist" id="dataArtist" ng-options="option.name for option in dataArtist track by option.name" ng-model="dataArtist.selectedOption"
-                width="200px" ng-change="artistChanged()" required></select>
-            </div>
-            <span>
-             <spinner name="frontSpinner" img-src="modules/core/img/loaders/loader.gif" show="loading"><h3>   Loading...</h3></spinner>
-            <ul  class="list-group">
-              <li class="list-group-item"  ng-repeat="picture in pictures" >
-                <a href="/pictures/{{picture._id}}"><img class="img-rounded" ng-src="{{picture.picture}}" width="5%" height="auto" /></a>                   
-                <a ng-hide="!showUser" class="btn" href="/pictures/{{picture._id}}/edit"><i class="glyphicon glyphicon-edit"></i></a>
-                <a ng-hide="!showUser" class="btn" data-ng-click="remove(picture);"><i class="glyphicon glyphicon-trash"></i></a>            
-                <a href="/pictures/{{picture._id}}">{{picture.title}}</a>
-              </li>
-            </ul>
-                <pagination max-size="maxSize" total-items="totalItems" 
-                items-per-page="1" ng-model="currentPage" ng-change="pageChanged()" 
-                boundary-links="true" rotate="false">
-                </pagination>
-            </span>
+    <div class="row">
+        <h3>Make your section to list the artworks.</h3>
+    </div>
+    <div class="form-group">
+        <label for="year"> Year : </label>
+        <select name="year" id="yearSelect" ng-options="option.year for option in yearListData track by option.year" ng-model="yearListData.selectedOption"
+        width="200px" ng-change="yearListChanged()" required></select>
+    </div>
+    <div class="form-group">
+        <label for="dataArtist"> Artist : </label>
+        <select name="dataArtist" id="dataArtist" ng-options="option.name for option in dataArtist track by option.name" ng-model="dataArtist.selectedOption"
+        width="200px" ng-change="artistChanged()" required></select>
+    </div>
+    <div class="list-group">
+        <div class="form-group text-center" ng-show="vm.wait">
+            <img ng-src="modules/core/client/img/loaders/loader.gif" alt="loading">
         </div>
+        <a ng-repeat="picture in vm.pictures" ui-sref="pictures.view({ pictureId: picture._id })" class="list-group-item">
+            <div class="row">
+                <img ng-src="{{picture.picture}}" alt="{{picture.title}}" class="img-thumbnail pull-left" height="auto" width="10%">
+                <p>
+                    Artist :
+                    <span class="list-group-item-heading" ng-bind="picture.artistName"></span>
+                    <br> Title :
+                    <span class="list-group-item-heading" ng-bind="picture.title"></span>
+                    <br> Description :
+                    <span class="list-group-item-text" ng-bind="picture.content"></span>
+                    <br> Subject :
+                    <span class="list-group-item-text" ng-bind="picture.subjectName"></span>
+                    <br> Year :
+                    <span class="list-group-item-text" ng-bind="picture.year"></span>
+                    <br> Teacher :
+                    <span class="list-group-item-text" ng-bind="picture.teacher"></span>
+                    <br>
+                    <span ng-if="picture.frontPage">Used in front page carousel.</span>
+                </p>
+            </div>
+        </a>
     </div>
+    <uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" rotate="false" num-pages="numPages" items-per-page="5" ng-change="pageChanged()"></uib-pagination>
 </section>

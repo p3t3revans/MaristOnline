@@ -1,22 +1,14 @@
-<section data-ng-controller="TeachersController" data-ng-init="findOne()">
+<section>
   <div class="page-header">
-    <h1 data-ng-bind="teacher.title"></h1>
-  </div>
-  <div class="pull-right" data-ng-show="authentication.user._id == teacher.user._id">
-    <a class="btn btn-primary" data-ui-sref="teachers.edit({teacherId: teacher._id})">
-      <i class="glyphicon glyphicon-edit"></i>
+    <h1 ng-bind="vm.teacher.title"></h1>
+  </div> 
+  <div class="pull-right" ng-show="vm.showUser">
+    <a class="btn btn-primary" ui-sref="teachers.edit({ teacherId: vm.teacher._id })" ng-show="vm.showUser">
+      <i class="glyphicon glyphicon-edit" ng-show="vm.showUser"></i>
     </a>
-    <a class="btn btn-primary" data-ng-click="remove();">
-      <i class="glyphicon glyphicon-trash"></i>
+    <a class="btn btn-primary" ng-click="vm.remove()" ng-show="vm.showUser">
+      <i class="glyphicon glyphicon-trash" ng-show="vm.showUser"></i>
     </a>
   </div>
-  <small>
-    <em class="text-muted">
-      Created on
-      <span data-ng-bind="teacher.created | date:'mediumDate'"></span>
-      by
-      <span data-ng-bind="teacher.user.displayName"></span>
-    </em>
-  </small>
-  <p class="lead" data-ng-bind="teacher.content"></p>
+  <p class="lead" ng-bind="vm.teacher.content"></p>
 </section>

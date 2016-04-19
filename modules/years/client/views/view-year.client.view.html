@@ -1,21 +1,13 @@
-<section data-ng-controller="YearsController" data-ng-init="findOne()">
-  <div class="page-header">
-    <h1 data-ng-bind="year.year"></h1>
-  </div>
-  <div class="pull-right" data-ng-show="authentication.user._id == year.user._id">
-    <a class="btn btn-primary" data-ui-sref="years.edit({yearId: year._id})">
-      <i class="glyphicon glyphicon-edit"></i>
-    </a>
-    <a class="btn btn-primary" data-ng-click="remove();">
-      <i class="glyphicon glyphicon-trash"></i>
-    </a>
-  </div>
-  <small>
-    <em class="text-muted">
-      Created on
-      <span data-ng-bind="year.created | date:'mediumDate'"></span>
-      by
-      <span data-ng-bind="year.user.displayName"></span>
-    </em>
-  </small>
+<section>
+    <div class="page-header">
+        <h1 ng-bind="vm.year.year"></h1>
+    </div>
+    <div class="pull-right" ng-show="vm.showUser">
+        <a class="btn btn-primary" ui-sref="years.edit({ yearId: vm.year._id })" ng-show="vm.showUser">
+            <i class="glyphicon glyphicon-edit" ng-show="vm.showUser"></i>
+        </a>
+        <a class="btn btn-primary" ng-click="vm.remove()" ng-show="vm.showUser">
+            <i class="glyphicon glyphicon-trash" ng-show="vm.showUser"></i>
+        </a>
+    </div>
 </section>

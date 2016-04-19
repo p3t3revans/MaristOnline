@@ -1,23 +1,31 @@
-<section data-ng-controller="PictureCtrl" data-ng-init="findOne()">
+<section>
     <div class="page-header">
-        <h1 data-ng-bind="picture.title"></h1>
+        <h1 ng-bind="vm.picture.title"></h1>
     </div>
-    <div class="container">
-        <div class="panel panel-default">
-            <div class="panel-heading">View Picture</div>
-            <div class="panel-body">
-                <div class="media">
-                    <div class="pull-left">
-                        <div id="myDiv">
-                            <img class="img-rounded text-center" ng-src="{{picture.picture}}"> <!--class="media-object img-rounded"-->
-                        </div>
-                        <a ng-hide="!showUser" class="btn" href="/pictures/{{picture._id}}/edit">
-                            <i class="glyphicon glyphicon-edit"></i>
-                        </a>
-                        <p>Title: {{picture.title}}, Artist: {{picture.artistName}}, Medium: {{picture.medium}}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="pull-right" ng-show="vm.showUser">
+        <a class="btn btn-primary" ui-sref="pictures.edit({ pictureId: vm.picture._id })" ng-show="vm.showUser">
+            <i class="glyphicon glyphicon-edit" ng-show="vm.showUser"></i>
+        </a>
+        <a class="btn btn-primary" ng-click="vm.remove()" ng-show="vm.showUser">
+            <i class="glyphicon glyphicon-trash" ng-show="vm.showUser"></i>
+        </a>
     </div>
+    <div class="form-group text-center">
+        <img ng-src="{{vm.picture.picture}}" alt="{{vm.picture.title}}" class="img-thumbnail img-responsive">
+    </div>
+    <div>
+        Artist :
+        <span class="lead" ng-bind="vm.picture.artistName"></span>
+        <br> Description :
+        <span class="lead" ng-bind="vm.picture.content"></span>
+        <br> Subject :
+        <span class="lead" ng-bind="vm.picture.subjectName"></span>
+        <br> Year :
+        <span class="lead" ng-bind="vm.picture.year"></span>
+        <br> Teacher :
+        <span class="lead" ng-bind="vm.picture.teacher"></span>
+        <br>
+        <span ng-if="picture.frontPage">Used in front page carousel.</span>
+    </div>
+
 </section>

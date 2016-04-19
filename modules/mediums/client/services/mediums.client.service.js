@@ -1,14 +1,16 @@
-'use strict';
-
-//Mediums service used for communicating with the mediums REST endpoints
-angular.module('mediums').factory('Mediums', ['$resource',
-  function ($resource) {
-    return $resource('api/mediums/:mediumId', {
-      mediumId: '@_id'
-    }, {
-      update: {
-        method: 'PUT'
-      }
-    });
-  }
-]);
+(function () {
+    'use strict';
+    angular
+        .module('mediums.services')
+        .factory('MediumsService', MediumsService);
+    MediumsService.$inject = ['$resource'];
+    function MediumsService($resource) {
+        return $resource('api/mediums/:mediumId', {
+            mediumId: '@_id'
+        }, {
+            update: {
+                method: 'PUT'
+            }
+        });
+    }
+}());

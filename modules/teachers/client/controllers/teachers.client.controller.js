@@ -1,68 +1,50 @@
-'use strict';
-
-// Teachers controller
-angular.module('teachers').controller('TeachersController', ['$scope', '$stateParams', '$location', 'Authentication', 'Teachers',
-  function ($scope, $stateParams, $location, Authentication, Teachers) {
-    $scope.authentication = Authentication;
-
-    // Create new Teacher
-    $scope.create = function () {
-      // Create new Teacher object
-      var teacher = new Teachers({
-        title: this.title,
-        content: this.content
-      });
-
-      // Redirect after save
-      teacher.$save(function (response) {
-        $location.path('teachers/' + response._id);
-
-        // Clear form fields
-        $scope.title = '';
-        $scope.content = '';
-      }, function (errorResponse) {
-        $scope.error = errorResponse.data.message;
-      });
-    };
-
-    // Remove existing Teacher
-    $scope.remove = function (teacher) {
-      if (teacher) {
-        teacher.$remove();
-
-        for (var i in $scope.teachers) {
-          if ($scope.teachers[i] === teacher) {
-            $scope.teachers.splice(i, 1);
-          }
+(function () {
+    'use strict';
+    angular
+        .module('teachers')
+        .controller('TeachersController', TeachersController);
+    TeachersController.$inject = ['$scope', '$state', 'teacherResolve', '$window', 'Authentication'];
+    function TeachersController($scope, $state, teacher, $window, Authentication) {
+        var vm = this;
+        //
+        vm.teacher = teacher;
+        vm.authentication = Authentication;
+        vm.showUser = false;
+        if (vm.authentication.user != '') {
+            if (vm.authentication.user.roles.indexOf('admin') == 1 || vm.authentication.user.roles.indexOf('teach') == 1)
+                vm.showUser = true;
         }
-      } else {
-        $scope.teacher.$remove(function () {
-          $location.path('teachers');
-        });
-      }
-    };
-
-    // Update existing Teacher
-    $scope.update = function () {
-      var teacher = $scope.teacher;
-
-      teacher.$update(function () {
-        $location.path('teachers/' + teacher._id);
-      }, function (errorResponse) {
-        $scope.error = errorResponse.data.message;
-      });
-    };
-
-    // Find a list of Teachers
-    $scope.find = function () {
-      $scope.teachers = Teachers.query();
-    };
-
-    // Find existing Teacher
-    $scope.findOne = function () {
-      $scope.teacher = Teachers.get({
-        teacherId: $stateParams.teacherId
-      });
-    };
-  }
-]);
+        vm.error = null;
+        vm.form = {};
+        vm.remove = remove;
+        vm.save = save;
+        // Remove existing Teacher
+        function remove() {
+            if ($window.confirm('Are you sure you want to delete?')) {
+                vm.teacher.$remove($state.go('teachers.list'));
+            }
+        }
+        // Save Teacher
+        function save(isValid) {
+            if (!isValid) {
+                $scope.$broadcast('show-errors-check-validity', 'vm.form.teacherForm');
+                return false;
+            }
+            // TODO: move create/update logic to service
+            if (vm.teacher._id) {
+                vm.teacher.$update(successCallback, errorCallback);
+            }
+            else {
+                vm.teacher.$save(successCallback, errorCallback);
+            }
+            function successCallback(res) {
+                $state.go('teachers.view', {
+                    teacherId: res._id
+                });
+            }
+            function errorCallback(res) {
+                vm.error = res.data.message;
+            }
+        }
+    }
+}());

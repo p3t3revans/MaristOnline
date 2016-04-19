@@ -1,32 +1,31 @@
-<section data-ng-controller="SubjectCtrl" data-ng-init="findOneView()">
+<section>
     <div class="page-header">
-        <h1 data-ng-bind="subject.title"></h1>
+        <h1 ng-bind="vm.subject.title"></h1>
     </div>
-    <div class="pull-right">
-        <!--data-ng-show="authentication.user._id == subject.user._id"-->
-        <a ng-hide="!showUser"  class="btn btn-primary" data-ui-sref="subjects.edit({subjectId: subject._id})">
-            <i class="glyphicon glyphicon-edit"></i>
+    <div class="pull-right" ng-show="vm.showUser">
+        <a class="btn btn-primary" ui-sref="subjects.edit({ subjectId: vm.subject._id })" ng-show="vm.showUser">
+            <i class="glyphicon glyphicon-edit" ng-show="vm.showUser"></i>
         </a>
-        <a ng-hide="!showUser"  class="btn btn-primary" data-ng-click="remove();">
-            <i class="glyphicon glyphicon-trash"></i>
+        <a class="btn btn-primary" ng-click="vm.remove()" ng-show="vm.showUser">
+            <i class="glyphicon glyphicon-trash" ng-show="vm.showUser"></i>
         </a>
     </div>
-    <div>
-        <h4>
-      Title :
-      <span data-ng-bind="subject.title"></span><br>
-      Description : 
-      <span data-ng-bind="subject.description"></span><br>
-      Teacher : 
-      <span data-ng-bind="subject.teacher"></span>   
-    </h4>
+    <div class="form-group">
+        Description :
+        <span ng-bind="vm.subject.description"></span>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item" ng-repeat="artist in artists">
-            <a href="/artists/{{artist._id}}">{{artist.name}} </a>
-            <a ng-hide="!showUser" class="btn" href="/artists/{{artist._id}}/edit">
-                <i class="glyphicon glyphicon-edit"></i>
-            </a>
-        </li>
-    </ul>
+    <div class="form-group">
+        Teacher :
+        <span ng-bind="vm.subject.teacher"></span>
+    </div>
+    <div class="form-group">
+        <h4 class="list-group-heading">Artists</h4>
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="artist in artists" ng-show="artist.selected" ui-sref="artists.view({ artistId: artist._id })">
+                <a ui-sref="artists.view({ artistId: artist._id })">
+                    <span ng-bind="artist.name"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
 </section>

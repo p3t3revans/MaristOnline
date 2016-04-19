@@ -1,14 +1,16 @@
-'use strict';
-
-//Years service used for communicating with the years REST endpoints
-angular.module('years').factory('Years', ['$resource',
-  function ($resource) {
-    return $resource('api/years/:yearId', {
-      yearId: '@_id'
-    }, {
-      update: {
-        method: 'PUT'
-      }
-    });
-  }
-]);
+(function () {
+    'use strict';
+    angular
+        .module('years.services')
+        .factory('YearsService', YearsService);
+    YearsService.$inject = ['$resource'];
+    function YearsService($resource) {
+        return $resource('api/years/:yearId', {
+            yearId: '@_id'
+        }, {
+            update: {
+                method: 'PUT'
+            }
+        });
+    }
+}());

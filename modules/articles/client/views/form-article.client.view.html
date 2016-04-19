@@ -1,0 +1,42 @@
+<section>
+    <div class="page-header">
+        <h1>{{vm.article._id ? 'Edit Article' : 'New Article'}}</h1>
+    </div>
+    <div class="col-md-12">
+        <form name="vm.form.articleForm" class="form-horizontal" ng-submit="vm.save(vm.form.articleForm.$valid)" novalidate>
+            <fieldset>
+                <div class="form-group" show-errors>
+                    <label class="control-label" for="title">Title</label>
+                    <input name="title" type="text" ng-model="vm.article.title" id="title" class="form-control" placeholder="Title" required>
+                    <div ng-messages="vm.form.articleForm.title.$error" role="alert">
+                        <p class="help-block error-text" ng-message="required">Article title is required.</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="content">Content</label>
+                    <textarea name="content" data-ng-model="vm.article.content" id="content" class="form-control" cols="30" rows="10" placeholder="Content"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="checkboxFront"> Use for Front Page : </label>
+                    <input name "checkboxFront" type="checkbox" ng-model="vm.article.displayFrontPage"></input>
+                </div>
+                <div class="form-group">
+                    <label for="leadArticle"> Lead Article : </label>
+                    <input name "leadArticle" type="checkbox" ng-model="vm.article.leadArticle"></input>
+                </div>              
+                <div class="form-group text-center">
+                    <img ng-src="{{vm.article.picture}}" alt="{{vm.article.title}}" class="img-thumbnail img-responsive">
+                </div>
+                <div class="text-center form-group">
+                    <span class="btn btn-default btn-file">Select Image<input type="file" nv-file-select uploader="vm.uploader"></span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default">{{vm.article._id ? 'Update' : 'Create'}}</button>
+                </div>
+                <div ng-show="vm.error" class="text-danger">
+                    <strong ng-bind="vm.error"></strong>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</section>

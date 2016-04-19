@@ -1,295 +1,257 @@
-'use strict';
-
-angular.module('pictures')
-    .controller('PictureCtrl', ['spinnerService', 'PicturesByYear', 'PicturesByArtist', 'PicturesPage', 'Years', 'ArtistYearEnrolled', 'SubYears', 'Artists', 'Subjects', '$rootScope', '$scope', '$stateParams', '$location', 'Pictures', 'Authentication', 'Mediums',
-        function (spinnerService, PicturesByYear, PicturesByArtist, PicturesPage, Years, ArtistYearEnrolled, SubYears, Artists, Subjects, $rootScope, $scope, $stateParams, $location, Pictures, Authentication, Mediums) {
-            //Pagination
-            $scope.loading = false;
-            $scope.totalItems = 12;
-            $scope.currentPage = 1;
-            $scope.maxSize = 5;
-            $scope.setPage = function (pageNo) {
-                $scope.currentPage = pageNo;
-            };
-            $scope.listedBy = 'getPictures';
-            $scope.pageChanged = function () {
-                if ($scope.listedBy === 'getPictures') {
-                    $scope.getPictures();
+(function () {
+    'use strict';
+    angular
+        .module('pictures')
+        .controller('PicturesController', PicturesController);
+    PicturesController.$inject = ['ArtistYearEnrolled', 'SubYears', 'YearsService', 'MediumsService', '$scope', '$timeout', '$state', 'pictureResolve', '$window', 'Authentication', 'FileUploader'];
+    function PicturesController(ArtistYearEnrolled, SubYears, YearsService, MediumsService, $scope, $timeout, $state, picture, $window, Authentication, FileUploader) {
+        var vm = this;
+        //
+        vm.picture = picture;
+        vm.authentication = Authentication;
+        vm.showUser = false;
+        if (vm.authentication.user != '') {
+            if (vm.authentication.user.roles.indexOf('admin') == 1 || vm.authentication.user.roles.indexOf('teach') == 1)
+                vm.showUser = true;
+        }
+        vm.error = null;
+        vm.form = {};
+        vm.remove = remove;
+        vm.save = save;
+        //used to setup the year drop down 
+        var today = new Date();
+        var yyyy = today.getFullYear();
+        var setYearOption = function (select) {
+            if (select) {
+                yyyy = select;
+                for (var x = 0; x < $scope.yearData.length; x++) {
+                    if ($scope.yearData[x].year === select) {
+                        $scope.yearData.selectedOption = $scope.yearData[x];
+                        break;
+                    }
                 }
-                else if ($scope.listedBy === 'getPicturesByArtist') {
-                    getPicturesByArtist();
+            }
+        };
+        $scope.yearData = YearsService.query();
+        $scope.yearData.$promise.then(function (result) {
+            $scope.yearData = result;
+            if (vm.picture.year) {
+                setYearOption(vm.picture.year);
+            }
+            else {
+            }
+        });
+        // year level drop down
+        /* this is not need for the picture as it is based on the subject
+        $scope.yearLevelData = {
+            availableOptions: [
+                { yearLevel: 7 },
+                { yearLevel: 8 },
+                { yearLevel: 9 },
+                { yearLevel: 10 },
+                { yearLevel: 11 },
+                { yearLevel: 12 }
+            ],
+            selectedOption: { yearLevel: 7 } //This sets the default value of the select in the ui
+        };
+        */
+        //semester dropdown
+        $scope.semesterData = {
+            availableOptions: [
+                { semester: 1 },
+                { semester: 2 }
+            ],
+            selectedOption: { semester: 1 } //This sets the default value of the select in the ui
+        };
+        //mediums drop down
+        $scope.medium = [];
+        $scope.data = [];
+        $scope.medium = MediumsService.query();
+        $scope.medium.$promise.then(function (result) {
+            $scope.data = result;
+            if (vm.picture.medium) {
+                for (var x = 0; x < $scope.data.length; x++) {
+                    if ($scope.data[x].title == vm.picture.medium) {
+                        $scope.data.selectedOption = $scope.data[x];
+                    }
                 }
-                else if ($scope.listedBy === 'getPicturesByYear') {
-                    getPicturesByYear();
-                }
-
-            };
-
-            $scope.authentication = Authentication;
-            $scope.showUser = false;
-            if ($scope.authentication.user.roles.indexOf('admin') !== -1 || $scope.authentication.user.roles.indexOf('teach') !== -1) $scope.showUser = true;
-            $scope.headingTitle = 'List Pictures';
-            $scope.dataSubject = [];
+            }
+            else {
+                $scope.data.selectedOption = $scope.data[0];
+            }
+        });
+        //subject dropdown
+        $scope.load = function () {
             $scope.dataArtist = [];
-            $scope.listArtist = [];
-            $scope.picture = new Pictures();
-            $scope.picture.picture = '';
-            var today = new Date();
-            //var dd = today.getDate();
-            //var mm = today.getMonth() + 1; //January is 0!
-            var yyyy = today.getFullYear();
-            // need to add these as mongo items as well
-            // $scope.dataSubject;
-            $scope.semesterSelect = 1;
-            $scope.yearSelect = yyyy;
-            var setYearOption = function (select) {
-                if (select) {
-                    yyyy = select;
-                    for (var x = 0; x < $scope.yearData.length; x++) {
-                        if ($scope.yearData[x].year === select) {
-                            $scope.yearData.selectedOption = $scope.yearData[x];
+            $scope.dataSubject = [];
+            $scope.semesterSelect = $scope.semesterData.selectedOption.semester;
+            $scope.yearSelect = $scope.yearData.selectedOption.year;
+            $scope.subjects = SubYears.query({ year: $scope.yearSelect, semester: $scope.semesterSelect });
+            $scope.subjects.$promise.then(function (result) {
+                $scope.dataSubject = result;
+            });
+        };
+        //artist dropdown
+        $scope.changeArtists = function () {
+            $scope.dataArtist = [];
+            var yearEnrolled = $scope.yearData.selectedOption.year + (7 - $scope.dataSubject.selectedOption.yearLevel);
+            $scope.artists = ArtistYearEnrolled.query({ yearEnrolled: yearEnrolled });
+            $scope.artists.$promise.then(function () {
+                for (var x = 0; x < $scope.artists.length; x++) {
+                    if ($scope.artists[x].active) {
+                        $scope.dataArtist.push($scope.artists[x]);
+                    }
+                }
+            });
+        };
+        //set up for the picture if it is edit mode 
+        if (vm.picture._id) {
+            $scope.dataArtist = [];
+            $scope.dataSubject = [];
+            //$scope.load();
+            if (vm.picture.yearLevel) {
+                var yearEnrolled = vm.picture.year + (7 - vm.picture.yearLevel);
+                $scope.artists = ArtistYearEnrolled.query({ yearEnrolled: yearEnrolled });
+                $scope.artists.$promise.then(function (result) {
+                    for (var c = 0; c < result.length; c++) {
+                        if (result[c].active) {
+                            $scope.dataArtist.push(result[c]);
+                        }
+                    }
+                    for (var z = 0; z < $scope.dataArtist.length; z++) {
+                        if ($scope.dataArtist[z].name === vm.picture.artistName) {
+                            $scope.dataArtist.selectedOption = $scope.dataArtist[z];
                             break;
                         }
                     }
+                });
+            }
+            if (vm.picture.semester) {
+                var len = $scope.semesterData.availableOptions.length;
+                for (var k = 0; k < len; k++) {
+                    if ($scope.semesterData.availableOptions[k].semester === vm.picture.semester) {
+                        $scope.semesterData.selectedOption = $scope.semesterData.availableOptions[k];
+                        break;
+                    }
                 }
             }
-            $scope.yearData = [];
-            $scope.yearData = Years.query();
-            $scope.yearData.$promise.then(function (result) {
-                $scope.yearData = result;
-                setYearOption(yyyy);
+            $scope.subjects = SubYears.query({ year: vm.picture.year, semester: vm.picture.semester });
+            $scope.subjects.$promise.then(function (result) {
+                $scope.dataSubject = result;
+                var lenSub = $scope.dataSubject.length;
+                for (var a = 0; a < lenSub; a++) {
+                    if ($scope.dataSubject[a]._id === vm.picture.subject) {
+                        $scope.dataSubject.selectedOption = $scope.dataSubject[a];
+                        break;
+                    }
+                }
             });
-            $scope.yearListData = [];
-            $scope.yearListData = Years.query();
-            $scope.yearListData.$promise.then(function (result) {
-                $scope.yearData = result;
-            });
-
-
-
-            $scope.medium = [];
-            $scope.data = [];
-            $scope.medium = Mediums.query();
-            $scope.medium.$promise.then(function (result) {
-                $scope.data = result;
-                $scope.data.selectedOption = $scope.data[0];
-            })
-            $scope.semesterData = {
-                availableOptions: [
-                    { semester: 1 },
-                    { semester: 2 }
-                ],
-                selectedOption: { semester: 1 } //This sets the default value of the select in the ui
-            };
-            $scope.load = function () {
-                $scope.dataArtist = [];
-                $scope.dataSubject = [];
-                $scope.semesterSelect = $scope.semesterData.selectedOption.semester;
-                $scope.yearSelect = $scope.yearData.selectedOption.year;
-                $scope.subjects = SubYears.query({ year: $scope.yearSelect, semester: $scope.semesterSelect });
-                $scope.subjects.$promise.then(function (result) {
-                    $scope.dataSubject = result;
-                });
-
-            };
-
-            $scope.changeArtists = function () {
-                $scope.dataArtist = [];
-                var yearEnrolled = $scope.yearData.selectedOption.year + (7 - $scope.dataSubject.selectedOption.yearLevel);
-                $scope.artists = ArtistYearEnrolled.query({ yearEnrolled: yearEnrolled });
-                $scope.artists.$promise.then(function () {
-                    for (var x = 0; x < $scope.artists.length; x++) {
-                        if ($scope.dataSubject.selectedOption.artists.indexOf($scope.artists[x]._id) > -1) {
-                            $scope.dataArtist.push($scope.artists[x]);
-                        }
-                    }
-
-                })
-            };
-            $scope.addPicture = function (element) {
-                if (element.files && element.files[0]) {
-                    var FR = new FileReader();
-                    FR.onload = function (e) {
-                        $scope.$apply(function ($scope) {
-                            $scope.picture.picture = e.target.result;
-                        });
-                    };
-                    FR.readAsDataURL(element.files[0]);
-
-                }
-            };//closure for addPicture
-  
-
-            $scope.create = function () {
-                // Create new Picture object
-                var picture = new Pictures({
-                    title: $scope.picture.title,
-                    description: $scope.picture.description,
-                    artist: $scope.dataArtist.selectedOption._id,
-                    artistName: $scope.dataArtist.selectedOption.name,
-                    year: $scope.yearData.selectedOption.year,
-                    medium: $scope.data.selectedOption.title,
-                    picture: $scope.picture.picture,
-                    subject: $scope.dataSubject.selectedOption._id,
-                    frontPage: $scope.picture.frontPage
-                });
-
-                // Redirect after save
-                picture.$save(function (response) {
-                    $location.path('pictures/' + response._id);
-
-                    // Clear form fields
-                    $scope.title = '';
-                    $scope.description = '';
-                    $scope.teacher = '';
-                }, function (errorResponse) {
-                    $scope.error = errorResponse.data.message;
-                });
-            };
-
-            // Remove existing Picture
-            $scope.remove = function (picture) {
-                if (picture) {
-                    picture.$remove();
-
-                    for (var i in $scope.pictures) {
-                        if ($scope.pictures[i] === picture) {
-                            $scope.pictures.splice(i, 1);
-                        }
-                    }
-                } else {
-                    $scope.picture.$remove(function () {
-                        $location.path('pictures');
-                    });
-                }
-            };
-
-            // Update existing Picture
-            $scope.update = function () {
-                var picture = $scope.picture;
-                picture.artist = $scope.dataArtist.selectedOption._id;
-                picture.artistName = $scope.dataArtist.selectedOption.name;
-                picture.year = $scope.yearData.selectedOption.year;
-                picture.medium = $scope.data.selectedOption.title;
-                picture.subject = $scope.dataSubject.selectedOption._id;
-                picture.frontPage = $scope.picture.frontPage;
-                picture.$update(function () {
-                    $location.path('pictures/' + picture._id);
-                }, function (errorResponse) {
-                    $scope.error = errorResponse.data.message;
-                }
-                    );
-            };
-
-            // Find a list of Pictures
-            $scope.find = function () {
-                $scope.loading = true;
-                $scope.pictures = Pictures.query();
-                $scope.pictures.$promise.then(function () {
-                    $scope.loading = false;
-                })
-            };
-            $scope.getPictures = function () {
-                $scope.loading = true;
-                $scope.pictures = PicturesPage.get({ page: $scope.currentPage });
-                $scope.pictures.$promise.then(function (response) {
-                    $scope.loading = false;
-                    $scope.pictures = response.pictures;
-                    $scope.dataArtist = [];
-                    if (response.count !== -1) $scope.totalItems = response.count;
-                    $scope.loading = false;
-                    $scope.listArtists = Artists.query();
-                    $scope.listArtists.$promise.then(function () {
-                        for (var x = 0; x < $scope.listArtists.length; x++) {
-                            $scope.dataArtist.push($scope.listArtists[x]);
-                        }
-
-                    })
-                });
-            };
-            $scope.artistChanged = function () {
-                $scope.currentPage = 1;
-                getPicturesByArtist();
-            }
-            var getPicturesByArtist = function () {
-                $scope.loading = true;
-                $scope.listedBy = 'getPicturesByArtist';
-                $scope.pictures = PicturesByArtist.get({ artistId: $scope.dataArtist.selectedOption._id, page: $scope.currentPage });
-                $scope.pictures.$promise.then(function (response) {
-                    $scope.loading = false;
-                    $scope.pictures = response.pictures;
-                    if (response.count !== -1) $scope.totalItems = response.count;
-                });
-            };
-            $scope.yearListChanged = function () {
-                $scope.currentPage = 1;
-                getPicturesByYear();
-            }
-            var getPicturesByYear = function () {
-                $scope.loading = true;
-                $scope.listedBy = 'getPicturesByYear';
-                $scope.pictures = PicturesByYear.get({ year: $scope.yearListData.selectedOption.year, page: $scope.currentPage });
-                $scope.pictures.$promise.then(function (response) {
-                    $scope.pictures = response.pictures;
-                    if (response.count !== -1) $scope.totalItems = response.count;
-                    $scope.loading = false;
-                });
-            };
-            // Find existing Picture
-            $scope.findOne = function () {
-                $scope.picture = Pictures.get({
-                    pictureId: $stateParams.pictureId
-                });
-                $scope.picture.$promise.then(function () {
-                    if ($scope.picture.medium) {
-                        for (var x = 0; x < $scope.data.length; x++) {
-                            if ($scope.data[x].title === $scope.picture.medium) {
-                                $scope.data.selectedOption = $scope.data[x];
-                                break;
-                            }
-                        }
-                    }
-                    $scope.subjects = Subjects.query();
-                    $scope.subjects.$promise.then(function (result) {
-                        setYearOption($scope.picture.year);
-
-                        $scope.dataSubject = result;
-                        if ($scope.picture.subject) {
-                            var l = $scope.dataSubject.length;
-                            for (var i = 0; i < l; i++) {
-                                if ($scope.dataSubject[i]._id === $scope.picture.subject) {
-                                    $scope.dataSubject.selectedOption = $scope.dataSubject[i];
-                                    break;
-                                }
-                            }
-                            var yearEnrolled = $scope.yearData.selectedOption.year + (7 - $scope.dataSubject.selectedOption.yearLevel);
-                            $scope.artists = ArtistYearEnrolled.query({ yearEnrolled: yearEnrolled });
-                            $scope.artists.$promise.then(function () {
-                                for (var x = 0; x < $scope.artists.length; x++) {
-                                    if ($scope.dataSubject.selectedOption.artists.indexOf($scope.artists[x]._id) > -1) {
-                                        $scope.dataArtist.push($scope.artists[x]);
-                                    }
-                                }
-                                for (var i = 0; i < $scope.dataArtist.length; i++) {
-                                    if ($scope.dataArtist[i]._id === $scope.picture.artist) {
-                                        $scope.dataArtist.selectedOption = $scope.dataArtist[i];
-                                        break;
-                                    }
-                                }
-                            })
-                        }
-
-                    });
-                });
-            };
-        }]);
-        
-angular.module('pictures')
-    .directive('userInfoCard', function () {
-        return {
-           template: "Name: {{authentication.user.displayName}}",
-           restrict: "E"
         }
-    })
-  
-  
+        // load picture for file selector
+        $scope.addPicture = function (element) {
+            if (element.files && element.files[0]) {
+                var FR = new FileReader();
+                FR.onload = function (e) {
+                    $scope.$apply(function ($scope) {
+                        vm.picture.picture = e.target.result;
+                    });
+                };
+                FR.readAsDataURL(element.files[0]);
+            }
+        }; //closure for addPicture
+        // Remove existing Picture
+        function remove() {
+            if ($window.confirm('Are you sure you want to delete?')) {
+                vm.picture.$remove($state.go('pictures.list'));
+            }
+        }
+        // Save Picture
+        function save(isValid) {
+            vm.picture.artist = $scope.dataArtist.selectedOption._id;
+            vm.picture.artistName = $scope.dataArtist.selectedOption.name;
+            vm.picture.year = $scope.yearData.selectedOption.year;
+            vm.picture.medium = $scope.data.selectedOption.title;
+            vm.picture.subject = $scope.dataSubject.selectedOption._id;
+            vm.picture.teacher = $scope.dataSubject.selectedOption.teacher;
+            vm.picture.subjectName = $scope.dataSubject.selectedOption.title;
+            vm.picture.semester = $scope.semesterData.selectedOption.semester;
+            vm.picture.yearLevel = $scope.dataSubject.selectedOption.yearLevel;
+            if (!isValid) {
+                $scope.$broadcast('show-errors-check-validity', 'vm.form.pictureForm');
+                return false;
+            }
+            // TODO: move create/update logic to service
+            if (vm.picture._id) {
+                vm.picture.$update(successCallback, errorCallback);
+            }
+            else {
+                vm.picture.$save(successCallback, errorCallback);
+            }
+            function successCallback(res) {
+                $state.go('pictures.view', {
+                    pictureId: res._id
+                });
+            }
+            function errorCallback(res) {
+                vm.error = res.data.message;
+            }
+        }
+        vm.cancelUpload = cancelUpload;
+        // Create file uploader instance
+        vm.uploader = new FileUploader({
+            url: 'api/users/picture',
+            alias: 'newProfilePicture',
+            onAfterAddingFile: onAfterAddingFile,
+            onSuccessItem: onSuccessItem,
+            onErrorItem: onErrorItem
+        });
+        // Set file uploader image filter
+        vm.uploader.filters.push({
+            name: 'imageFilter',
+            fn: function (item, options) {
+                var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+            }
+        });
+        // Called after the user selected a new picture file
+        function onAfterAddingFile(fileItem) {
+            if ($window.FileReader) {
+                var fileReader = new FileReader();
+                fileReader.readAsDataURL(fileItem._file);
+                fileReader.onload = function (fre) {
+                    $timeout(function () {
+                        vm.picture.picture = fre.target.result;
+                    }, 0);
+                };
+            }
+        }
+        // Called after the user has successfully uploaded a new picture
+        function onSuccessItem(fileItem, response, status, headers) {
+            // Show success message
+            vm.success = true;
+            // Populate user object
+            vm.user = Authentication.user = response;
+            // Clear upload buttons
+            cancelUpload();
+        }
+        // Called after the user has failed to uploaded a new picture
+        function onErrorItem(fileItem, response, status, headers) {
+            // Clear upload buttons
+            cancelUpload();
+            // Show error message
+            vm.error = response.message;
+        }
+        // Change user profile picture
+        function uploadProfilePicture() {
+            // Clear messages
+            vm.success = vm.error = null;
+            // Start upload
+            vm.uploader.uploadAll();
+        }
+        // Cancel the upload process
+        function cancelUpload() {
+            vm.uploader.clearQueue();
+            vm.imageURL = vm.user.profileImageURL;
+        }
+    }
+}());

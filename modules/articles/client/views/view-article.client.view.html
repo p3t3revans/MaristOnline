@@ -1,36 +1,21 @@
-<section data-ng-controller="ArticlesController" data-ng-init="findOne()">
+<section>
     <div class="page-header">
-        <h1 data-ng-bind="article.title"></h1>
+        <h1 ng-bind="vm.article.title"></h1>
     </div>
-    <div class="pull-right" data-ng-show="authentication.user._id == article.user._id">
-        <a class="btn btn-primary" data-ui-sref="articles.edit({articleId: article._id})">
-            <i class="glyphicon glyphicon-edit"></i>
+    <div class="pull-right" ng-show="vm.showUser">
+        <a class="btn btn-primary" ui-sref="articles.edit({ articleId: vm.article._id })" ng-show="vm.showUser">
+            <i class="glyphicon glyphicon-edit" ng-show="vm.showUser"></i>
         </a>
-        <a class="btn btn-primary" data-ng-click="remove();">
-            <i class="glyphicon glyphicon-trash"></i>
+        <a class="btn btn-primary" ng-click="vm.remove()" ng-show="vm.showUser">
+            <i class="glyphicon glyphicon-trash" ng-show="vm.showUser"></i>
         </a>
     </div>
-    <small>
-    <em class="text-muted">
-      Posted on
-      <span data-ng-bind="article.created | date:'mediumDate'"></span>
-      by
-      <span data-ng-bind="article.user.displayName"></span>
-    </em>
-  </small>
-    <p class="lead" data-ng-bind="article.content"></p>
-    <div>
-        <label for="checkboxFront"> Use for Front Page : </label>
-        <input name "checkboxFront" type="checkbox" ng-model="article.displayFrontPage"></input>
+    <span class="lead" ng-bind="vm.article.content"></span>
+    <br>
+    <span ng-if="vm.article.leadArticle" ">Lead Article</span>
+    <br>
+    <span ng-if="vm.article.displayFrontPage ">Front Page Article</span>
+    <div class="form-group text-center ">
+        <img ng-src="{{vm.article.picture}} " alt="{{vm.article.title}} " class="img-thumbnail img-responsive ">
     </div>
-    <div class="form-group">
-        <label for="leadArticle"> Lead Article : </label>
-        <input name "leadArticle" type="checkbox" ng-model="article.leadArticle"></input>
-    </div>
-
-    <label class="control-label" for="picture">Image</label>
-    <div id="myDiv">
-        <img id="img" class="thumbnail img-responsive" data-ng-src="{{article.picture}}" />
-    </div>
-
 </section>

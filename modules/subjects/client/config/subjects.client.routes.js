@@ -1,33 +1,72 @@
-'use strict';
-
-// Setting up route
-angular.module('subjects').config(['$stateProvider',
-  function ($stateProvider) {
-    // Articles state routing
-    $stateProvider
-      .state('subjects', {
-        abstract: true,
-        url: '/subjects',
-        template: '<ui-view/>',
-        data: {
-          roles: ['teach', 'admin', 'user']
-        }
-      })
-      .state('subjects.list', {
-        url: '',
-        templateUrl: 'modules/subjects/views/list-subjects.client.view.html'
-      })
-      .state('subjects.create', {
-        url: '/create',
-        templateUrl: 'modules/subjects/views/add-subject.client.view.html'
-      })
-      .state('subjects.view', {
-        url: '/:subjectId',
-        templateUrl: 'modules/subjects/views/view-subject.client.view.html'
-      })
-      .state('subjects.edit', {
-        url: '/:subjectId/edit',
-        templateUrl: 'modules/subjects/views/edit-subject.client.view.html'
-      });
-  }
-]);
+(function () {
+    'use strict';
+    angular
+        .module('subjects.routes')
+        .config(routeConfig);
+    routeConfig.$inject = ['$stateProvider'];
+    function routeConfig($stateProvider) {
+        $stateProvider
+            .state('subjects', {
+            abstract: true,
+            url: '/subjects',
+            template: '<ui-view/>'
+        })
+            .state('subjects.list', {
+            url: '',
+            templateUrl: 'modules/subjects/client/views/list-subjects.client.view.html',
+            controller: 'SubjectsListController',
+            controllerAs: 'vm',
+            data: {
+                pageTitle: 'Subjects List'
+            }
+        })
+            .state('subjects.create', {
+            url: '/create',
+            templateUrl: 'modules/subjects/client/views/form-subject.client.view.html',
+            controller: 'SubjectsController',
+            controllerAs: 'vm',
+            resolve: {
+                subjectResolve: newSubject
+            },
+            data: {
+                roles: ['teach', 'admin'],
+                pageTitle: 'Subjects Create'
+            }
+        })
+            .state('subjects.edit', {
+            url: '/:subjectId/edit',
+            templateUrl: 'modules/subjects/client/views/form-subject.client.view.html',
+            controller: 'SubjectsController',
+            controllerAs: 'vm',
+            resolve: {
+                subjectResolve: getSubject
+            },
+            data: {
+                roles: ['teach', 'admin'],
+                pageTitle: 'Edit Subject {{ subjectResolve.title }}'
+            }
+        })
+            .state('subjects.view', {
+            url: '/:subjectId',
+            templateUrl: 'modules/subjects/client/views/view-subject.client.view.html',
+            controller: 'SubjectsController',
+            controllerAs: 'vm',
+            resolve: {
+                subjectResolve: getSubject
+            },
+            data: {
+                pageTitle: 'Subject {{ subjectResolve.title }}'
+            }
+        });
+    }
+    getSubject.$inject = ['$stateParams', 'SubjectsService'];
+    function getSubject($stateParams, SubjectsService) {
+        return SubjectsService.get({
+            subjectId: $stateParams.subjectId
+        }).$promise;
+    }
+    newSubject.$inject = ['SubjectsService'];
+    function newSubject(SubjectsService) {
+        return new SubjectsService();
+    }
+}());

@@ -1,41 +1,32 @@
-<section data-ng-controller="SubjectCtrl" data-ng-init="find()">
-	<div class="page-header">
-		<h1>List Subjects</h1>
-	</div>
-	<div class="container">
-		<div class="panel panel-default">
-			<div class="panel-heading">List Subjects : Year = {{yearSelect}} & Semester = {{semesterSelect}}</div>
-			<div class="panel-body">
-				<form class="form" method="post" ng-submit="submitSubject()" name="listSubjectForm">
-					<label for="yearData"> Year : </label>
-					<select name="yearData" id="yearSelect" ng-options="option.year for option in yearData track by option.year"
-					ng-model="yearData.selectedOption" width="200px" ng-change="findByYear()" required></select>
-					<label for="Semester"> Semester : </label>
-					<select name="Semester" id="semesterSelect" ng-options="option.semester for option in semesterData.availableOptions track by option.semester"
-					ng-model="semesterData.selectedOption" width="200px" ng-change="findByYear()"></select>
-					<label> Search: </label>
-					<input ng-model="query"> Sort by:
-					<select ng-model="orderProp">
-						<option value="title">Alphabetical</option>
-						<option value="teacher">Teacher</option>
-					</select>
-					<br>
-					<ul class="list-group">
-						<li class="list-group-item" ng-repeat="subject in subjects | filter:query | orderBy:orderProp" >
-							<a href="/subjects/{{subject._id}}">{{subject.title}} {{subject.teacher}}</a>
-							<a ng-hide="!showUser" class="btn" href="/subjects/{{subject._id}}/edit">
-								<i class="glyphicon glyphicon-edit"></i>
-							</a>
-							<a ng-hide="!showUser" class="btn" data-ng-click="remove(subject);">
-								<i class="glyphicon glyphicon-trash"></i>
-							</a>
-						</li>
-					</ul>
-
-			</div>
-		</div>
-		</form>
-	</div>
-	</div>
-	</div>
+<section>
+    <div class="page-header">
+        <h1>Subjects</h1>
+    </div>
+    <div class="form-group">
+        <label for="year"> Year : </label>
+        <select name="year" id="yearSelect" ng-options="option.year for option in yearData track by option.year" ng-model="yearData.selectedOption"
+        width="200px"></select>
+    </div>
+    <div class="form-group">
+        <label for="Semester"> Semester : </label>
+        <select name="Semester" id="semesterSelect" ng-options="option.semester for option in semesterData.availableOptions track by option.semester"
+        ng-model="semesterData.selectedOption" width="200px"></select>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-default" ng-click="listSubjects()">List Subjects</button>
+    </div>
+    <div class="list-group">
+        <a ng-repeat="subject in vm.subjects" ui-sref="subjects.view({ subjectId: subject._id })" class="list-group-item">
+            <div class="row">
+                <h4 class="list-group-item-heading col-sm-3" ng-bind="subject.title"></h4>
+                <p class="list-group-item-text col-sm-3" ng-bind="subject.description"></p>
+                <h4 class="list-group-item-heading col-sm-3" ng-bind="subject.teacher"></h4>
+                <h4 class="list-group-item-heading col-sm-2" ng-bind="subject.year"></h4>
+                <h4 class="list-group-item-heading col-sm-1" ng-bind="subject.yearLevel"></h4>
+            </div>
+        </a>
+    </div>
+    <div class="alert alert-warning text-center" ng-if="vm.subjects.$resolved && !vm.subjects.length">
+        No subjects yet, why don't you <a ui-sref="subjects.create">create one</a>?
+    </div>
 </section>

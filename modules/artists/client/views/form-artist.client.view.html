@@ -1,0 +1,43 @@
+<section>
+    <div class="page-header">
+        <h1>{{vm.artist._id ? 'Edit Artist' : 'New Artist'}}</h1>
+    </div>
+    <div class="col-md-12">
+        <form name="vm.form.artistForm" class="form-horizontal" ng-submit="vm.save(vm.form.artistForm.$valid)" novalidate>
+            <fieldset>
+                <div class="form-group" show-errors>
+                    <label class="control-label" for="name">Name</label>
+                    <input name="name" type="text" ng-model="vm.artist.name" id="name" class="form-control" placeholder="Name" required>
+                    <div ng-messages="vm.form.artistForm.name.$error" role="alert">
+                        <p class="help-block error-text" ng-message="required">Artist name is required.</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="description">Description</label>
+                    <textarea name="description" data-ng-model="vm.artist.description" id="description" class="form-control" cols="30" rows="4"
+                    placeholder="Content"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="yearEnrolled">Year Enrolled</label>
+                    <select name="yearEnrolled" id="yearEnrolled" ng-options="option.year for option in yearData track by option.year" ng-model="yearData.selectedOption"
+                    width="200px" required></select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="house">House</label>
+                    <select name="house" id="houseSelect" ng-options="option.name for option in house.availableOptions track by option.name"
+                    ng-model="house.selectedOption" width="200px" required></select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="checkboxActive">Active</label>
+                    <input name "checkboxActive" type="checkbox" ng-model="vm.artist.active"></input>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default">{{vm.artist._id ? 'Update' : 'Create'}}</button>
+                </div>
+                <div ng-show="vm.error" class="text-danger">
+                    <strong ng-bind="vm.error"></strong>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</section>

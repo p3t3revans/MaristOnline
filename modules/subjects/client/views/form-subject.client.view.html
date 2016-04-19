@@ -1,0 +1,64 @@
+<section>
+    <div class="page-header">
+        <h1>{{vm.subject._id ? 'Edit Subject' : 'New Subject'}}</h1>
+    </div>
+    <div class="col-md-12">
+        <form name="vm.form.subjectForm" class="form-horizontal" ng-submit="vm.save(vm.form.subjectForm.$valid)" novalidate>
+            <fieldset>
+                <div class="form-group">
+                    <label class="control-label" for="year">Year</label>
+                    <select name="year" id="yearSelect" ng-options="option.year for option in yearData track by option.year" ng-model="yearData.selectedOption"
+                    ng-change="changeArtists()" width="200px"></select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="Semester">Semester</label>
+                    <select name="Semester" id="semesterSelect" ng-options="option.semester for option in semesterData.availableOptions track by option.semester"
+                    ng-model="semesterData.selectedOption" width="200px"></select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="yearLevel">Year Level</label>
+                    <select name="yearLevel" id="yearLevelSelect" ng-options="option.yearLevel for option in yearLevelData.availableOptions track by option.yearLevel"
+                    ng-model="yearLevelData.selectedOption" ng-change="changeArtists()" width="200px"></select>
+                </div>
+                <div class="form-group" show-errors>
+                    <label class="control-label" for="title">Title</label>
+                    <input name="title" type="text" ng-model="vm.subject.title" id="title" class="form-control" placeholder="Title" required>
+                    <div ng-messages="vm.form.subjectForm.title.$error" role="alert">
+                        <p class="help-block error-text" ng-message="required">Subject title is required.</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="description">Description</label>
+                    <textarea name="description" data-ng-model="vm.subject.description" id="description" class="form-control" cols="30" rows="4"
+                    placeholder="Description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="subjectTeacher">Teacher</label>
+                    <select name="subjectTeacher" id="subjectTeacherSelect" ng-options="option.title for option in teacherData track by option.title"
+                    ng-model="teacherData.selectedOption" width="200px" require></select>
+                </div>
+                <div class="form-group">
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="artist in artists">
+                            <a href="#/artists/{{artist._id}}">{{artist.name}} </a>
+                            <a class="btn" href="/artists/{{artist._id}}/edit">
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </a>
+                            <div class="checkbox pull-left">
+                                <label>
+                                    <input type="checkbox" value="" ng-model="artist.selected">
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default">{{vm.subject._id ? 'Update' : 'Create'}}</button>
+                </div>
+                <div ng-show="vm.error" class="text-danger">
+                    <strong ng-bind="vm.error"></strong>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</section>

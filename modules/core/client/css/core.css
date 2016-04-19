@@ -6,17 +6,10 @@
 }
 [ng\:cloak],
 [ng-cloak],
-[data-ng-cloak],
 [x-ng-cloak],
 .ng-cloak,
 .x-ng-cloak {
   display: none !important;
-}
-.ng-invalid.ng-dirty {
-  border-color: #FA787E;
-}
-.ng-valid.ng-dirty {
-  border-color: #78FA89;
 }
 .header-profile-image {
   opacity: 0.8;
@@ -33,16 +26,23 @@ a:hover .header-profile-image {
   padding-top: 11px !important;
   padding-bottom: 11px !important;
 }
-
-.carousel{
-    background: #2f4357;
-    margin-top: 0px;
-    margin-bottom: 20px;
+.user-primary-account {
+  font-size: 30px;
+  top: 10px;
+  right: 10px;
+  position: absolute;
 }
-.carousel .item img{
-    margin: 0 auto; /* Align slide image horizontally center */
-    height: 250px;
+.error-text {
+  display: none;
 }
-.bs-example{
-	margin: 20px;
+.has-error .help-block.error-text {
+  display: block;
+}
+.has-error .help-inline.error-text {
+  display: inline;
+}
+.CarouselImg img {
+  width: auto;
+  height: 200px;
+  max-height: 200px;
 }
