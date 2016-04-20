@@ -11,7 +11,7 @@ module.exports = {
     host: process.env.HOST || '0.0.0.0',
     db: {
         //uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/mean',
-        uri: 'ds015859.mlab.com:15859/picture',
+        uri: 'ds013931.mlab.com:13931/heroku_jx85ffr3',
         options: {
             user: 'p3t3revans@live.com',
             pass: 'I@mp3ter'
