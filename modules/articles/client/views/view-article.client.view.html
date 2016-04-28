@@ -10,8 +10,11 @@
             <i class="glyphicon glyphicon-trash" ng-show="vm.showUser"></i>
         </a>
     </div>
-    <span class="lead" ng-bind="vm.article.content"></span>
-    <br>
+    <div class="row">
+        <div class="col-sm-12">
+            <p ng-bind="vm.article.content"></p>
+        </div>
+    </div>
     <span ng-if="vm.article.leadArticle" ">Lead Article</span>
     <br>
     <span ng-if="vm.article.displayFrontPage ">Front Page Article</span>

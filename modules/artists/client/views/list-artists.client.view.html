@@ -3,7 +3,7 @@
         <h1>Artists</h1>
     </div>
     <div class="form-group">
-        <label class="control-label" for="yearEnrolled">Year Enrolled</label>
+        <label class="control-label" for="yearEnrolled">Year Enrolled in Year 7</label>
         <select name="yearEnrolled" id="yearEnrolled" ng-options="option.year for option in yearData track by option.year" ng-model="yearData.selectedOption"
         width="200px" ng-change="filterByYear(year.selectedOption)" required></select>
     </div>
