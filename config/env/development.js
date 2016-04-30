@@ -1,7 +1,8 @@
 'use strict';
 var defaultEnvConfig = require('./default');
 module.exports = {
-    db: {
+    db: 'mongodb://peter:kyabram@ds011732.mlab.com:11732/heroku_4xk8f5vr',
+ /*   db: {
         uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://ds011732.mlab.com:11732/heroku_4xk8f5vr',
         options: {
             user: 'peter',
@@ -9,7 +10,7 @@ module.exports = {
         },
         // Enable mongoose debug mode
         debug: process.env.MONGODB_DEBUG || false
-    },
+    },*/
     log: {
         // logging with Morgan - https://github.com/expressjs/morgan
         // Can specify one of 'combined', 'common', 'dev', 'short', 'tiny'
