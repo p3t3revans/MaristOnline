@@ -7,8 +7,8 @@ module.exports = {
     //   uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://ds011732.mlab.com:11732/heroku_4xk8f5vr',
     uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/marist-dev',
     options: {
-      user: 'peter',
-      pass: 'kyabram'
+      user: '',
+      pass: ''
     },
     // Enable mongoose debug mode
     debug: process.env.MONGODB_DEBUG || false
