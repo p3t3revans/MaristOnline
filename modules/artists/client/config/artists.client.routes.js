@@ -29,7 +29,7 @@
                 artistResolve: newArtist
             },
             data: {
-                roles: ['user', 'admin'],
+                roles: ['teach', 'admin'],
                 pageTitle: 'Artists Create'
             }
         })
@@ -42,7 +42,7 @@
                 artistResolve: getArtist
             },
             data: {
-                roles: ['user', 'admin'],
+                roles: ['teach', 'admin'],
                 pageTitle: 'Edit Artist {{ artistResolve.title }}'
             }
         })
