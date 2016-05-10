@@ -2,6 +2,7 @@
 
 /**
  * Module dependencies
+ * 
  */
 var path = require('path'),
   config = require(path.resolve('./config/config')),
@@ -12,7 +13,9 @@ var path = require('path'),
   async = require('async'),
   crypto = require('crypto');
 
-var smtpTransport = nodemailer.createTransport(config.mailer.options);
+var sendgrid = require("sendgrid")("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");
+var email = new sendgrid.Email();
+//var smtpTransport = nodemailer.createTransport(config.mailer.options);
 
 /**
  * Forgot for reset password (forgot POST)
@@ -71,13 +74,18 @@ exports.forgot = function (req, res, next) {
     },
     // If valid email, send reset email using service
     function (emailHTML, user, done) {
-      var mailOptions = {
-        to: user.email,
-        from: config.mailer.from,
-        subject: 'Password Reset',
-        html: emailHTML
-      };
-      smtpTransport.sendMail(mailOptions, function (err) {
+      email.addTo("p3t3revans@live.com");
+      email.setFrom("machine@your.email");
+      email.setSubject("Password Reset");
+      email.setHtml(emailHTML);
+      //    var mailOptions = {
+      //      to: user.email,
+      //      from: config.mailer.from,
+      //      subject: 'Password Reset',
+      //       html: emailHTML
+      //    };
+      //    smtpTransport.sendMail(mailOptions, function (err) {
+      sendgrid.send(email, function (err) {
         if (!err) {
           res.send({
             message: 'An email has been sent to the provided email with further instructions.'
