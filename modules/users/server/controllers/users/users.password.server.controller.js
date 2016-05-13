@@ -13,7 +13,7 @@ var path = require('path'),
   async = require('async'),
   crypto = require('crypto');
 
-var sendgrid = require("sendgrid")("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");
+var sendgrid = require('sendgrid')('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');
 var email = new sendgrid.Email();
 //var smtpTransport = nodemailer.createTransport(config.mailer.options);
 
@@ -74,9 +74,9 @@ exports.forgot = function (req, res, next) {
     },
     // If valid email, send reset email using service
     function (emailHTML, user, done) {
-      email.addTo("p3t3revans@live.com");
-      email.setFrom("machine@your.email");
-      email.setSubject("Password Reset");
+      email.addTo(user.email);
+      email.setFrom('machine@your.email');
+      email.setSubject('Password Reset');
       email.setHtml(emailHTML);
       //    var mailOptions = {
       //      to: user.email,
