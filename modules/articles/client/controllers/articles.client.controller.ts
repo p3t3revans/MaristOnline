@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -69,7 +69,7 @@
         // Set file uploader image filter
         vm.uploader.filters.push({
             name: 'imageFilter',
-            fn: function(item, options) {
+            fn: function (item, options) {
                 var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
                 return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
             }
@@ -81,9 +81,11 @@
                 var fileReader = new FileReader();
                 fileReader.readAsDataURL(fileItem._file);
 
-                fileReader.onload = function(fre:FileReaderEvent) {
-                    $timeout(function() {
-                        vm.article.picture = fre.target.result;
+                fileReader.onload = function (fre: FileReaderEvent) {
+                    $timeout(function () {
+                        var sizePicture = Math.ceil(fre.target.result.length / 1400);
+                        if (sizePicture > 100) alert('Picture size is ' + sizePicture + ' KBs Max size is 100 KBs');
+                        else vm.article.picture = fre.target.result;
                     }, 0);
                 };
             }

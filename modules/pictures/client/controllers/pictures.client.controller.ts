@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -23,7 +23,7 @@
         //used to setup the year drop down 
         var today = new Date();
         var yyyy = today.getFullYear();
-        var setYearOption = function(select) {
+        var setYearOption = function (select) {
             if (select) {
                 yyyy = select;
                 for (var x = 0; x < $scope.yearData.length; x++) {
@@ -35,7 +35,7 @@
             }
         };
         $scope.yearData = YearsService.query();
-        $scope.yearData.$promise.then(function(result) {
+        $scope.yearData.$promise.then(function (result) {
             $scope.yearData = result;
             if (vm.picture.year) {
                 setYearOption(vm.picture.year);
@@ -70,7 +70,7 @@
         $scope.medium = [];
         $scope.data = [];
         $scope.medium = MediumsService.query();
-        $scope.medium.$promise.then(function(result) {
+        $scope.medium.$promise.then(function (result) {
             $scope.data = result;
             if (vm.picture.medium) {
                 for (var x = 0; x < $scope.data.length; x++) {
@@ -85,23 +85,23 @@
 
         })
         //subject dropdown
-        $scope.load = function() {
+        $scope.load = function () {
             $scope.dataArtist = [];
             $scope.dataSubject = [];
             $scope.semesterSelect = $scope.semesterData.selectedOption.semester;
             $scope.yearSelect = $scope.yearData.selectedOption.year;
             $scope.subjects = SubYears.query({ year: $scope.yearSelect, semester: $scope.semesterSelect });
-            $scope.subjects.$promise.then(function(result) {
+            $scope.subjects.$promise.then(function (result) {
                 $scope.dataSubject = result;
             });
 
         };
         //artist dropdown
-        $scope.changeArtists = function() {
+        $scope.changeArtists = function () {
             $scope.dataArtist = [];
             var yearEnrolled = $scope.yearData.selectedOption.year + (7 - $scope.dataSubject.selectedOption.yearLevel);
             $scope.artists = ArtistYearEnrolled.query({ yearEnrolled: yearEnrolled });
-            $scope.artists.$promise.then(function() {
+            $scope.artists.$promise.then(function () {
                 for (var x = 0; x < $scope.artists.length; x++) {
                     if ($scope.artists[x].active) {
                         $scope.dataArtist.push($scope.artists[x]);
@@ -118,7 +118,7 @@
             if (vm.picture.yearLevel) {
                 var yearEnrolled = vm.picture.year + (7 - vm.picture.yearLevel);
                 $scope.artists = ArtistYearEnrolled.query({ yearEnrolled: yearEnrolled });
-                $scope.artists.$promise.then(function(result) {
+                $scope.artists.$promise.then(function (result) {
                     for (var c = 0; c < result.length; c++) {
                         if (result[c].active) {
                             $scope.dataArtist.push(result[c]);
@@ -142,7 +142,7 @@
                 }
             }
             $scope.subjects = SubYears.query({ year: vm.picture.year, semester: vm.picture.semester });
-            $scope.subjects.$promise.then(function(result) {
+            $scope.subjects.$promise.then(function (result) {
                 $scope.dataSubject = result;
                 var lenSub = $scope.dataSubject.length;
                 for (var a = 0; a < lenSub; a++) {
@@ -155,11 +155,11 @@
 
         }
         // load picture for file selector
-        $scope.addPicture = function(element) {
+        $scope.addPicture = function (element) {
             if (element.files && element.files[0]) {
                 var FR = new FileReader();
-                FR.onload = function(e:any) {
-                    $scope.$apply(function($scope) {
+                FR.onload = function (e: any) {
+                    $scope.$apply(function ($scope) {
                         vm.picture.picture = e.target.result;
                     });
                 };
@@ -222,7 +222,7 @@
         // Set file uploader image filter
         vm.uploader.filters.push({
             name: 'imageFilter',
-            fn: function(item, options) {
+            fn: function (item, options) {
                 var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
                 return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
             }
@@ -234,9 +234,11 @@
                 var fileReader = new FileReader();
                 fileReader.readAsDataURL(fileItem._file);
 
-                fileReader.onload = function(fre:FileReaderEvent) {
-                    $timeout(function() {
-                        vm.picture.picture = fre.target.result;
+                fileReader.onload = function (fre: FileReaderEvent) {
+                    $timeout(function () {
+                        var sizePicture = Math.ceil(fre.target.result.length / 1400);
+                        if (sizePicture > 100) alert('Picture size is ' + sizePicture + ' KBs Max size is 100 KBs');
+                        else vm.picture.picture = fre.target.result;
                     }, 0);
                 };
             }

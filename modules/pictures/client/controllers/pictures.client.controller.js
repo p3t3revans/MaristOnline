@@ -220,7 +220,11 @@
                 fileReader.readAsDataURL(fileItem._file);
                 fileReader.onload = function (fre) {
                     $timeout(function () {
-                        vm.picture.picture = fre.target.result;
+                        var sizePicture = Math.ceil(fre.target.result.length / 1400);
+                        if (sizePicture > 100)
+                            alert('Picture size is ' + sizePicture + ' KBs Max size is 100 KBs');
+                        else
+                            vm.picture.picture = fre.target.result;
                     }, 0);
                 };
             }
